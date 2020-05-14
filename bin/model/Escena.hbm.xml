@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 14-may-2020 19:33:07 by Hibernate Tools 5.4.14.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="prowriterdb" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Escena" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="escena">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="model.Capitulo" embed-xml="true" fetch="select" insert="true" name="capitulo" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="IDCAPITULO" not-null="true"/>
+        </many-to-one>
+        <many-to-one class="model.Localidad" embed-xml="true" fetch="select" insert="true" name="localidad" not-found="exception" optimistic-lock="true" unique="false" update="true">
+            <column name="IDLOCALIDAD" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="nombre" optimistic-lock="true" type="string" unique="false">
+            <column length="20" name="NOMBRE"/>
+        </property>
+        <property generated="never" lazy="false" name="descripcion" optimistic-lock="true" type="string" unique="false">
+            <column length="65535" name="DESCRIPCION"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="personajes" optimistic-lock="true" sort="unsorted" table="escena_personaje">
+            <key on-delete="noaction">
+                <column name="IDESCENA" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="model.Personaje" not-found="exception" unique="false">
+                <column name="IDPERSONAJE" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>
