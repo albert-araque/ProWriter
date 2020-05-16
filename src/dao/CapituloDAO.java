@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.ArrayList;
+
 import model.Capitulo;
 
 public interface CapituloDAO {
@@ -11,5 +13,7 @@ public interface CapituloDAO {
 	public void updateCapitulo(Capitulo updatedCapitulo);
 	
 	public Integer removeCapitulo(Integer idCapitulo);
+	
+	public ArrayList<Capitulo> getCapitulos();
 
 }

@@ -9,11 +9,13 @@ import java.util.Set;
  */
 public class Proyecto implements java.io.Serializable {
 
+	private static final long serialVersionUID = -7291729140826692519L;
+	
 	private Integer id;
 	private String nombre;
 	private String descripcion;
 	private String imagen;
-	private Set libros = new HashSet(0);
+	private Set<Libro> libros = new HashSet<Libro>(0);
 
 	public Proyecto() {
 	}
@@ -22,7 +24,7 @@ public class Proyecto implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	public Proyecto(String nombre, String descripcion, String imagen, Set libros) {
+	public Proyecto(String nombre, String descripcion, String imagen, Set<Libro> libros) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.imagen = imagen;
@@ -61,11 +63,11 @@ public class Proyecto implements java.io.Serializable {
 		this.imagen = imagen;
 	}
 
-	public Set getLibros() {
+	public Set<Libro> getLibros() {
 		return this.libros;
 	}
 
-	public void setLibros(Set libros) {
+	public void setLibros(Set<Libro> libros) {
 		this.libros = libros;
 	}
 

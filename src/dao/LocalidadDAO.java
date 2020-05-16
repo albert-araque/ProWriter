@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.ArrayList;
+
 import model.Localidad;
 
 public interface LocalidadDAO {
@@ -12,4 +14,5 @@ public interface LocalidadDAO {
 	
 	public Integer removeLocalidad(Integer idLocalidad);
 
+	public ArrayList<Localidad> getLocalidades();
 }

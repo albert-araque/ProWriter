@@ -9,14 +9,16 @@ import java.util.Set;
  */
 public class Libro implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1064183966633645117L;
+	
 	private Integer id;
 	private String nombre;
 	private String descripcion;
 	private String genero;
 	private String imagen;
-	private Set personajes = new HashSet(0);
-	private Set capitulos = new HashSet(0);
-	private Set proyectos = new HashSet(0);
+	private Set<Personaje> personajes = new HashSet<Personaje>(0);
+	private Set<Capitulo> capitulos = new HashSet<Capitulo>(0);
+	private Set<Proyecto> proyectos = new HashSet<Proyecto>(0);
 
 	public Libro() {
 	}
@@ -25,8 +27,8 @@ public class Libro implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	public Libro(String nombre, String descripcion, String genero, String imagen, Set personajes, Set capitulos,
-			Set proyectos) {
+	public Libro(String nombre, String descripcion, String genero, String imagen, Set<Personaje> personajes, Set<Capitulo> capitulos,
+			Set<Proyecto> proyectos) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.genero = genero;
@@ -76,28 +78,37 @@ public class Libro implements java.io.Serializable {
 		this.imagen = imagen;
 	}
 
-	public Set getPersonajes() {
+	public Set<Personaje> getPersonajes() {
 		return this.personajes;
 	}
 
-	public void setPersonajes(Set personajes) {
+	public void setPersonajes(Set<Personaje> personajes) {
 		this.personajes = personajes;
 	}
 
-	public Set getCapitulos() {
+	public Set<Capitulo> getCapitulos() {
 		return this.capitulos;
 	}
 
-	public void setCapitulos(Set capitulos) {
+	public void setCapitulos(Set<Capitulo> capitulos) {
 		this.capitulos = capitulos;
 	}
 
-	public Set getProyectos() {
+	public Set<Proyecto> getProyectos() {
 		return this.proyectos;
 	}
 
-	public void setProyectos(Set proyectos) {
+	public void setProyectos(Set<Proyecto> proyectos) {
 		this.proyectos = proyectos;
 	}
+
+	@Override
+	public String toString() {
+		return "Libro [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", genero=" + genero
+				+ ", imagen=" + imagen + ", personajes=" + personajes + ", capitulos=" + capitulos + ", proyectos="
+				+ proyectos + "]";
+	}
+	
+	
 
 }

@@ -3,5 +3,4 @@
 <?import javafx.scene.layout.BorderPane?>
 	
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainViewController">
-	<!-- TODO Add Nodes -->
 </BorderPane>

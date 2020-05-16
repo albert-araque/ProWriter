@@ -1,5 +1,6 @@
 package dao;
 
+
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -28,6 +29,7 @@ public class CrudManager {
 		} finally {
 			session.close();
 		}
+		
 		return id;
 	}
 	
@@ -46,6 +48,8 @@ public class CrudManager {
 		} finally {
 			session.close();
 		}
+		
+		
 		
 		return object;
 	}
@@ -80,9 +84,30 @@ public class CrudManager {
 			if (transaction != null) transaction.rollback();
 		} finally {
 			session.close();
-		}
+		}		
 		
 		return idObject;
+	}
+	
+	public static Object[] getList(String className, Class<?> objectClass) {		
+		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		Object[] objectList = null;
+		
+		try {
+			transaction = session.beginTransaction();
+			objectList = (Object[]) session.createQuery("FROM " + className, objectClass).list().toArray();
+			
+			for (Object object : objectList) {
+				initializeSet(object);
+			}			
+		} catch (HibernateException exception)  {
+			if (transaction != null) transaction.rollback();
+		} finally {
+			session.close();
+		}
+		
+		return objectList;
 	}
 	
 	private static void initializeSet(Object object) {
@@ -121,7 +146,6 @@ public class CrudManager {
 			return ((Personaje) object).getId();
 		}
 		
-		return null;
-		
+		return null;		
 	}
 }

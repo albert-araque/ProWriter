@@ -9,10 +9,12 @@ import java.util.Set;
  */
 public class Localidad implements java.io.Serializable {
 
+	private static final long serialVersionUID = 3350760519531152214L;
+	
 	private Integer id;
 	private String nombre;
 	private String descripcion;
-	private Set escenas = new HashSet(0);
+	private Set<Escena> escenas = new HashSet<Escena>(0);
 
 	public Localidad() {
 	}
@@ -21,7 +23,7 @@ public class Localidad implements java.io.Serializable {
 		this.nombre = nombre;
 	}
 
-	public Localidad(String nombre, String descripcion, Set escenas) {
+	public Localidad(String nombre, String descripcion, Set<Escena> escenas) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.escenas = escenas;
@@ -51,11 +53,11 @@ public class Localidad implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Set getEscenas() {
+	public Set<Escena> getEscenas() {
 		return this.escenas;
 	}
 
-	public void setEscenas(Set escenas) {
+	public void setEscenas(Set<Escena> escenas) {
 		this.escenas = escenas;
 	}
 

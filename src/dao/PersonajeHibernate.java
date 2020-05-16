@@ -1,5 +1,8 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import model.Personaje;
 
 public class PersonajeHibernate implements PersonajeDAO {
@@ -22,6 +25,14 @@ public class PersonajeHibernate implements PersonajeDAO {
 	@Override
 	public Integer removePersonaje(Integer idPersonaje) {
 		return CrudManager.remove(idPersonaje, Personaje.class);
+	}
+
+	@Override
+	public ArrayList<Personaje> getPersonajes() {
+
+		Object[] objectArray = CrudManager.getList("Personaje", Personaje.class);		
+		
+		return new ArrayList<Personaje>(Arrays.asList(Arrays.copyOf(objectArray, objectArray.length, Personaje[].class)));	
 	}
 
 }
