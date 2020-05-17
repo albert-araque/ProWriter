@@ -47,9 +47,7 @@ public class CrudManager {
 			if (transaction != null) transaction.rollback();
 		} finally {
 			session.close();
-		}
-		
-		
+		}		
 		
 		return object;
 	}
