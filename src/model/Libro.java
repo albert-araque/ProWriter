@@ -104,9 +104,7 @@ public class Libro implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", genero=" + genero
-				+ ", imagen=" + imagen + ", personajes=" + personajes + ", capitulos=" + capitulos + ", proyectos="
-				+ proyectos + "]";
+		return getNombre();
 	}
 	
 	
