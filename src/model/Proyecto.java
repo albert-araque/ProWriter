@@ -71,4 +71,11 @@ public class Proyecto implements java.io.Serializable {
 		this.libros = libros;
 	}
 
+	@Override
+	public String toString() {
+		return getNombre();
+	}
+	
+	
+
 }

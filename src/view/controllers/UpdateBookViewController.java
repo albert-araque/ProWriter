@@ -1,4 +1,4 @@
-package view;
+package view.controllers;
 
 import java.io.File;
 import java.net.URL;
@@ -12,6 +12,7 @@ import org.controlsfx.validation.Validator;
 
 import dao.DAOManager;
 import dao.LibroDAO;
+import dao.PersonajeDAO;
 import dao.ProyectoDAO;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -28,47 +29,55 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import model.Libro;
+import model.Personaje;
 import model.Proyecto;
 
-public class UpdateProjectViewController implements Initializable {
+public class UpdateBookViewController implements Initializable {
 
 	@FXML public TextField nameText;
 	@FXML public TextField imagePath;
 	@FXML public TextArea descriptionText;
-	@FXML public CheckListView<Libro> bookList;
-	@FXML public Button updateButton;
-	@FXML public Button cancelButton;
+	@FXML public TextField genreText;
+	@FXML public CheckListView<Personaje> characterList;
+	@FXML public CheckListView<Proyecto> projectList;
+	@FXML public Button addButton;
+	@FXML public  Button cancelButton;
 	@FXML public Button pathButton;
 	@FXML public BorderPane borderPane;
 
-	private Proyecto project;
-
 	private static double xOffset;
 	private static double yOffset;
+	
+	private Libro book;
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {	
+	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		//carga la informacion del proyecto seleccionado en los diferentes campos
+		//inicia un hilo para cargar los libros en el checklistview para añadirlos al proyecto
 		Platform.runLater(new Runnable() {			
 			@Override
-			public void run() {
+			public void run() {				
+				PersonajeDAO personajeDAO = DAOManager.getPersonajeDAO();			
+				ObservableList<Personaje> characters = FXCollections.observableList(personajeDAO.getPersonajes());			
+				characterList.getItems().addAll(characters);
 
-				LibroDAO libroDAO = DAOManager.getLibroDAO();				
-				ObservableList<Libro> books = FXCollections.observableList(libroDAO.getLibros());				
-				bookList.getItems().addAll(books);
-
-				nameText.setText(project.getNombre());
-				descriptionText.setText(project.getDescripcion());
-				imagePath.setText(project.getImagen());
-
-				checkExistingBooks();
-			}			
+				ProyectoDAO proyectoDAO = DAOManager.getProyectoDAO();
+				ObservableList<Proyecto> projects = FXCollections.observableList(proyectoDAO.getProyectos());
+				projectList.getItems().addAll(projects);
+				
+				nameText.setText(book.getNombre());
+				descriptionText.setText(book.getDescripcion());
+				genreText.setText(book.getGenero());
+				imagePath.setText(book.getImagen());
+				
+				checkExistingCharacters();
+				checkExistingProjects();				
+			}
 		});
 
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El proyecto tiene que tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro tiene que tener un nombre"));
 
 		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -94,15 +103,18 @@ public class UpdateProjectViewController implements Initializable {
 			}
 		});
 
-		//evento de click para actualizar el proyecto
-		updateButton.setOnMouseClicked(new EventHandler<Event>() {
+		//evento de click para añadir el proyecto
+		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
+
 				if (validationSupport.isInvalid()) return;
 
-				updateProject(nameText.getText(), descriptionText.getText(), imagePath.getText(), new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()));
+				updateBook(nameText.getText(), descriptionText.getText(), genreText.getText(), imagePath.getText(), 
+							new HashSet<Personaje>(characterList.getCheckModel().getCheckedItems()), 
+							new HashSet<Proyecto>(projectList.getCheckModel().getCheckedItems()));
 				borderPane.getScene().getWindow().hide();
-			}			
+			}
 		});
 
 		//evento de click para mostrar el selector de archivo, con un filtro de extensiones de imagenes
@@ -111,44 +123,49 @@ public class UpdateProjectViewController implements Initializable {
 			public void handle(Event event) {
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu proyecto");
+				fileChooser.setTitle("Selecciona una imagen para tu libro");
 				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
 				fileChooser.getExtensionFilters().add(imageFilter);
 				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 			}
-		});	
-
+		});		
 	}
 
-	//actualiza el proyecto en la base de datos
-	private void updateProject(String name, String description, String imagePath, Set<Libro> books) {
-		ProyectoDAO proyectoDAO = DAOManager.getProyectoDAO();
+	//metodo para añadir el proyecto a la base de datos
+	private void updateBook(String name, String description, String genre, String imagePath, Set<Personaje> characters, Set<Proyecto> projects) {
 
-		project.setNombre(name);
-		project.setDescripcion(description);
-		project.setImagen(imagePath);
-		project.setLibros(books);
+		book.setNombre(name);
+		book.setDescripcion(description);
+		book.setGenero(genre);
+		book.setImagen(imagePath);
+		book.setPersonajes(characters);
+		book.setProyectos(projects);
 
-		proyectoDAO.updateProyecto(project);
+		LibroDAO libroDAO = DAOManager.getLibroDAO();
+		libroDAO.updateLibro(book);
 	}
-
-	//recorre la collection de libros totales en la base de datos, compara la id con los libros existentes en el proyecto, y los pone checked
-	private void checkExistingBooks() {
-		for (Libro libro : bookList.getItems()) {
-			for (Libro existingBook : project.getLibros()) {
-				if (libro.getId() == existingBook.getId()) {
-					bookList.getCheckModel().check(libro);
+	
+	private void checkExistingProjects() {		
+		for (Proyecto proyecto : projectList.getItems()) {
+			for (Proyecto existingProyects : book.getProyectos()) {
+				if (proyecto.getId() == existingProyects.getId()) {
+					projectList.getCheckModel().check(proyecto);
 				}
 			}
 		}
-	}	
-
-	public void setProject(Proyecto p) {
-		project = p;
 	}
-
-	public Proyecto getProyecto() {
-		return project;
+	
+	private void checkExistingCharacters() {
+		for (Personaje character : characterList.getItems()) {
+			for (Personaje existingCharacters : book.getPersonajes()) {
+				if (character.getId() == existingCharacters.getId()) {
+					characterList.getCheckModel().check(character);
+				}
+			}
+		}
 	}
-
+	
+	public void setBook(Libro l) {
+		book = l;
+	}
 }

@@ -1,4 +1,4 @@
-package view;
+package view.controllers;
 
 import java.io.File;
 import java.net.URL;
@@ -37,7 +37,7 @@ public class AddProjectViewController implements Initializable {
 	@FXML public TextArea descriptionText;
 	@FXML public CheckListView<Libro> bookList;
 	@FXML public Button addButton;
-	@FXML public  Button cancelButton;
+	@FXML public Button cancelButton;
 	@FXML public Button pathButton;
 	@FXML public BorderPane borderPane;
 

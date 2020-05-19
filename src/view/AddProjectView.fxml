@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckListView?>
 
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AddProjectViewController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.AddProjectViewController">
 	<center>
 	</center>
    <center>

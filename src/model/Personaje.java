@@ -112,4 +112,11 @@ public class Personaje implements java.io.Serializable {
 		this.escenas = escenas;
 	}
 
+	@Override
+	public String toString() {
+		return getNombre();
+	}
+	
+	
+
 }
