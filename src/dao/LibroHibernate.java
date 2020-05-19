@@ -1,5 +1,8 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import model.Libro;
 
 public class LibroHibernate implements LibroDAO {
@@ -22,6 +25,14 @@ public class LibroHibernate implements LibroDAO {
 	@Override
 	public Integer removeLibro(Integer idLibro) {
 		return CrudManager.remove(idLibro, Libro.class);
+	}
+
+	@Override
+	public ArrayList<Libro> getLibros() {
+
+		Object[] objectArray = CrudManager.getList("Libro", Libro.class);		
+		
+		return new ArrayList<Libro>(Arrays.asList(Arrays.copyOf(objectArray, objectArray.length, Libro[].class)));		
 	}
 
 }

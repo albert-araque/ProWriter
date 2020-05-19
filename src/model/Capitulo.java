@@ -9,12 +9,14 @@ import java.util.Set;
  */
 public class Capitulo implements java.io.Serializable {
 
+	private static final long serialVersionUID = 3788781997181752191L;
+	
 	private Integer id;
 	private Libro libro;
 	private String nombre;
 	private Integer numero;
 	private String descripcion;
-	private Set escenas = new HashSet(0);
+	private Set<Escena> escenas = new HashSet<Escena>(0);
 
 	public Capitulo() {
 	}
@@ -23,7 +25,7 @@ public class Capitulo implements java.io.Serializable {
 		this.libro = libro;
 	}
 
-	public Capitulo(Libro libro, String nombre, Integer numero, String descripcion, Set escenas) {
+	public Capitulo(Libro libro, String nombre, Integer numero, String descripcion, Set<Escena> escenas) {
 		this.libro = libro;
 		this.nombre = nombre;
 		this.numero = numero;
@@ -71,11 +73,11 @@ public class Capitulo implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Set getEscenas() {
+	public Set<Escena> getEscenas() {
 		return this.escenas;
 	}
 
-	public void setEscenas(Set escenas) {
+	public void setEscenas(Set<Escena> escenas) {
 		this.escenas = escenas;
 	}
 
