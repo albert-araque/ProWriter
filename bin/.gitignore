@@ -1,3 +1,4 @@
-/resources/
-/view/
+/dao/
 /model/
+/view/
+/resources/
