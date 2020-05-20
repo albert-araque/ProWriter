@@ -82,7 +82,19 @@ public class InsideBookViewController implements Initializable {
 			@Override
 			public void handle(Event event) {
 				
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ChapterInsideBookView.fxml"));
+				BorderPane borderPane = null;
+				try {
+					borderPane =fxmlLoader.load();
+				} catch (IOException e) {
+				}
 				
+				ChapterInsideBookViewController chapterInsideBookViewController = fxmlLoader.getController();
+				chapterInsideBookViewController.setBook(book);
+				chapterInsideBookViewController.setProject(project);
+				chapterInsideBookViewController.setController(mainViewController);
+
+				mainViewController.setView(borderPane);	
 				
 			}
 		});

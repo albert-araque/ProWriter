@@ -42,7 +42,7 @@ public class CharacterInsideBookViewController implements Initializable {
 	private static final int[] IMAGE_FIT = {200, 230};
 	private static final int IMAGE_LAYOUT[] = {45, 22};
 	private static final int FONT_SIZE = 14;
-	private static final int LABEL_XYLAY = 32;
+	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
 	
@@ -162,7 +162,7 @@ public class CharacterInsideBookViewController implements Initializable {
 	}
 	
 	private void loadCharacters() {
-		characterFlowPane.getChildren().removeAll(characterFlowPane.getChildren());
+		characterFlowPane.getChildren().clear();
 		
 		for (Personaje p : book.getPersonajes()) {
 			convertCharacterToPane(p);
@@ -175,13 +175,13 @@ public class CharacterInsideBookViewController implements Initializable {
 		characterPane = new Pane();
 
 		Label nameLabel = new Label();
-		ImageView projectImage;
+		ImageView characterImage;
 		File imageFile = null;
 
 		try { imageFile = new File(p.getImagen()); } catch (Exception e) {}		
-		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists()) projectImage = new ImageView("resources/character_icon.png");
+		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists()) characterImage = new ImageView("resources/character_icon.png");
 		else {			
-			projectImage = new ImageView(new Image(imageFile.toURI().toString()));
+			characterImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
 		
 		//establece el margin de cada contenedor
@@ -191,21 +191,21 @@ public class CharacterInsideBookViewController implements Initializable {
 		characterPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
 		characterPane.getStyleClass().add("pane");		
 
-		projectImage.setFitHeight(IMAGE_FIT[0]);
-		projectImage.setFitWidth(IMAGE_FIT[1]);
-		projectImage.setLayoutX(IMAGE_LAYOUT[0]);
-		projectImage.setLayoutY(IMAGE_LAYOUT[1]);
-		projectImage.setPickOnBounds(true);
-		projectImage.setPreserveRatio(true);		
+		characterImage.setFitHeight(IMAGE_FIT[0]);
+		characterImage.setFitWidth(IMAGE_FIT[1]);
+		characterImage.setLayoutX(IMAGE_LAYOUT[0]);
+		characterImage.setLayoutY(IMAGE_LAYOUT[1]);
+		characterImage.setPickOnBounds(true);
+		characterImage.setPreserveRatio(true);		
 
 		if (p.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGHT) + "...");
 		else nameLabel.setText("Nombre: " + p.getNombre());		
-		nameLabel.setLayoutX(LABEL_XYLAY);
+		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
 
 		characterPane.getChildren().add(nameLabel);	
-		characterPane.getChildren().add(projectImage);	
+		characterPane.getChildren().add(characterImage);	
 		characterFlowPane.getChildren().add(characterPane);
 
 		characterPane.setOnMouseClicked(new EventHandler<MouseEvent>() {

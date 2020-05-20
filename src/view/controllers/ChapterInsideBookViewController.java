@@ -1,0 +1,227 @@
+package view.controllers;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import model.Capitulo;
+import model.Libro;
+import model.Proyecto;
+import view.Main;
+
+public class ChapterInsideBookViewController implements Initializable {
+	
+	private static final int MAX_LENGHT = 20;
+	private static final int[] PANE_SIZE = {290, 340};
+	private static final int[] IMAGE_FIT = {200, 230};
+	private static final int IMAGE_LAYOUT[] = {45, 22};
+	private static final int FONT_SIZE = 14;
+	private static final int LABEL_XLAY = 32;
+	private static final int NLABEL_YLAY = 230;
+	private static final int OLABEL_YLAY = 250;
+	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
+	
+	@FXML public Label selectedChapterLabel;
+	@FXML public Label errorLabel;
+	@FXML public Label bookNameDisplay;
+	@FXML public Button backButton;
+	@FXML public Button addChapterButton;
+	@FXML public Button updateChapterButton;
+	@FXML public Button deleteChapterButton;
+	@FXML public FlowPane chapterFlowPane;
+	
+	private MainViewController mainViewController;
+	private Libro book;
+	private Proyecto project;
+	private Pane chapterPane;
+	private Capitulo selectedChapter;
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		chapterFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
+		chapterFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
+		
+		Platform.runLater(new Runnable() {			
+			@Override
+			public void run() {
+				bookNameDisplay.setText(project.getNombre() + " > " + book.getNombre());
+				loadChapters();
+			}
+		});
+		
+		addChapterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {	
+				
+				Stage addChapterDialog = new Stage();
+
+				addChapterDialog.initModality(Modality.APPLICATION_MODAL);
+				addChapterDialog.initStyle(StageStyle.UNDECORATED);
+				addChapterDialog.initOwner(Main.getStage());                
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddChapterView.fxml"));
+				BorderPane dialogRoot = null;
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+				
+				AddChapterViewController addChapterViewController = fxmlLoader.getController();
+				addChapterViewController.setBook(book);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 600);              
+				addChapterDialog.setScene(dialogScene);
+				addChapterDialog.showAndWait();
+				loadChapters();
+				selectedChapter = null;
+				selectedChapterLabel.setText("Ningun proyecto seleccionado");
+			}
+		});
+		
+		updateChapterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {				
+			}
+		});
+		
+		deleteChapterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {				
+			}
+		});
+		
+		backButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideBookView.fxml"));
+				BorderPane borderPane = null;
+				try {
+					borderPane =fxmlLoader.load();
+				} catch (IOException e) {
+				}
+				
+				InsideBookViewController insideBookViewController = fxmlLoader.getController();
+				insideBookViewController.setProject(project);
+				insideBookViewController.setBook(book);
+				insideBookViewController.setController(mainViewController);
+
+				mainViewController.setView(borderPane);				
+			}
+		});
+	}
+	
+	private void loadChapters() {
+		
+		chapterFlowPane.getChildren().clear();
+		
+		for (Capitulo cap : book.getCapitulos()) {
+			convertChapterToPane(cap);
+		}		
+	}
+	
+	private void convertChapterToPane(Capitulo c) {
+		
+		if (c == null) return;
+		chapterPane = new Pane();
+
+		Label nameLabel = new Label();
+		Label orderLabel = new Label();
+		
+		ImageView chapterImage = new ImageView("resources/capitulo_icono.png");
+		
+		//establece el margin de cada contenedor
+		FlowPane.setMargin(chapterPane, new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
+
+		//establece diversas medidas del contenedor, la imagen, las label
+		chapterPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
+		chapterPane.getStyleClass().add("pane");
+		
+		chapterImage.setFitHeight(IMAGE_FIT[0]);
+		chapterImage.setFitWidth(IMAGE_FIT[1]);
+		chapterImage.setLayoutX(IMAGE_LAYOUT[0]);
+		chapterImage.setLayoutY(IMAGE_LAYOUT[1]);
+		chapterImage.setPickOnBounds(true);
+		chapterImage.setPreserveRatio(true);		
+
+
+		if (c.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + c.getNombre().substring(0, MAX_LENGHT) + "...");
+		else nameLabel.setText("Nombre: " + c.getNombre());		
+		nameLabel.setLayoutX(LABEL_XLAY);
+		nameLabel.setLayoutY(NLABEL_YLAY);
+		nameLabel.setFont(new Font(FONT_SIZE));
+		
+		orderLabel.setText("Numero de capitulo: " + c.getNumero());
+		orderLabel.setLayoutX(LABEL_XLAY);
+		orderLabel.setLayoutY(OLABEL_YLAY);
+		orderLabel.setFont(new Font(FONT_SIZE));
+
+		chapterPane.getChildren().add(nameLabel);
+		chapterPane.getChildren().add(orderLabel);
+		chapterPane.getChildren().add(chapterImage);
+		chapterFlowPane.getChildren().add(chapterPane);
+
+		chapterPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {			
+
+				if (event.getClickCount() == 1) {
+					selectedChapter = c;
+					selectedChapterLabel.setText("Capitulo seleccionado: " + selectedChapter.getNombre());
+					if (errorLabel.isVisible()) errorLabel.setVisible(false);
+				}
+
+//				if (event.getClickCount() == 2) {
+//
+//					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideBookView.fxml"));
+//					BorderPane borderPane = null;
+//					try {
+//						borderPane = fxmlLoader.load();
+//					} catch (IOException e) {
+//					}
+//
+//					InsideBookViewController insideBookViewController = fxmlLoader.getController();
+//					insideBookViewController.setProject(project);
+//					insideBookViewController.setBook(selectedCharacter);
+//					insideBookViewController.setController(mainViewController);
+//
+//					mainViewController.setView(borderPane);
+//				}
+			}
+		});
+		
+	}
+	
+	public void setBook(Libro l) {
+		book = l;
+	}
+	
+	public void setProject(Proyecto p) {
+		project = p;
+	}
+	
+	public void setController(MainViewController controller) {
+		mainViewController = controller;
+	}
+
+}

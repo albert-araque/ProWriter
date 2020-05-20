@@ -41,7 +41,7 @@ public class InsideProjectViewController implements Initializable {
 	private static final int[] IMAGE_FIT = {200, 230};
 	private static final int IMAGE_LAYOUT[] = {45, 22};
 	private static final int FONT_SIZE = 14;
-	private static final int LABEL_XYLAY = 32;
+	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
 //	private static final int BLABEL_YLAY = 300;
 	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
@@ -224,12 +224,12 @@ public class InsideProjectViewController implements Initializable {
 
 		if (l.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + l.getNombre().substring(0, MAX_LENGHT) + "...");
 		else nameLabel.setText("Nombre: " + l.getNombre());		
-		nameLabel.setLayoutX(LABEL_XYLAY);
+		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
 		
 //		characterLabel.setText("Numero de personajes: " + l.getPersonajes().size());
-		characterLabel.setLayoutX(LABEL_XYLAY);
+		characterLabel.setLayoutX(LABEL_XLAY);
 		characterLabel.setLayoutY(NLABEL_YLAY+ 10);
 
 		bookPane.getChildren().add(nameLabel);	

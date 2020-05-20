@@ -82,4 +82,11 @@ public class Escena implements java.io.Serializable {
 		this.personajes = personajes;
 	}
 
+	@Override
+	public String toString() {
+		return "Capitulo: " + capitulo.getNombre() + ", escena: " + getNombre();
+	}
+	
+	
+
 }

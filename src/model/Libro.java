@@ -3,6 +3,7 @@ package model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.hibernate.Hibernate;
 
@@ -19,7 +20,7 @@ public class Libro implements java.io.Serializable {
 	private String genero;
 	private String imagen;
 	private Set<Personaje> personajes = new HashSet<Personaje>(0);
-	private Set<Capitulo> capitulos = new HashSet<Capitulo>(0);
+	private Set<Capitulo> capitulos = new TreeSet<Capitulo>();
 	private Set<Proyecto> proyectos = new HashSet<Proyecto>(0);
 
 	public Libro() {
