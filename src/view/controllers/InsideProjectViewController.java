@@ -78,6 +78,7 @@ public class InsideProjectViewController implements Initializable {
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddBookView.fxml"));
 				BorderPane dialogRoot = null;
+				
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
@@ -114,6 +115,7 @@ public class InsideProjectViewController implements Initializable {
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateBookView.fxml"));
 				BorderPane dialogRoot = null;
+				
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {

@@ -36,25 +36,33 @@ import model.Proyecto;
 import view.Main;
 
 public class CharacterInsideBookViewController implements Initializable {
-	
+
 	private static final int MAX_LENGHT = 20;
-	private static final int[] PANE_SIZE = {290, 340};
-	private static final int[] IMAGE_FIT = {200, 230};
-	private static final int IMAGE_LAYOUT[] = {45, 22};
+	private static final int[] PANE_SIZE = { 290, 340 };
+	private static final int[] IMAGE_FIT = { 200, 230 };
+	private static final int IMAGE_LAYOUT[] = { 45, 22 };
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
-	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
-	
-	@FXML public Label selectedCharacterLabel;
-	@FXML public Label errorLabel;
-	@FXML public Label bookNameDisplay;
-	@FXML public Button backButton;
-	@FXML public Button addCharacterButton;
-	@FXML public Button updateCharacterButton;
-	@FXML public Button deleteCharacterButton;
-	@FXML public FlowPane characterFlowPane;
-	
+	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
+
+	@FXML
+	public Label selectedCharacterLabel;
+	@FXML
+	public Label errorLabel;
+	@FXML
+	public Label bookNameDisplay;
+	@FXML
+	public Button backButton;
+	@FXML
+	public Button addCharacterButton;
+	@FXML
+	public Button updateCharacterButton;
+	@FXML
+	public Button deleteCharacterButton;
+	@FXML
+	public FlowPane characterFlowPane;
+
 	private MainViewController mainViewController;
 	private Libro book;
 	private Proyecto project;
@@ -63,18 +71,18 @@ public class CharacterInsideBookViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		characterFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
 		characterFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
-		
-		Platform.runLater(new Runnable() {			
+
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				bookNameDisplay.setText(project.getNombre() + " > " + book.getNombre());
 				loadCharacters();
 			}
 		});
-		
+
 		addCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -82,10 +90,11 @@ public class CharacterInsideBookViewController implements Initializable {
 
 				addCharacterDialog.initModality(Modality.APPLICATION_MODAL);
 				addCharacterDialog.initStyle(StageStyle.UNDECORATED);
-				addCharacterDialog.initOwner(Main.getStage());                
+				addCharacterDialog.initOwner(Main.getStage());
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddCharacterView.fxml"));
 				BorderPane dialogRoot = null;
+
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
@@ -94,7 +103,7 @@ public class CharacterInsideBookViewController implements Initializable {
 				AddCharacterViewController addController = fxmlLoader.getController();
 				addController.setBook(book);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 750);              
+				Scene dialogScene = new Scene(dialogRoot, 400, 750);
 				addCharacterDialog.setScene(dialogScene);
 				addCharacterDialog.showAndWait();
 				selectedCharacter = null;
@@ -102,20 +111,54 @@ public class CharacterInsideBookViewController implements Initializable {
 				loadCharacters();
 			}
 		});
-		
+
 		updateCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
+
+				// ***** DESARROLLO EN PROGRESO *****
+				
+				if (selectedCharacter == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+
+				Stage updateCharacterDialog = new Stage();
+
+				updateCharacterDialog.initModality(Modality.APPLICATION_MODAL);
+				updateCharacterDialog.initStyle(StageStyle.UNDECORATED);
+				updateCharacterDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateCharacterView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				UpdateCharacterViewController updateController = fxmlLoader.getController();
+				updateController.setPersonaje(selectedCharacter);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 750);
+				updateCharacterDialog.setScene(dialogScene);
+				updateCharacterDialog.showAndWait();
+				selectedCharacter = null;
+				selectedCharacterLabel.setText("Ningun proyecto seleccionado");
+				loadCharacters();
+
+				// ***** DESARROLLO EN PROGRESO *****
+
 			}
 		});
-		
+
 		deleteCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 				if (selectedCharacter == null) {
 					errorLabel.setVisible(true);
 					return;
-				}			
+				}
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Eliminacion de personaje");
@@ -123,44 +166,44 @@ public class CharacterInsideBookViewController implements Initializable {
 				alert.setContentText("Estas seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
-				if(resultado.get() == ButtonType.OK) {
-					
+				if (resultado.get() == ButtonType.OK) {
+
 					book.getPersonajes().remove(selectedCharacter);
 					for (Personaje p : DAOManager.getLibroDAO().getLibro(book.getId()).getPersonajes()) {
 						System.out.println(p);
 					}
 					DAOManager.getLibroDAO().updateLibro(book);
 //					DAOManager.getProyectoDAO().updateProyecto(project);
-					
+
 					selectedCharacter = null;
 					selectedCharacterLabel.setText("Ningun proyecto seleccionado");
 					loadCharacters();
-				}	
+				}
 			}
 		});
 
 		backButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				
+
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideBookView.fxml"));
 				BorderPane borderPane = null;
 				try {
-					borderPane =fxmlLoader.load();
+					borderPane = fxmlLoader.load();
 				} catch (IOException e) {
 				}
-				
+
 				InsideBookViewController insideBookViewController = fxmlLoader.getController();
 				insideBookViewController.setProject(project);
 				insideBookViewController.setBook(book);
 				insideBookViewController.setController(mainViewController);
 
-				mainViewController.setView(borderPane);					
+				mainViewController.setView(borderPane);
 			}
-		});		
+		});
 
 	}
-	
+
 	private void loadCharacters() {
 		characterFlowPane.getChildren().clear();
 		
@@ -168,10 +211,11 @@ public class CharacterInsideBookViewController implements Initializable {
 			convertCharacterToPane(p);
 		}
 	}
-	
+
 	private void convertCharacterToPane(Personaje p) {
-		
-		if (p == null) return;
+
+		if (p == null)
+			return;
 		characterPane = new Pane();
 
 		Label nameLabel = new Label();
@@ -183,20 +227,21 @@ public class CharacterInsideBookViewController implements Initializable {
 		else {			
 			characterImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
-		
-		//establece el margin de cada contenedor
-		FlowPane.setMargin(characterPane, new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		//establece diversas medidas del contenedor, la imagen, las label
+		// establece el margin de cada contenedor
+		FlowPane.setMargin(characterPane,
+				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
+
+		// establece diversas medidas del contenedor, la imagen, las label
 		characterPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
-		characterPane.getStyleClass().add("pane");		
+		characterPane.getStyleClass().add("pane");
 
 		characterImage.setFitHeight(IMAGE_FIT[0]);
 		characterImage.setFitWidth(IMAGE_FIT[1]);
 		characterImage.setLayoutX(IMAGE_LAYOUT[0]);
 		characterImage.setLayoutY(IMAGE_LAYOUT[1]);
-		characterImage.setPickOnBounds(true);
 		characterImage.setPreserveRatio(true);		
+		characterImage.setPickOnBounds(true);
 
 		if (p.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGHT) + "...");
 		else nameLabel.setText("Nombre: " + p.getNombre());		
@@ -210,12 +255,13 @@ public class CharacterInsideBookViewController implements Initializable {
 
 		characterPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event) {			
+			public void handle(MouseEvent event) {
 
 				if (event.getClickCount() == 1) {
 					selectedCharacter = p;
 					selectedCharacterLabel.setText("Personaje seleccionado: " + selectedCharacter.getNombre());
-					if (errorLabel.isVisible()) errorLabel.setVisible(false);
+					if (errorLabel.isVisible())
+						errorLabel.setVisible(false);
 				}
 
 //				if (event.getClickCount() == 2) {
@@ -236,17 +282,17 @@ public class CharacterInsideBookViewController implements Initializable {
 //				}
 			}
 		});
-		
+
 	}
-	
+
 	public void setProject(Proyecto p) {
 		project = p;
 	}
-	
+
 	public void setBook(Libro l) {
 		book = l;
 	}
-	
+
 	public void setController(MainViewController controller) {
 		mainViewController = controller;
 	}

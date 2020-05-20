@@ -1,4 +1,5 @@
 /dao/
+/hibernate.cfg.xml
 /model/
-/view/
 /resources/
+/view/
