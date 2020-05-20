@@ -15,7 +15,7 @@
         <property generated="never" lazy="false" name="imagen" optimistic-lock="true" type="string" unique="false">
             <column name="IMAGEN"/>
         </property>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="libros" optimistic-lock="true" sort="unsorted" table="proyecto_libro">
+        <set embed-xml="true" fetch="select" inverse="false" lazy="false" mutable="true" name="libros" optimistic-lock="true" sort="unsorted" table="proyecto_libro">
             <key on-delete="noaction">
                 <column name="IDPROYECTO" not-null="true"/>
             </key>

@@ -11,12 +11,8 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import dao.DAOManager;
-import dao.LibroDAO;
-import dao.PersonajeDAO;
-import dao.ProyectoDAO;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -56,14 +52,9 @@ public class UpdateBookViewController implements Initializable {
 		//inicia un hilo para cargar los libros en el checklistview para añadirlos al proyecto
 		Platform.runLater(new Runnable() {			
 			@Override
-			public void run() {				
-				PersonajeDAO personajeDAO = DAOManager.getPersonajeDAO();			
-				ObservableList<Personaje> characters = FXCollections.observableList(personajeDAO.getPersonajes());			
-				characterList.getItems().addAll(characters);
-
-				ProyectoDAO proyectoDAO = DAOManager.getProyectoDAO();
-				ObservableList<Proyecto> projects = FXCollections.observableList(proyectoDAO.getProyectos());
-				projectList.getItems().addAll(projects);
+			public void run() {						
+				characterList.getItems().addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
+				projectList.getItems().addAll(FXCollections.observableList(DAOManager.getProyectoDAO().getProyectos()));
 				
 				nameText.setText(book.getNombre());
 				descriptionText.setText(book.getDescripcion());
@@ -71,7 +62,7 @@ public class UpdateBookViewController implements Initializable {
 				imagePath.setText(book.getImagen());
 				
 				checkExistingCharacters();
-				checkExistingProjects();				
+				checkExistingProjects();
 			}
 		});
 
@@ -121,14 +112,18 @@ public class UpdateBookViewController implements Initializable {
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu libro");
-				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
-				fileChooser.getExtensionFilters().add(imageFilter);
-				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
+				chooseFileDialog();
 			}
 		});		
+	}
+
+	private void chooseFileDialog() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setTitle("Selecciona una imagen para tu libro");
+		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
+		fileChooser.getExtensionFilters().add(imageFilter);
+		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
 	//metodo para añadir el proyecto a la base de datos
@@ -141,8 +136,7 @@ public class UpdateBookViewController implements Initializable {
 		book.setPersonajes(characters);
 		book.setProyectos(projects);
 
-		LibroDAO libroDAO = DAOManager.getLibroDAO();
-		libroDAO.updateLibro(book);
+		DAOManager.getLibroDAO().updateLibro(book);
 	}
 	
 	private void checkExistingProjects() {		

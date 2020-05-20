@@ -16,12 +16,11 @@ public class MainViewController implements Initializable{
 	@FXML public AnchorPane rootView;
 	
 	private BorderPane currentView;	
-	private FXMLLoader fxmlLoader;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		fxmlLoader = new FXMLLoader(getClass().getResource("/view/ProjectView.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ProjectView.fxml"));
 		
 		try {
 			currentView = fxmlLoader.load();

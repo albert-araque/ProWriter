@@ -11,11 +11,8 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import dao.DAOManager;
-import dao.LibroDAO;
-import dao.ProyectoDAO;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -52,10 +49,8 @@ public class AddProjectViewController implements Initializable {
 		//inicia un hilo para cargar los libros en el checklistview para añadirlos al proyecto
 		Platform.runLater(new Runnable() {			
 			@Override
-			public void run() {				
-				LibroDAO libroDAO = DAOManager.getLibroDAO();				
-				ObservableList<Libro> books = FXCollections.observableList(libroDAO.getLibros());				
-				bookList.getItems().addAll(books);		
+			public void run() {										
+				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));		
 			}
 		});
 
@@ -103,14 +98,18 @@ public class AddProjectViewController implements Initializable {
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu proyecto");
-				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
-				fileChooser.getExtensionFilters().add(imageFilter);
-				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
+				chooseFileDialog();
 			}
 		});		
+	}
+	
+	private void chooseFileDialog() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setTitle("Selecciona una imagen para tu proyecto");
+		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
+		fileChooser.getExtensionFilters().add(imageFilter);
+		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
 	//metodo para añadir el proyecto a la base de datos
@@ -118,11 +117,6 @@ public class AddProjectViewController implements Initializable {
 
 		projectToReturn = new Proyecto(name, description, imagePath, books);
 
-		ProyectoDAO proyectoDAO = DAOManager.getProyectoDAO();
-		proyectoDAO.addProyecto(projectToReturn);
-	}
-
-	public Proyecto getProyecto() {
-		return projectToReturn;
+		DAOManager.getProyectoDAO().addProyecto(projectToReturn);
 	}
 }

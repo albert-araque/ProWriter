@@ -24,7 +24,7 @@
         <property generated="never" lazy="false" name="imagen" optimistic-lock="true" type="string" unique="false">
             <column name="IMAGEN"/>
         </property>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="libros" optimistic-lock="true" sort="unsorted" table="libro_personaje">
+        <set embed-xml="true" fetch="select" inverse="false" lazy="false" mutable="true" name="libros" optimistic-lock="true" sort="unsorted" table="libro_personaje">
             <key on-delete="noaction">
                 <column name="IDPERSONAJE" not-null="true"/>
             </key>
@@ -32,7 +32,7 @@
                 <column name="IDLIBRO" not-null="true"/>
             </many-to-many>
         </set>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="escenas" optimistic-lock="true" sort="unsorted" table="escena_personaje">
+        <set embed-xml="true" fetch="select" inverse="false" lazy="false" mutable="true" name="escenas" optimistic-lock="true" sort="unsorted" table="escena_personaje">
             <key on-delete="noaction">
                 <column name="IDPERSONAJE" not-null="true"/>
             </key>

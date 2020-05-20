@@ -90,6 +90,11 @@ public class Libro implements java.io.Serializable {
 	}
 
 	public Set<Personaje> getPersonajes() {
+		
+		for (Personaje p : personajes) {
+			Hibernate.initialize(p);
+		}
+		
 		return this.personajes;
 	}
 

@@ -18,57 +18,60 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import model.Escena;
 import model.Libro;
 import model.Personaje;
-import model.Proyecto;
 
-public class AddBookViewController implements Initializable {
+public class AddCharacterViewController implements Initializable {
 
-	@FXML public TextField nameText;
-	@FXML public TextField imagePath;
-	@FXML public TextArea descriptionText;
-	@FXML public TextField genreText;
-	@FXML public CheckListView<Personaje> characterList;
-	@FXML public CheckListView<Proyecto> projectList;
-	@FXML public Button addButton;
-	@FXML public  Button cancelButton;
-	@FXML public Button pathButton;
 	@FXML public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public Spinner<Integer> ageSpinner;
+	@FXML public TextField firstSurnameText;
+	@FXML public TextField secondSurnameText;
+	@FXML public TextArea descriptionText;
+	@FXML public TextField imagePath;
+	@FXML public Button pathButton;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public CheckListView<Libro> bookList;
+	@FXML public CheckListView<Escena> sceneList;
 
 	private static double xOffset;
 	private static double yOffset;
 
-	private Libro bookToReturn = null;
-	
-	private Proyecto project;
+	private Personaje characterToReturn = null;
+	private Libro book;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
-		//inicia un hilo para cargar los libros en el checklistview para añadirlos al proyecto
+		
+		SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 9999);		
+		ageSpinner.setValueFactory(spinnerValueFactory);
+	
 		Platform.runLater(new Runnable() {			
 			@Override
-			public void run() {						
-				characterList.getItems().addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
-				projectList.getItems().addAll(FXCollections.observableList(DAOManager.getProyectoDAO().getProyectos()));
-				
-				for (Proyecto p : projectList.getItems()) {
-					if (p.getId() == project.getId()) {
-						projectList.getCheckModel().check(p);
-					}
+			public void run() {
+				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));
+				sceneList.getItems().addAll(FXCollections.observableList(DAOManager.getEscenaDAO().getEscenas()));
+
+				for (Libro l : bookList.getItems()) {
+					if (l.getId() == book.getId()) bookList.getCheckModel().check(l);
 				}
 			}
 		});
 
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro tiene que tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El personaje tiene que tener un nombre"));
 
 		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -86,24 +89,25 @@ public class AddBookViewController implements Initializable {
 			}
 		});
 
-		//evento de click para cerrar la ventana
-		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-				borderPane.getScene().getWindow().hide();
-			}
-		});
-
-		//evento de click para añadir el proyecto
+		//evento de click para añadir el personaje
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
 				if (validationSupport.isInvalid()) return;
 
-				addBookToDB(nameText.getText(), descriptionText.getText(), genreText.getText(), imagePath.getText(), 
-							new HashSet<Personaje>(characterList.getCheckModel().getCheckedItems()), 
-							new HashSet<Proyecto>(projectList.getCheckModel().getCheckedItems()));
+				addCharacterToDB(nameText.getText(), firstSurnameText.getText(), secondSurnameText.getText(),
+								ageSpinner.getValue(), descriptionText.getText(), imagePath.getText(), 
+								new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()), 
+								new HashSet<Escena>(sceneList.getCheckModel().getCheckedItems()));
+				borderPane.getScene().getWindow().hide();
+			}
+		});
+
+		//evento de click para cerrar la ventana
+		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
 				borderPane.getScene().getWindow().hide();
 			}
 		});
@@ -114,23 +118,23 @@ public class AddBookViewController implements Initializable {
 			public void handle(Event event) {
 				FileChooser fileChooser = new FileChooser();
 				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu libro");
+				fileChooser.setTitle("Selecciona una imagen para tu personaje");
 				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
 				fileChooser.getExtensionFilters().add(imageFilter);
 				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 			}
-		});		
+		});	
+
 	}
 
-	//metodo para añadir el proyecto a la base de datos
-	private void addBookToDB(String name, String description, String genre, String imagePath, Set<Personaje> characters, Set<Proyecto> projects) {
+	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books, Set<Escena> scenes) {
 
-		bookToReturn = new Libro(name, description, genre, imagePath, characters, projects);
-		project.getLibros().add(bookToReturn);
-		DAOManager.getLibroDAO().addLibro(bookToReturn);
+		characterToReturn = new Personaje(name, firstSurname, secondSurname, age, description, image, books, scenes);
+		book.getPersonajes().add(characterToReturn);
+		DAOManager.getPersonajeDAO().addPersonaje(characterToReturn);		
 	}
-	
-	public void setProject(Proyecto p) {
-		project = p;
+
+	public void setBook(Libro l) {
+		book = l;
 	}
 }

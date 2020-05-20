@@ -18,7 +18,7 @@
         <property generated="never" lazy="false" name="descripcion" optimistic-lock="true" type="string" unique="false">
             <column length="65535" name="DESCRIPCION"/>
         </property>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="personajes" optimistic-lock="true" sort="unsorted" table="escena_personaje">
+        <set embed-xml="true" fetch="select" inverse="false" lazy="false" mutable="true" name="personajes" optimistic-lock="true" sort="unsorted" table="escena_personaje">
             <key on-delete="noaction">
                 <column name="IDESCENA" not-null="true"/>
             </key>

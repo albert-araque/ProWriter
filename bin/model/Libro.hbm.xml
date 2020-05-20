@@ -18,7 +18,7 @@
         <property generated="never" lazy="false" name="imagen" optimistic-lock="true" type="string" unique="false">
             <column name="IMAGEN"/>
         </property>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="personajes" optimistic-lock="true" sort="unsorted" table="libro_personaje">
+        <set embed-xml="true" fetch="select" inverse="false" lazy="false" mutable="true" name="personajes" optimistic-lock="true" sort="unsorted" table="libro_personaje">
             <key on-delete="noaction">
                 <column name="IDLIBRO" not-null="true"/>
             </key>
@@ -26,13 +26,13 @@
                 <column name="IDPERSONAJE" not-null="true"/>
             </many-to-many>
         </set>
-        <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="capitulos" optimistic-lock="true" sort="unsorted" table="capitulo">
+        <set embed-xml="true" fetch="select" inverse="true" lazy="false" mutable="true" name="capitulos" optimistic-lock="true" sort="unsorted" table="capitulo">
             <key on-delete="noaction">
                 <column name="IDLIBRO" not-null="true"/>
             </key>
             <one-to-many class="model.Capitulo" embed-xml="true" not-found="exception"/>
         </set>
-        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="proyectos" optimistic-lock="true" sort="unsorted" table="proyecto_libro">
+        <set embed-xml="true" fetch="select" inverse="false" lazy="false" mutable="true" name="proyectos" optimistic-lock="true" sort="unsorted" table="proyecto_libro">
             <key on-delete="noaction">
                 <column name="IDLIBRO" not-null="true"/>
             </key>
