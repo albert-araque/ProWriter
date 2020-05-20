@@ -37,7 +37,7 @@ public class AddBookViewController implements Initializable {
 	@FXML public CheckListView<Personaje> characterList;
 	@FXML public CheckListView<Proyecto> projectList;
 	@FXML public Button addButton;
-	@FXML public  Button cancelButton;
+	@FXML public Button cancelButton;
 	@FXML public Button pathButton;
 	@FXML public BorderPane borderPane;
 
