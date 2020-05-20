@@ -56,7 +56,7 @@ public class InsideProjectViewController implements Initializable {
 	@FXML public Label projectNameDisplay;	
 
 	private MainViewController mainViewController;
-	private Proyecto project;	
+	private Proyecto project;
 	private Libro selectedBook;
 	private Pane bookPane;
 
@@ -152,11 +152,21 @@ public class InsideProjectViewController implements Initializable {
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK) {
-					DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
-					project.getLibros().remove(selectedBook);					
+					
+					//Esta línea, si estuviera descomentada,
+					//borraría el libro de la base de datos
+					//DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
+					
+					//Esta línea elimina el libro seleccionado del set de libros del proyecto
+					project.getLibros().remove(selectedBook);
+					
+					//Ahora solo queda reflejarlo en la base de datos, con un update
+					DAOManager.getProyectoDAO().updateProyecto(project);
+					
 					selectedBook = null;
 					selectedBookLabel.setText("Ningun proyecto seleccionado");
 					loadBooks();
+					
 				}				
 			}
 		});
