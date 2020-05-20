@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dao.DAOManager;
-import dao.LibroDAO;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -29,10 +28,10 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Libro;
 import model.Proyecto;
-import view.CustomStage;
 import view.Main;
 
 public class InsideProjectViewController implements Initializable {
@@ -57,10 +56,9 @@ public class InsideProjectViewController implements Initializable {
 	@FXML public Label projectNameDisplay;	
 
 	private MainViewController mainViewController;
-	private Proyecto project;
-
-	private Pane bookPane;
+	private Proyecto project;	
 	private Libro selectedBook;
+	private Pane bookPane;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -72,7 +70,7 @@ public class InsideProjectViewController implements Initializable {
 		addBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				CustomStage addBookDialog = new CustomStage();
+				Stage addBookDialog = new Stage();
 
 				addBookDialog.initModality(Modality.APPLICATION_MODAL);
 				addBookDialog.initStyle(StageStyle.UNDECORATED);
@@ -90,9 +88,10 @@ public class InsideProjectViewController implements Initializable {
 
 				Scene dialogScene = new Scene(dialogRoot, 400, 750);              
 				addBookDialog.setScene(dialogScene);
-				convertBookToPane(addBookDialog.showAndReturn(addController));
+				addBookDialog.showAndWait();
 				selectedBook = null;
 				selectedBookLabel.setText("Ningun proyecto seleccionado");
+				loadBooks();
 			}
 		});
 
@@ -107,7 +106,7 @@ public class InsideProjectViewController implements Initializable {
 					return;
 				}				
 
-				CustomStage updateProjectDialog = new CustomStage();
+				Stage updateProjectDialog = new Stage();
 
 				updateProjectDialog.initModality(Modality.APPLICATION_MODAL);
 				updateProjectDialog.initStyle(StageStyle.UNDECORATED);
@@ -125,10 +124,10 @@ public class InsideProjectViewController implements Initializable {
 
 				Scene dialogScene = new Scene(dialogRoot, 400, 750);
 				updateProjectDialog.setScene(dialogScene);
-				updateProjectDialog.showAndWait();
-
+				updateProjectDialog.showAndWait();				
 				selectedBook = null;
 				selectedBookLabel.setText("Ningun proyecto seleccionado");
+				loadBooks();
 			}
 		});
 
@@ -150,11 +149,9 @@ public class InsideProjectViewController implements Initializable {
 				alert.setContentText("Estas seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
-				if(resultado.get() == ButtonType.OK)
-				{
-					LibroDAO libroDAO = DAOManager.getLibroDAO();
-					libroDAO.removeLibro(selectedBook.getId());
-					project.getLibros().remove(selectedBook);
+				if(resultado.get() == ButtonType.OK) {
+					DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
+					project.getLibros().remove(selectedBook);					
 					selectedBook = null;
 					selectedBookLabel.setText("Ningun proyecto seleccionado");
 					loadBooks();
@@ -203,12 +200,13 @@ public class InsideProjectViewController implements Initializable {
 		File imageFile = null;
 
 		try { imageFile = new File(l.getImagen()); } catch (Exception e) {}		
-		if (l.getImagen() == null || l.getImagen().equals("") || !imageFile.exists()) projectImage = new ImageView("resources/proyecto.png");
+		if (l.getImagen() == null || l.getImagen().equals("") || !imageFile.exists()) projectImage = new ImageView("resources/libro.png");
 		else {			
 			projectImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
 		
 		Label nameLabel = new Label();
+		Label characterLabel = new Label();
 
 		//establece el margin de cada contenedor
 		FlowPane.setMargin(bookPane, new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
@@ -219,7 +217,6 @@ public class InsideProjectViewController implements Initializable {
 
 		projectImage.setFitHeight(IMAGE_FIT[0]);
 		projectImage.setFitWidth(IMAGE_FIT[1]);
-
 		projectImage.setLayoutX(IMAGE_LAYOUT[0]);
 		projectImage.setLayoutY(IMAGE_LAYOUT[1]);
 		projectImage.setPickOnBounds(true);
@@ -230,6 +227,10 @@ public class InsideProjectViewController implements Initializable {
 		nameLabel.setLayoutX(LABEL_XYLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
+		
+//		characterLabel.setText("Numero de personajes: " + l.getPersonajes().size());
+		characterLabel.setLayoutX(LABEL_XYLAY);
+		characterLabel.setLayoutY(NLABEL_YLAY+ 10);
 
 		bookPane.getChildren().add(nameLabel);	
 		bookPane.getChildren().add(projectImage);	
@@ -246,23 +247,22 @@ public class InsideProjectViewController implements Initializable {
 					if (errorLabel.isVisible()) errorLabel.setVisible(false);
 				}
 
-//				if (event.getClickCount() == 2) {
-//
-//					System.out.println("DOBLE CLICK");
-//
-//					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideProjectView.fxml"));
-//					BorderPane borderPane = null;
-//					try {
-//						borderPane = fxmlLoader.load();
-//					} catch (IOException e) {
-//					}
-//
-//					InsideProjectViewController insideProjectViewController = fxmlLoader.getController();
-//					insideProjectViewController.setProyecto(selectedBook);
-//					insideProjectViewController.setController(mainViewController);
-//
-//					mainViewController.setView(borderPane);
-//				}
+				if (event.getClickCount() == 2) {
+
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideBookView.fxml"));
+					BorderPane borderPane = null;
+					try {
+						borderPane = fxmlLoader.load();
+					} catch (IOException e) {
+					}
+
+					InsideBookViewController insideBookViewController = fxmlLoader.getController();
+					insideBookViewController.setProject(project);
+					insideBookViewController.setBook(selectedBook);
+					insideBookViewController.setController(mainViewController);
+
+					mainViewController.setView(borderPane);
+				}
 			}
 		});
 	}

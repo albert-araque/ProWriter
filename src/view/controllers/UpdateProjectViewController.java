@@ -11,11 +11,8 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import dao.DAOManager;
-import dao.LibroDAO;
-import dao.ProyectoDAO;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -53,10 +50,8 @@ public class UpdateProjectViewController implements Initializable {
 		Platform.runLater(new Runnable() {			
 			@Override
 			public void run() {
-
-				LibroDAO libroDAO = DAOManager.getLibroDAO();				
-				ObservableList<Libro> books = FXCollections.observableList(libroDAO.getLibros());				
-				bookList.getItems().addAll(books);
+			
+				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));
 
 				nameText.setText(project.getNombre());
 				descriptionText.setText(project.getDescripcion());
@@ -109,27 +104,29 @@ public class UpdateProjectViewController implements Initializable {
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu proyecto");
-				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
-				fileChooser.getExtensionFilters().add(imageFilter);
-				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
+				chooseFileDialog();
 			}
 		});	
+	}	
 
+	private void chooseFileDialog() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setTitle("Selecciona una imagen para tu proyecto");
+		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
+		fileChooser.getExtensionFilters().add(imageFilter);
+		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
 	//actualiza el proyecto en la base de datos
 	private void updateProject(String name, String description, String imagePath, Set<Libro> books) {
-		ProyectoDAO proyectoDAO = DAOManager.getProyectoDAO();
 
 		project.setNombre(name);
 		project.setDescripcion(description);
 		project.setImagen(imagePath);
 		project.setLibros(books);
-
-		proyectoDAO.updateProyecto(project);
+		
+		DAOManager.getProyectoDAO().updateProyecto(project);
 	}
 
 	//recorre la collection de libros totales en la base de datos, compara la id con los libros existentes en el proyecto, y los pone checked

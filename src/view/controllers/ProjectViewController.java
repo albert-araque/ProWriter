@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dao.DAOManager;
-import dao.ProyectoDAO;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -17,10 +16,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -29,9 +28,9 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Proyecto;
-import view.CustomStage;
 import view.Main;
 
 public class ProjectViewController implements Initializable{
@@ -70,7 +69,7 @@ public class ProjectViewController implements Initializable{
 		addProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				CustomStage addProjectDialog = new CustomStage();
+				Stage addProjectDialog = new Stage();
 
 				addProjectDialog.initModality(Modality.APPLICATION_MODAL);
 				addProjectDialog.initStyle(StageStyle.UNDECORATED);
@@ -83,11 +82,10 @@ public class ProjectViewController implements Initializable{
 				} catch (IOException e) {
 				}
 
-				AddProjectViewController addController = fxmlLoader.getController();
-
 				Scene dialogScene = new Scene(dialogRoot, 400, 600);              
 				addProjectDialog.setScene(dialogScene);
-				convertProjectToPane(addProjectDialog.showAndReturn(addController));
+				addProjectDialog.showAndWait();
+				addProjectsFromDB();
 				selectedProject = null;
 				selectedProjectLabel.setText("Ningun proyecto seleccionado");
 			}
@@ -103,7 +101,7 @@ public class ProjectViewController implements Initializable{
 					return;
 				}				
 
-				CustomStage updateProjectDialog = new CustomStage();
+				Stage updateProjectDialog = new Stage();
 
 				updateProjectDialog.initModality(Modality.APPLICATION_MODAL);
 				updateProjectDialog.initStyle(StageStyle.UNDECORATED);
@@ -146,8 +144,7 @@ public class ProjectViewController implements Initializable{
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK)
 				{
-					ProyectoDAO proyectoDAO = DAOManager.getProyectoDAO();
-					proyectoDAO.removeProyecto(selectedProject.getId());
+					DAOManager.getProyectoDAO().removeProyecto(selectedProject.getId());
 					selectedProject = null;
 					selectedProjectLabel.setText("Ningun proyecto seleccionado");
 					addProjectsFromDB();
@@ -186,7 +183,6 @@ public class ProjectViewController implements Initializable{
 
 		projectImage.setFitHeight(IMAGE_FIT[0]);
 		projectImage.setFitWidth(IMAGE_FIT[1]);
-
 		projectImage.setLayoutX(IMAGE_LAYOUT[0]);
 		projectImage.setLayoutY(IMAGE_LAYOUT[1]);
 		projectImage.setPickOnBounds(true);
@@ -242,11 +238,10 @@ public class ProjectViewController implements Initializable{
 		Platform.runLater(new Runnable() {			
 			@Override
 			public void run() {
-				ProyectoDAO proyectoDAO = DAOManager.getProyectoDAO();
 
 				projectFlowPane.getChildren().removeAll(projectFlowPane.getChildren());
 
-				for (Proyecto p : proyectoDAO.getProyectos()) {
+				for (Proyecto p : DAOManager.getProyectoDAO().getProyectos()) {
 					convertProjectToPane(p);
 				}				
 			}
