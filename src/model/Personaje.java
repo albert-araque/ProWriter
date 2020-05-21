@@ -27,6 +27,16 @@ public class Personaje implements java.io.Serializable {
 	public Personaje(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public Personaje(String nombre, String apellido1, String apellido2, Integer edad, String descripcion, String imagen, Set<Libro> libros) {
+		this.nombre = nombre;
+		this.apellido1 = apellido1;
+		this.apellido2 = apellido2;
+		this.edad = edad;
+		this.descripcion = descripcion;
+		this.imagen = imagen;
+		this.libros = libros;
+	}
 
 	public Personaje(String nombre, String apellido1, String apellido2, Integer edad, String descripcion, String imagen,
 			Set<Libro> libros, Set<Escena> escenas) {

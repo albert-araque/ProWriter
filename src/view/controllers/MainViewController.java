@@ -46,8 +46,7 @@ public class MainViewController implements Initializable{
 		currentView.prefHeightProperty().bind(rootView.heightProperty());
 		
 		rootView.getChildren().clear();
-		rootView.getChildren().add(currentView);
-		
+		rootView.getChildren().add(currentView);		
 	}
 
 }

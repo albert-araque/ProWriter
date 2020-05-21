@@ -17,7 +17,7 @@
 	<center>
 	</center>
 	<bottom>
-		<Pane prefHeight="750.0" prefWidth="400.0"
+		<Pane prefHeight="600.0" prefWidth="400.0"
 			style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
 			<children>
 				<Label layoutX="25.0" layoutY="26.0" text="Añadir personaje"
@@ -59,22 +59,14 @@
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Button fx:id="addButton" layoutX="219.0" layoutY="686.0"
+				<Button fx:id="addButton" layoutX="219.0" layoutY="542.0"
 					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
 					text="Añadir" />
-				<Button fx:id="cancelButton" layoutX="309.0" layoutY="686.0"
+				<Button fx:id="cancelButton" layoutX="309.0" layoutY="542.0"
 					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
 					text="Cancelar" />
 				<CheckListView fx:id="bookList" layoutX="23.0"
 					layoutY="388.0" prefHeight="120.0" prefWidth="358.0" />
-				<Label layoutX="23.0" layoutY="513.0" prefHeight="25.0"
-					prefWidth="358.0" text="En que escenas aparece el personaje">
-					<font>
-						<Font size="16.0" />
-					</font>
-				</Label>
-				<CheckListView fx:id="sceneList" layoutX="24.0"
-					layoutY="550.0" prefHeight="120.0" prefWidth="358.0" />
 				<Label layoutX="22.0" layoutY="128.0" prefHeight="25.0"
 					prefWidth="93.0" text="1er Apellido:">
 					<font>

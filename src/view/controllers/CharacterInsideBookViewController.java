@@ -103,7 +103,7 @@ public class CharacterInsideBookViewController implements Initializable {
 				AddCharacterViewController addController = fxmlLoader.getController();
 				addController.setBook(book);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 750);
+				Scene dialogScene = new Scene(dialogRoot, 400, 600);
 				addCharacterDialog.setScene(dialogScene);
 				addCharacterDialog.showAndWait();
 				selectedCharacter = null;
@@ -140,7 +140,7 @@ public class CharacterInsideBookViewController implements Initializable {
 				UpdateCharacterViewController updateController = fxmlLoader.getController();
 				updateController.setPersonaje(selectedCharacter);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 750);
+				Scene dialogScene = new Scene(dialogRoot, 400, 600);
 				updateCharacterDialog.setScene(dialogScene);
 				updateCharacterDialog.showAndWait();
 				selectedCharacter = null;

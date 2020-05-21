@@ -2,29 +2,25 @@ package view.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.TreeSet;
 
-import org.controlsfx.control.CheckListView;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import dao.DAOManager;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import model.Capitulo;
-import model.Escena;
 import model.Libro;
 
 public class AddChapterViewController implements Initializable {
@@ -33,7 +29,6 @@ public class AddChapterViewController implements Initializable {
 	@FXML public TextField nameText;
 	@FXML public TextField chapterOrder;
 	@FXML public TextArea descriptionText;
-	@FXML public CheckListView<Escena> sceneList;
 	@FXML public Button addButton;
 	@FXML public Button cancelButton;	
 
@@ -45,18 +40,12 @@ public class AddChapterViewController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		Platform.runLater(new Runnable() {			
-			@Override
-			public void run() {
-				sceneList.getItems().addAll(FXCollections.observableList(DAOManager.getEscenaDAO().getEscenas()));
-			}
-		});
-
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El capitulo tiene que tener un nombre"));
 		validationSupport.registerValidator(chapterOrder, Validator.createEmptyValidator("El capitulo tiene que tener un orden"));
 
+		//impide la introduccion de caracteres no numericos
 		chapterOrder.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, 
@@ -89,9 +78,13 @@ public class AddChapterViewController implements Initializable {
 			public void handle(Event event) {
 
 				if (validationSupport.isInvalid()) return;
+				
+				if (isOrderRepeated()) {
+					alertRepeated();
+					return;
+				}
 
-				addChapterToDB(nameText.getText(), Integer.valueOf(chapterOrder.getText()), descriptionText.getText(), 
-						new TreeSet<>(sceneList.getCheckModel().getCheckedItems()));
+				addChapterToDB(nameText.getText(), Integer.valueOf(chapterOrder.getText()), descriptionText.getText());
 				borderPane.getScene().getWindow().hide();
 			}
 		});
@@ -105,10 +98,25 @@ public class AddChapterViewController implements Initializable {
 		});
 
 	}
+	
+	private boolean isOrderRepeated() {
+		for (Capitulo cap : DAOManager.getCapituloDAO().getCapitulos()) {
+			if (cap.getNumero() == Integer.valueOf(chapterOrder.getText())) return true;
+		}
+		return false;
+	}
+	
+	private void alertRepeated() {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Orden de capitulo repetido");
+		alert.setHeaderText("El orden del capitulo esta repetido");
+		alert.setContentText("El orden del capitulo que has introducido esta repetido, cambialo por uno que no lo este");
+		alert.showAndWait();
+	}
 
-	private void addChapterToDB(String name, int order, String description, Set<Escena> scenes) {
+	private void addChapterToDB(String name, int order, String description) {
 
-		Capitulo chapterToReturn = new Capitulo(book, name, order, description, scenes);
+		Capitulo chapterToReturn = new Capitulo(book, name, order, description);
 		DAOManager.getCapituloDAO().addCapitulo(chapterToReturn);
 		book.getCapitulos().add(chapterToReturn);
 	}

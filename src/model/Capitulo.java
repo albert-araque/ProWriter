@@ -24,6 +24,13 @@ public class Capitulo implements java.io.Serializable, Comparable<Capitulo>{
 	public Capitulo(Libro libro) {
 		this.libro = libro;
 	}
+	
+	public Capitulo(Libro libro, String nombre, Integer numero, String descripcion) {
+		this.libro = libro;
+		this.nombre = nombre;
+		this.numero = numero;
+		this.descripcion = descripcion;
+	}
 
 	public Capitulo(Libro libro, String nombre, Integer numero, String descripcion, Set<Escena> escenas) {
 		this.libro = libro;

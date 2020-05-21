@@ -5,9 +5,11 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
+
 import dao.DAOManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,7 +26,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import model.Escena;
 import model.Libro;
 import model.Personaje;
 
@@ -41,7 +42,6 @@ public class UpdateCharacterViewController implements Initializable {
 	@FXML public Button addButton;
 	@FXML public Button cancelButton;
 	@FXML public CheckListView<Libro> bookList;
-	@FXML public CheckListView<Escena> sceneList;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -60,7 +60,6 @@ public class UpdateCharacterViewController implements Initializable {
 			@Override
 			public void run() {
 				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));
-				sceneList.getItems().addAll(FXCollections.observableList(DAOManager.getEscenaDAO().getEscenas()));
 				
 				nameText.setText(personaje.getNombre());
 				ageSpinner.getValueFactory().setValue(personaje.getEdad());
@@ -70,7 +69,6 @@ public class UpdateCharacterViewController implements Initializable {
 				imagePath.setText(personaje.getImagen());
 				
 				checkExistingBooks();
-				checkExistingScenes();
 			}
 		});
 
@@ -103,8 +101,7 @@ public class UpdateCharacterViewController implements Initializable {
 
 				updateCharacter(nameText.getText(), firstSurnameText.getText(), secondSurnameText.getText(),
 								ageSpinner.getValue(), descriptionText.getText(), imagePath.getText(), 
-								new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()), 
-								new HashSet<Escena>(sceneList.getCheckModel().getCheckedItems()));
+								new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()));
 				borderPane.getScene().getWindow().hide();
 			}
 		});
@@ -122,18 +119,21 @@ public class UpdateCharacterViewController implements Initializable {
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu personaje");
-				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
-				fileChooser.getExtensionFilters().add(imageFilter);
-				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
-			}
-		});	
-
+				chooseFileDialog();
+			}			
+		});
+	}
+	
+	private void chooseFileDialog() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setTitle("Selecciona una imagen para tu personaje");
+		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
+		fileChooser.getExtensionFilters().add(imageFilter);
+		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
-	private void updateCharacter(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books, Set<Escena> scenes) {
+	private void updateCharacter(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books) {
 		
 		personaje.setNombre(name);
 		personaje.setEdad(age);
@@ -141,7 +141,6 @@ public class UpdateCharacterViewController implements Initializable {
 		personaje.setApellido2(secondSurname);
 		personaje.setDescripcion(description);
 		personaje.setImagen(image);
-		personaje.setEscenas(scenes);
 		personaje.setLibros(books);
 		
 		DAOManager.getPersonajeDAO().updatePersonaje(personaje);
@@ -152,16 +151,6 @@ public class UpdateCharacterViewController implements Initializable {
 			for (Libro existingBooks : personaje.getLibros()) {
 				if (libro.getId() == existingBooks.getId()) {
 					bookList.getCheckModel().check(libro);
-				}
-			}
-		}
-	}
-	
-	private void checkExistingScenes() {		
-		for (Escena escena : sceneList.getItems()) {
-			for (Escena existingScenes : personaje.getEscenas()) {
-				if (escena.getId() == existingScenes.getId()) {
-					sceneList.getCheckModel().check(escena);
 				}
 			}
 		}

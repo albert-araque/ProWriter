@@ -2,8 +2,10 @@ package view.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dao.DAOManager;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -12,7 +14,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -89,7 +94,7 @@ public class ChapterInsideBookViewController implements Initializable {
 				AddChapterViewController addChapterViewController = fxmlLoader.getController();
 				addChapterViewController.setBook(book);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 600);              
+				Scene dialogScene = new Scene(dialogRoot, 400, 400);              
 				addChapterDialog.setScene(dialogScene);
 				addChapterDialog.showAndWait();
 				loadChapters();
@@ -100,13 +105,63 @@ public class ChapterInsideBookViewController implements Initializable {
 		
 		updateChapterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
-			public void handle(Event event) {				
+			public void handle(Event event) {
+				
+				if (selectedChapter == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+				
+				Stage addChapterDialog = new Stage();
+
+				addChapterDialog.initModality(Modality.APPLICATION_MODAL);
+				addChapterDialog.initStyle(StageStyle.UNDECORATED);
+				addChapterDialog.initOwner(Main.getStage());                
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateChapterView.fxml"));
+				BorderPane dialogRoot = null;
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+				
+				UpdateChapterViewController updateChapterViewController = fxmlLoader.getController();
+				updateChapterViewController.setChapter(selectedChapter);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 400);              
+				addChapterDialog.setScene(dialogScene);
+				addChapterDialog.showAndWait();
+				loadChapters();
+				selectedChapter = null;
+				selectedChapterLabel.setText("Ningun proyecto seleccionado");
 			}
 		});
 		
 		deleteChapterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
-			public void handle(Event event) {				
+			public void handle(Event event) {
+				
+				if (selectedChapter == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+				
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Eliminacion de capitulo");
+				alert.setHeaderText("Estas a punto de eliminar el capitulo");
+				alert.setContentText("Estas seguro?");
+
+				Optional<ButtonType> resultado = alert.showAndWait();
+				if (resultado.get() == ButtonType.OK) {
+
+					book.getCapitulos().remove(selectedChapter);
+					DAOManager.getCapituloDAO().removeCapitulo(selectedChapter.getId());
+					DAOManager.getLibroDAO().updateLibro(book);
+					
+					selectedChapter = null;
+					selectedChapterLabel.setText("Ningun proyecto seleccionado");
+					loadChapters();
+				}
 			}
 		});
 		
@@ -162,8 +217,7 @@ public class ChapterInsideBookViewController implements Initializable {
 		chapterImage.setLayoutX(IMAGE_LAYOUT[0]);
 		chapterImage.setLayoutY(IMAGE_LAYOUT[1]);
 		chapterImage.setPickOnBounds(true);
-		chapterImage.setPreserveRatio(true);		
-
+		chapterImage.setPreserveRatio(true);
 
 		if (c.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + c.getNombre().substring(0, MAX_LENGHT) + "...");
 		else nameLabel.setText("Nombre: " + c.getNombre());		
@@ -191,22 +245,23 @@ public class ChapterInsideBookViewController implements Initializable {
 					if (errorLabel.isVisible()) errorLabel.setVisible(false);
 				}
 
-//				if (event.getClickCount() == 2) {
-//
-//					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideBookView.fxml"));
-//					BorderPane borderPane = null;
-//					try {
-//						borderPane = fxmlLoader.load();
-//					} catch (IOException e) {
-//					}
-//
-//					InsideBookViewController insideBookViewController = fxmlLoader.getController();
-//					insideBookViewController.setProject(project);
-//					insideBookViewController.setBook(selectedCharacter);
-//					insideBookViewController.setController(mainViewController);
-//
-//					mainViewController.setView(borderPane);
-//				}
+				if (event.getClickCount() == 2) {
+
+					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/SceneChapterView.fxml"));
+					BorderPane borderPane = null;
+					try {
+						borderPane = fxmlLoader.load();
+					} catch (IOException e) {
+					}
+
+					SceneChapterViewController sceneChapterViewController = fxmlLoader.getController();
+					sceneChapterViewController.setBook(book);
+					sceneChapterViewController.setProject(project);
+					sceneChapterViewController.setChapter(selectedChapter);
+					sceneChapterViewController.setController(mainViewController);
+
+					mainViewController.setView(borderPane);
+				}
 			}
 		});
 		

@@ -5,9 +5,11 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
+
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
+
 import dao.DAOManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,7 +26,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import model.Escena;
 import model.Libro;
 import model.Personaje;
 
@@ -41,7 +42,6 @@ public class AddCharacterViewController implements Initializable {
 	@FXML public Button addButton;
 	@FXML public Button cancelButton;
 	@FXML public CheckListView<Libro> bookList;
-	@FXML public CheckListView<Escena> sceneList;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -59,7 +59,6 @@ public class AddCharacterViewController implements Initializable {
 			@Override
 			public void run() {
 				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));
-				sceneList.getItems().addAll(FXCollections.observableList(DAOManager.getEscenaDAO().getEscenas()));
 
 				for (Libro l : bookList.getItems()) {
 					if (l.getId() == book.getId()) bookList.getCheckModel().check(l);
@@ -96,8 +95,7 @@ public class AddCharacterViewController implements Initializable {
 
 				addCharacterToDB(nameText.getText(), firstSurnameText.getText(), secondSurnameText.getText(),
 								ageSpinner.getValue(), descriptionText.getText(), imagePath.getText(), 
-								new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()), 
-								new HashSet<Escena>(sceneList.getCheckModel().getCheckedItems()));
+								new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()));
 				borderPane.getScene().getWindow().hide();
 			}
 		});
@@ -125,9 +123,9 @@ public class AddCharacterViewController implements Initializable {
 
 	}
 
-	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books, Set<Escena> scenes) {
+	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books) {
 
-		characterToReturn = new Personaje(name, firstSurname, secondSurname, age, description, image, books, scenes);
+		characterToReturn = new Personaje(name, firstSurname, secondSurname, age, description, image, books);
 		book.getPersonajes().add(characterToReturn);
 		DAOManager.getPersonajeDAO().addPersonaje(characterToReturn);		
 	}
