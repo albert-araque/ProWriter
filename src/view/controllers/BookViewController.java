@@ -172,7 +172,6 @@ public class BookViewController implements Initializable {
 
 				mainViewController.setView(borderPane);				
 			}
-
 		});
 	}
 
