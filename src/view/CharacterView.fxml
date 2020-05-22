@@ -46,9 +46,16 @@
 	<top>
 		<BorderPane prefHeight="50.0" prefWidth="1280.0">
 			<right>
-				<HBox alignment="CENTER" prefHeight="50.0" prefWidth="435.0"
+				<HBox alignment="CENTER" prefHeight="50.0" prefWidth="527.0"
 					BorderPane.alignment="CENTER">
 					<children>
+						<Button fx:id="displayCharacterButton" alignment="CENTER"
+							layoutX="27.0" layoutY="20.0" mnemonicParsing="false"
+							prefHeight="30.0" prefWidth="120.0" text="Ver personaje">
+							<HBox.margin>
+								<Insets right="10.0" />
+							</HBox.margin>
+						</Button>
 						<Button fx:id="deleteCharacterButton" alignment="CENTER"
 							mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0"
 							text="Borrar personaje" />

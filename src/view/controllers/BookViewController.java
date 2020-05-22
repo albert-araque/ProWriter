@@ -173,6 +173,42 @@ public class BookViewController implements Initializable {
 				mainViewController.setView(borderPane);				
 			}
 		});
+		
+		characterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/CharacterView.fxml"));
+				BorderPane borderPane = null;
+				try {
+					borderPane = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				CharacterViewController characterViewController = fxmlLoader.getController();
+				characterViewController.setController(mainViewController);
+
+				mainViewController.setView(borderPane);				
+			}
+		});
+		
+		locationButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LocationView.fxml"));
+				BorderPane borderPane = null;
+				try {
+					borderPane = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				LocationViewController locationViewController = fxmlLoader.getController();
+				locationViewController.setController(mainViewController);
+
+				mainViewController.setView(borderPane);				
+			}
+		});
 	}
 
 	public void convertBookToPane(Libro l) {
