@@ -74,7 +74,7 @@ public class UpdateCharacterViewController implements Initializable {
 
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El personaje tiene que tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El personaje debe tener un nombre"));
 
 		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {

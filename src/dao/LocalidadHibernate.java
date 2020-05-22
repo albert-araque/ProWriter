@@ -32,7 +32,7 @@ public class LocalidadHibernate implements LocalidadDAO {
 
 		Object[] objectArray = CrudManager.getList("Localidad", Localidad.class);		
 		
-		return new ArrayList<Localidad>(Arrays.asList(Arrays.copyOf(objectArray, objectArray.length, Localidad[].class)));	
+		return new ArrayList<Localidad>(Arrays.asList(Arrays.copyOf(objectArray, objectArray.length, Localidad[].class)));
 	}
 
 }

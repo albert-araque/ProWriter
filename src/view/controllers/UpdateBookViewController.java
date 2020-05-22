@@ -5,11 +5,9 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
-
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-
 import dao.DAOManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -71,7 +69,7 @@ public class UpdateBookViewController implements Initializable {
 		// inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText,
-				Validator.createEmptyValidator("El libro tiene que tener un nombre"));
+				Validator.createEmptyValidator("El libro debe tener un nombre"));
 
 		// eventos de click para poder mover la ventana dado que no tiene barra de
 		// titulo

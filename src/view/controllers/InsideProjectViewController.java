@@ -91,7 +91,7 @@ public class InsideProjectViewController implements Initializable {
 				addBookDialog.setScene(dialogScene);
 				addBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningun proyecto seleccionado");
+				selectedBookLabel.setText("Ningún proyecto seleccionado");
 				loadBooks();
 			}
 		});
@@ -128,7 +128,7 @@ public class InsideProjectViewController implements Initializable {
 				updateProjectDialog.setScene(dialogScene);
 				updateProjectDialog.showAndWait();				
 				selectedBook = null;
-				selectedBookLabel.setText("Ningun proyecto seleccionado");
+				selectedBookLabel.setText("Ningún proyecto seleccionado");
 				loadBooks();
 			}
 		});
@@ -146,9 +146,9 @@ public class InsideProjectViewController implements Initializable {
 				}			
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminacion de libro");
-				alert.setHeaderText("Estas a punto de eliminar el libro");
-				alert.setContentText("Estas seguro?");
+				alert.setTitle("Eliminación de libro");
+				alert.setHeaderText("Estás a punto de eliminar el libro");
+				alert.setContentText("¿Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK) {
@@ -164,7 +164,7 @@ public class InsideProjectViewController implements Initializable {
 					DAOManager.getProyectoDAO().updateProyecto(project);
 					
 					selectedBook = null;
-					selectedBookLabel.setText("Ningun proyecto seleccionado");
+					selectedBookLabel.setText("Ningún proyecto seleccionado");
 					loadBooks();
 					
 				}				

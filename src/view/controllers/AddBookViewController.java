@@ -68,7 +68,7 @@ public class AddBookViewController implements Initializable {
 
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro tiene que tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro debe tener un nombre"));
 
 		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -94,7 +94,7 @@ public class AddBookViewController implements Initializable {
 			}
 		});
 
-		//evento de click para añadir el proyecto
+		//evento de click para añadir el libro
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {

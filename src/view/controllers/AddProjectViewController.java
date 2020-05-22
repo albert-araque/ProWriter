@@ -56,7 +56,7 @@ public class AddProjectViewController implements Initializable {
 
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El proyecto tiene que tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El proyecto debe tener un nombre"));
 
 		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {

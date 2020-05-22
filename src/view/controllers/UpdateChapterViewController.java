@@ -2,10 +2,8 @@ package view.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-
 import dao.DAOManager;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -51,8 +49,8 @@ public class UpdateChapterViewController implements Initializable {
 
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El capitulo tiene que tener un nombre"));
-		validationSupport.registerValidator(chapterOrder, Validator.createEmptyValidator("El capitulo tiene que tener un orden"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El capitulo debe tener un nombre"));
+		validationSupport.registerValidator(chapterOrder, Validator.createEmptyValidator("El capitulo debe tener un orden"));
 
 		//impide la introduccion de caracteres no numericos
 		chapterOrder.textProperty().addListener(new ChangeListener<String>() {
@@ -117,9 +115,9 @@ public class UpdateChapterViewController implements Initializable {
 	
 	private void alertRepeated() {
 		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Orden de capitulo repetido");
-		alert.setHeaderText("El orden del capitulo esta repetido");
-		alert.setContentText("El orden del capitulo que has introducido esta repetido, cambialo por uno que no lo este");
+		alert.setTitle("Orden de capítulo repetido");
+		alert.setHeaderText("El orden del capítulo está repetido");
+		alert.setContentText("El orden del capítulo que has introducido está repetido, cámbialo por otro que no lo esté");
 		alert.showAndWait();
 	}
 

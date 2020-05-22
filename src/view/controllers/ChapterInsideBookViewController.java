@@ -86,6 +86,7 @@ public class ChapterInsideBookViewController implements Initializable {
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddChapterView.fxml"));
 				BorderPane dialogRoot = null;
+				
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
@@ -99,7 +100,7 @@ public class ChapterInsideBookViewController implements Initializable {
 				addChapterDialog.showAndWait();
 				loadChapters();
 				selectedChapter = null;
-				selectedChapterLabel.setText("Ningun proyecto seleccionado");
+				selectedChapterLabel.setText("Ningún libro seleccionado");
 			}
 		});
 		
@@ -112,11 +113,11 @@ public class ChapterInsideBookViewController implements Initializable {
 					return;
 				}
 				
-				Stage addChapterDialog = new Stage();
+				Stage updateChapterDialog = new Stage();
 
-				addChapterDialog.initModality(Modality.APPLICATION_MODAL);
-				addChapterDialog.initStyle(StageStyle.UNDECORATED);
-				addChapterDialog.initOwner(Main.getStage());                
+				updateChapterDialog.initModality(Modality.APPLICATION_MODAL);
+				updateChapterDialog.initStyle(StageStyle.UNDECORATED);
+				updateChapterDialog.initOwner(Main.getStage());                
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateChapterView.fxml"));
 				BorderPane dialogRoot = null;
@@ -129,11 +130,11 @@ public class ChapterInsideBookViewController implements Initializable {
 				updateChapterViewController.setChapter(selectedChapter);
 
 				Scene dialogScene = new Scene(dialogRoot, 400, 400);              
-				addChapterDialog.setScene(dialogScene);
-				addChapterDialog.showAndWait();
+				updateChapterDialog.setScene(dialogScene);
+				updateChapterDialog.showAndWait();
 				loadChapters();
 				selectedChapter = null;
-				selectedChapterLabel.setText("Ningun proyecto seleccionado");
+				selectedChapterLabel.setText("Ningún proyecto seleccionado");
 			}
 		});
 		
@@ -147,9 +148,9 @@ public class ChapterInsideBookViewController implements Initializable {
 				}
 				
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminacion de capitulo");
-				alert.setHeaderText("Estas a punto de eliminar el capitulo");
-				alert.setContentText("Estas seguro?");
+				alert.setTitle("Eliminación de capítulo");
+				alert.setHeaderText("Estás a punto de eliminar el capítulo");
+				alert.setContentText("¿Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if (resultado.get() == ButtonType.OK) {
@@ -159,7 +160,7 @@ public class ChapterInsideBookViewController implements Initializable {
 					DAOManager.getLibroDAO().updateLibro(book);
 					
 					selectedChapter = null;
-					selectedChapterLabel.setText("Ningun proyecto seleccionado");
+					selectedChapterLabel.setText("Ningún proyecto seleccionado");
 					loadChapters();
 				}
 			}
@@ -241,7 +242,7 @@ public class ChapterInsideBookViewController implements Initializable {
 
 				if (event.getClickCount() == 1) {
 					selectedChapter = c;
-					selectedChapterLabel.setText("Capitulo seleccionado: " + selectedChapter.getNombre());
+					selectedChapterLabel.setText("Capítulo seleccionado: " + selectedChapter.getNombre());
 					if (errorLabel.isVisible()) errorLabel.setVisible(false);
 				}
 

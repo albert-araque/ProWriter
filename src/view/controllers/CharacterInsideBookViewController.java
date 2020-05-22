@@ -107,7 +107,7 @@ public class CharacterInsideBookViewController implements Initializable {
 				addCharacterDialog.setScene(dialogScene);
 				addCharacterDialog.showAndWait();
 				selectedCharacter = null;
-				selectedCharacterLabel.setText("Ningun personaje seleccionado");
+				selectedCharacterLabel.setText("Ningún personaje seleccionado");
 				loadCharacters();
 			}
 		});
@@ -116,8 +116,6 @@ public class CharacterInsideBookViewController implements Initializable {
 			@Override
 			public void handle(Event event) {
 
-				// ***** DESARROLLO EN PROGRESO *****
-				
 				if (selectedCharacter == null) {
 					errorLabel.setVisible(true);
 					return;
@@ -144,11 +142,8 @@ public class CharacterInsideBookViewController implements Initializable {
 				updateCharacterDialog.setScene(dialogScene);
 				updateCharacterDialog.showAndWait();
 				selectedCharacter = null;
-				selectedCharacterLabel.setText("Ningun proyecto seleccionado");
+				selectedCharacterLabel.setText("Ningún proyecto seleccionado");
 				loadCharacters();
-
-				// ***** DESARROLLO EN PROGRESO *****
-
 			}
 		});
 
@@ -161,9 +156,9 @@ public class CharacterInsideBookViewController implements Initializable {
 				}
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminacion de personaje");
-				alert.setHeaderText("Estas a punto de eliminar el personaje");
-				alert.setContentText("Estas seguro?");
+				alert.setTitle("Eliminación de personaje");
+				alert.setHeaderText("Estás a punto de eliminar el personaje");
+				alert.setContentText("¿Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if (resultado.get() == ButtonType.OK) {
@@ -176,7 +171,7 @@ public class CharacterInsideBookViewController implements Initializable {
 //					DAOManager.getProyectoDAO().updateProyecto(project);
 
 					selectedCharacter = null;
-					selectedCharacterLabel.setText("Ningun proyecto seleccionado");
+					selectedCharacterLabel.setText("Ningún proyecto seleccionado");
 					loadCharacters();
 				}
 			}

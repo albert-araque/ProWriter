@@ -2,8 +2,10 @@ package view.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dao.DAOManager;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -11,14 +13,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Capitulo;
 import model.Escena;
 import model.Libro;
@@ -69,18 +78,90 @@ public class SceneChapterViewController implements Initializable {
 		addSceneButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
+				
+				Stage addSceneDialog = new Stage();
+
+				addSceneDialog.initModality(Modality.APPLICATION_MODAL);
+				addSceneDialog.initStyle(StageStyle.UNDECORATED);
+				addSceneDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddSceneView.fxml"));
+				BorderPane dialogRoot = null;
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+				
+				AddSceneViewController addSceneViewController = fxmlLoader.getController();
+				addSceneViewController.setChapter(chapter);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 550);              
+				addSceneDialog.setScene(dialogScene);
+				addSceneDialog.showAndWait();
+				loadScenes();
+				selectedScene = null;
+				selectedSceneLabel.setText("Ningún capítulo seleccionado");
 			}
 		});
 
 		updateSceneButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
+				
+				if (selectedScene == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+				
+				Stage addChapterDialog = new Stage();
+
+				addChapterDialog.initModality(Modality.APPLICATION_MODAL);
+				addChapterDialog.initStyle(StageStyle.UNDECORATED);
+				addChapterDialog.initOwner(Main.getStage());                
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateSceneView.fxml"));
+				BorderPane dialogRoot = null;
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+				
+				UpdateSceneViewController updateSceneViewController = fxmlLoader.getController();
+				updateSceneViewController.setScene(selectedScene);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 550);              
+				addChapterDialog.setScene(dialogScene);
+				addChapterDialog.showAndWait();
+				loadScenes();
+				selectedScene = null;
+				selectedSceneLabel.setText("Ningún capítulo seleccionado");
 			}
 		});
 		
 		deleteSceneButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
-			public void handle(Event event) {	
+			public void handle(Event event) {
+				if (selectedScene == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+				
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Eliminacion de capitulo");
+				alert.setHeaderText("Estas a punto de eliminar la escena");
+				alert.setContentText("Estas seguro?");
+
+				Optional<ButtonType> resultado = alert.showAndWait();
+				if (resultado.get() == ButtonType.OK) {
+
+					chapter.getEscenas().remove(selectedScene);
+					DAOManager.getEscenaDAO().removeEscena(selectedScene.getId());
+					DAOManager.getCapituloDAO().updateCapitulo(chapter);
+					
+					selectedScene = null;
+					selectedSceneLabel.setText("Ningun proyecto seleccionado");
+					loadScenes();
+				}
 			}
 		});
 		
@@ -104,6 +185,14 @@ public class SceneChapterViewController implements Initializable {
 			}
 		});	
 		
+	}
+	
+	private void loadScenes() {
+		sceneFlowPane.getChildren().clear();
+		
+		for (Escena e : chapter.getEscenas()) {
+			convertSceneToPane(e);
+		}
 	}
 
 	private void convertSceneToPane(Escena e) {
@@ -169,11 +258,7 @@ public class SceneChapterViewController implements Initializable {
 
 	}
 
-	private void loadScenes() {
-		for (Escena e : chapter.getEscenas()) {
-			convertSceneToPane(e);
-		}
-	}
+	
 
 	public void setProject(Proyecto p) {
 		project = p;

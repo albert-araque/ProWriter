@@ -42,8 +42,8 @@ public class AddChapterViewController implements Initializable {
 
 		//inicializa la validacion para que el campo de nombre no se quede vacio
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El capitulo tiene que tener un nombre"));
-		validationSupport.registerValidator(chapterOrder, Validator.createEmptyValidator("El capitulo tiene que tener un orden"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El capítulo debe tener un nombre"));
+		validationSupport.registerValidator(chapterOrder, Validator.createEmptyValidator("El capítulo debe tener un orden"));
 
 		//impide la introduccion de caracteres no numericos
 		chapterOrder.textProperty().addListener(new ChangeListener<String>() {
@@ -72,14 +72,14 @@ public class AddChapterViewController implements Initializable {
 			}
 		});
 
-		//evento de click para añadir el personaje
+		//evento de click para añadir el capítulo
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
 				if (validationSupport.isInvalid()) return;
 				
-				if (isOrderRepeated()) {
+				if (bookIdAndChapterNumberAreTheSame()) {
 					alertRepeated();
 					return;
 				}
@@ -99,18 +99,18 @@ public class AddChapterViewController implements Initializable {
 
 	}
 	
-	private boolean isOrderRepeated() {
+	private boolean bookIdAndChapterNumberAreTheSame() {
 		for (Capitulo cap : DAOManager.getCapituloDAO().getCapitulos()) {
-			if (cap.getNumero() == Integer.valueOf(chapterOrder.getText())) return true;
+			if (cap.getLibro().getId() == book.getId() && cap.getNumero() == Integer.valueOf(chapterOrder.getText())) return true;
 		}
 		return false;
 	}
 	
 	private void alertRepeated() {
 		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Orden de capitulo repetido");
-		alert.setHeaderText("El orden del capitulo esta repetido");
-		alert.setContentText("El orden del capitulo que has introducido esta repetido, cambialo por uno que no lo este");
+		alert.setTitle("Orden de capítulo repetido");
+		alert.setHeaderText("El orden del capítulo está repetido");
+		alert.setContentText("El orden del capítulo que has introducido ya está en ese libro, cámbialo por otro número que no esté");
 		alert.showAndWait();
 	}
 
