@@ -10,12 +10,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class MainViewController implements Initializable{
 	
 	@FXML public AnchorPane rootView;
 	
 	private BorderPane currentView;	
+	private VBox menu = new VBox();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

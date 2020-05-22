@@ -52,20 +52,24 @@ public class ProjectViewController implements Initializable{
 	@FXML public Label errorLabel;
 	@FXML public Label selectedProjectLabel;
 	@FXML public Label selectedPaneLabel;
-	
+
+	@FXML public Pane bookButton;
+	@FXML public Pane characterButton;
+	@FXML public Pane locationButton;
+
 	private Pane projectPane;
 	private Proyecto selectedProject;
 	private MainViewController mainViewController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		projectFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
 		projectFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
 
 		addProjectsFromDB();		
-		
-		//evento al hacer click al boton de añadir
+
+		//evento al hacer click al boton de aï¿½adir
 		addProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -87,7 +91,7 @@ public class ProjectViewController implements Initializable{
 				addProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningún proyecto seleccionado");
+				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
 			}
 		});
 
@@ -122,46 +126,82 @@ public class ProjectViewController implements Initializable{
 				updateProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningún proyecto seleccionado");
+				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
 			}
 		});
-		
+
 		//evento al hacer click en el boton de borrar
 		deleteProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				
+
 				if (selectedProject == null) {
 					errorLabel.setVisible(true);
 					return;
 				}			
-				
+
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminación de proyecto");
-				alert.setHeaderText("Estás a punto de eliminar el proyecto");
-				alert.setContentText("¿Estás seguro?");
+				alert.setTitle("Eliminaciï¿½n de proyecto");
+				alert.setHeaderText("Estï¿½s a punto de eliminar el proyecto");
+				alert.setContentText("ï¿½Estï¿½s seguro?");
 				
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK)
 				{
 					DAOManager.getProyectoDAO().removeProyecto(selectedProject.getId());
 					selectedProject = null;
-					selectedProjectLabel.setText("Ningún proyecto seleccionado");
+					selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
 					addProjectsFromDB();
 				}				
 			}
 		});
+
+		bookButton.setOnMouseClicked(new EventHandler<Event>() {
+
+			@Override
+			public void handle(Event event) {
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/BookView.fxml"));
+				BorderPane borderPane = null;
+				try {
+					borderPane = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				BookViewController bookViewController = fxmlLoader.getController();
+				bookViewController.setController(mainViewController);
+
+				mainViewController.setView(borderPane);
+
+			}
+		});
 		
+		characterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		locationButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
 	}
 
 	public void convertProjectToPane(Proyecto p) {
-		
+
 		if (p == null) return;
 
 		//crea el pane, el "contenedor" donde va a ir la informacion
 		projectPane = new Pane();
 
-		//si el proyecto tiene una imagen, la añade, si no coge una por defecto
+		//si el proyecto tiene una imagen, la aï¿½ade, si no coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
@@ -207,33 +247,33 @@ public class ProjectViewController implements Initializable{
 		projectPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {			
-				
+
 				if (event.getClickCount() == 1) {
 					selectedProject = p;					
 					selectedProjectLabel.setText("Proyecto seleccionado: " + p.getNombre());
 					if (errorLabel.isVisible()) errorLabel.setVisible(false);
 				}
-				
+
 				if (event.getClickCount() == 2) {
-					
+
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideProjectView.fxml"));
 					BorderPane borderPane = null;
 					try {
-						 borderPane = fxmlLoader.load();
+						borderPane = fxmlLoader.load();
 					} catch (IOException e) {
 					}
-					
+
 					InsideProjectViewController insideProjectViewController = fxmlLoader.getController();
 					insideProjectViewController.setProyecto(selectedProject);
 					insideProjectViewController.setController(mainViewController);
-					
+
 					mainViewController.setView(borderPane);
 				}
 			}
 		});
 	}
-	
-	//obtiene todos los proyectos de la base de datos y los añade
+
+	//obtiene todos los proyectos de la base de datos y los aï¿½ade
 	private void addProjectsFromDB() {
 		Platform.runLater(new Runnable() {			
 			@Override
@@ -247,7 +287,7 @@ public class ProjectViewController implements Initializable{
 			}
 		});
 	}
-	
+
 	public void setController(MainViewController controller) {
 		mainViewController = controller;
 	}

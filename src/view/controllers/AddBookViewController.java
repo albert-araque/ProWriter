@@ -58,11 +58,14 @@ public class AddBookViewController implements Initializable {
 				characterList.getItems().addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
 				projectList.getItems().addAll(FXCollections.observableList(DAOManager.getProyectoDAO().getProyectos()));
 				
-				for (Proyecto p : projectList.getItems()) {
-					if (p.getId() == project.getId()) {
-						projectList.getCheckModel().check(p);
+				
+				if (project != null) {
+					for (Proyecto p : projectList.getItems()) {
+						if (p.getId() == project.getId()) {
+							projectList.getCheckModel().check(p);
+						}
 					}
-				}
+				}				
 			}
 		});
 
@@ -126,7 +129,7 @@ public class AddBookViewController implements Initializable {
 	private void addBookToDB(String name, String description, String genre, String imagePath, Set<Personaje> characters, Set<Proyecto> projects) {
 
 		bookToReturn = new Libro(name, description, genre, imagePath, characters, projects);
-		project.getLibros().add(bookToReturn);
+		if (project != null) project.getLibros().add(bookToReturn);
 		DAOManager.getLibroDAO().addLibro(bookToReturn);
 	}
 	
