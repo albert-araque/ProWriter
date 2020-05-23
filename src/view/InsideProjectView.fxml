@@ -60,7 +60,7 @@
 						</Button>
 						<Button fx:id="displayBookButton" alignment="CENTER"
 							layoutX="27.0" layoutY="20.0" mnemonicParsing="false"
-							prefHeight="30.0" prefWidth="120.0" text="Ver proyecto">
+							prefHeight="30.0" prefWidth="120.0" text="Ver libro">
 							<HBox.margin>
 								<Insets right="10.0" />
 							</HBox.margin>

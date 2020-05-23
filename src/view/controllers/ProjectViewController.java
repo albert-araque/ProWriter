@@ -49,6 +49,7 @@ public class ProjectViewController implements Initializable{
 	@FXML public Button addProjectButton;
 	@FXML public Button updateProjectButton;
 	@FXML public Button deleteProjectButton;
+	@FXML public Button displayProjectButton;
 	@FXML public Label errorLabel;
 	@FXML public Label selectedProjectLabel;
 	@FXML public Label selectedPaneLabel;
@@ -153,6 +154,39 @@ public class ProjectViewController implements Initializable{
 					selectedProjectLabel.setText("Ning�n proyecto seleccionado");
 					addProjectsFromDB();
 				}				
+			}
+		});
+		
+		displayProjectButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				
+				if (selectedProject == null) {
+					errorLabel.setVisible(true);
+					return;
+				}				
+
+				Stage displayProjectDialog = new Stage();
+
+				displayProjectDialog.initModality(Modality.APPLICATION_MODAL);
+				displayProjectDialog.initStyle(StageStyle.UNDECORATED);
+				displayProjectDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayProjectView.fxml"));
+				BorderPane dialogRoot = null;
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}				
+
+				DisplayProjectViewController displayController = fxmlLoader.getController();
+				displayController.setProject(selectedProject);
+
+				Scene dialogScene = new Scene(dialogRoot, 600, 490);
+				displayProjectDialog.setScene(dialogScene);
+				displayProjectDialog.showAndWait();
+				selectedProject = null;
+				selectedProjectLabel.setText("Ning�n proyecto seleccionado");				
 			}
 		});
 

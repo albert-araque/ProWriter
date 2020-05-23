@@ -48,6 +48,7 @@ public class LocationViewController implements Initializable {
 	@FXML public Button addLocationButton;
 	@FXML public Button updateLocationButton;
 	@FXML public Button deleteLocationButton;
+	@FXML public Button displayLocationButton;
 	
 	@FXML public Label selectedLocationLabel;
 	@FXML public FlowPane locationFlowPane;
@@ -153,6 +154,40 @@ public class LocationViewController implements Initializable {
 				}				
 			}
 		});
+		
+		displayLocationButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				
+				if (selectedLocation == null) {
+					errorLabel.setVisible(true);
+					return;
+				}				
+
+				Stage displayLocationDialog = new Stage();
+
+				displayLocationDialog.initModality(Modality.APPLICATION_MODAL);
+				displayLocationDialog.initStyle(StageStyle.UNDECORATED);
+				displayLocationDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayLocationView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}				
+
+				DisplayLocationViewController displayController = fxmlLoader.getController();
+				displayController.setLocation(selectedLocation);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 350);
+				displayLocationDialog.setScene(dialogScene);
+				displayLocationDialog.showAndWait();				
+				selectedLocation = null;
+				selectedLocationLabel.setText("Ninguna localidad seleccionada");
+			}
+		});
 
 		projectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -256,7 +291,7 @@ public class LocationViewController implements Initializable {
 
 				if (event.getClickCount() == 1) {
 					selectedLocation = l;
-					selectedLocationLabel.setText("Libro seleccionado: " + l.getNombre());
+					selectedLocationLabel.setText("Localizacion seleccionada: " + l.getNombre());
 					if (errorLabel.isVisible()) errorLabel.setVisible(false);
 				}
 			}

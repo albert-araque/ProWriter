@@ -43,13 +43,13 @@ public class InsideProjectViewController implements Initializable {
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
-//	private static final int BLABEL_YLAY = 300;
 	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
 
 	@FXML public FlowPane bookFlowPane;
 	@FXML public Button addBookButton;
 	@FXML public Button updateBookButton;
 	@FXML public Button deleteBookButton;
+	@FXML public Button displayBookButton;
 	@FXML public Button backButton;
 	@FXML public Label errorLabel;
 	@FXML public Label selectedBookLabel;
@@ -78,7 +78,7 @@ public class InsideProjectViewController implements Initializable {
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddBookView.fxml"));
 				BorderPane dialogRoot = null;
-				
+
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
@@ -91,7 +91,7 @@ public class InsideProjectViewController implements Initializable {
 				addBookDialog.setScene(dialogScene);
 				addBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningún proyecto seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				loadBooks();
 			}
 		});
@@ -115,7 +115,7 @@ public class InsideProjectViewController implements Initializable {
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateBookView.fxml"));
 				BorderPane dialogRoot = null;
-				
+
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
@@ -128,12 +128,12 @@ public class InsideProjectViewController implements Initializable {
 				updateProjectDialog.setScene(dialogScene);
 				updateProjectDialog.showAndWait();				
 				selectedBook = null;
-				selectedBookLabel.setText("Ningún proyecto seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				loadBooks();
 			}
 		});
 
-		
+
 		//Esto borra el libro de la base de datos y lo que deberia hacer es borrar el libro unicamente del proyecto, es decir quitar la relacion que tiene proyecto y libro
 		//evento al hacer click en el boton de borrar
 		deleteBookButton.setOnMouseClicked(new EventHandler<Event>() {
@@ -152,36 +152,69 @@ public class InsideProjectViewController implements Initializable {
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK) {
-					
+
 					//Esta línea, si estuviera descomentada,
 					//borraría el libro de la base de datos
 					//DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
-					
+
 					//Esta línea elimina el libro seleccionado del set de libros del proyecto
 					project.getLibros().remove(selectedBook);
-					
+
 					//Ahora solo queda reflejarlo en la base de datos, con un update
 					DAOManager.getProyectoDAO().updateProyecto(project);
-					
+
 					selectedBook = null;
-					selectedBookLabel.setText("Ningún proyecto seleccionado");
+					selectedBookLabel.setText("Ningún libro seleccionado");
 					loadBooks();
-					
+
 				}				
 			}
 		});
-		
+
+		displayBookButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				if (selectedBook == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+
+				Stage displayBookDialog = new Stage();
+
+				displayBookDialog.initModality(Modality.APPLICATION_MODAL);
+				displayBookDialog.initStyle(StageStyle.UNDECORATED);
+				displayBookDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayBookView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}				
+
+				DisplayBookViewController displayController = fxmlLoader.getController();
+				displayController.setBook(selectedBook);
+
+				Scene dialogScene = new Scene(dialogRoot, 600, 770);
+				displayBookDialog.setScene(dialogScene);
+				displayBookDialog.showAndWait();				
+				selectedBook = null;
+				selectedBookLabel.setText("Ningun libro seleccionado");			
+			}
+		});
+
 		backButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				
+
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ProjectView.fxml"));
 				BorderPane borderPane = null;
 				try {
 					borderPane =fxmlLoader.load();
 				} catch (IOException e) {
 				}
-				
+
 				ProjectViewController projectViewController = fxmlLoader.getController();
 				projectViewController.setController(mainViewController);
 
@@ -207,7 +240,7 @@ public class InsideProjectViewController implements Initializable {
 		//crea el pane, el "contenedor" donde va a ir la informacion
 		bookPane = new Pane();
 
-		//si el proyecto tiene una imagen, la añade, si no coge una por defecto
+		//si el libro tiene una imagen, la añade, si no coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
@@ -216,7 +249,7 @@ public class InsideProjectViewController implements Initializable {
 		else {			
 			projectImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
-		
+
 		Label nameLabel = new Label();
 		Label characterLabel = new Label();
 
@@ -239,8 +272,8 @@ public class InsideProjectViewController implements Initializable {
 		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
-		
-//		characterLabel.setText("Numero de personajes: " + l.getPersonajes().size());
+
+		characterLabel.setText("Numero de personajes: " + l.getPersonajes().size());
 		characterLabel.setLayoutX(LABEL_XLAY);
 		characterLabel.setLayoutY(NLABEL_YLAY+ 10);
 
@@ -248,7 +281,7 @@ public class InsideProjectViewController implements Initializable {
 		bookPane.getChildren().add(projectImage);	
 		bookFlowPane.getChildren().add(bookPane);
 
-		//evento de click para que al hacer click sobre un contenedor de proyecto se quede como seleccionado tanto el proyecto como el contenedor
+		//evento de click para seleccionar el objeto
 		bookPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {			

@@ -77,8 +77,7 @@ public class AddSceneViewController implements Initializable {
 				locationChoiceBox.setValue("Seleccione una localidad para continuar");
 				
 				//Cargamos la lista de personajes que aparecen en la escena
-				characterList.getItems()
-						.addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
+				characterList.getItems().addAll(FXCollections.observableList(new ArrayList<Personaje>(chapter.getLibro().getPersonajes())));
 			}
 		});
 
@@ -109,8 +108,7 @@ public class AddSceneViewController implements Initializable {
 			@Override
 			public void handle(Event event) {
 
-				if (validationSupport.isInvalid())
-					return;
+				if (validationSupport.isInvalid() || locationChoiceBox.getSelectionModel().getSelectedIndex() == 0)	return;
 				
 				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades())
 				{

@@ -46,22 +46,15 @@ public class CharacterInsideBookViewController implements Initializable {
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public Label selectedCharacterLabel;
-	@FXML
-	public Label errorLabel;
-	@FXML
-	public Label bookNameDisplay;
-	@FXML
-	public Button backButton;
-	@FXML
-	public Button addCharacterButton;
-	@FXML
-	public Button updateCharacterButton;
-	@FXML
-	public Button deleteCharacterButton;
-	@FXML
-	public FlowPane characterFlowPane;
+	@FXML public Label selectedCharacterLabel;
+	@FXML public Label errorLabel;
+	@FXML public Label bookNameDisplay;
+	@FXML public Button backButton;
+	@FXML public Button addCharacterButton;
+	@FXML public Button updateCharacterButton;
+	@FXML public Button deleteCharacterButton;
+	@FXML public Button displayCharacterButton;
+	@FXML public FlowPane characterFlowPane;
 
 	private MainViewController mainViewController;
 	private Libro book;
@@ -142,7 +135,7 @@ public class CharacterInsideBookViewController implements Initializable {
 				updateCharacterDialog.setScene(dialogScene);
 				updateCharacterDialog.showAndWait();
 				selectedCharacter = null;
-				selectedCharacterLabel.setText("Ningún proyecto seleccionado");
+				selectedCharacterLabel.setText("Ningún personaje seleccionado");
 				loadCharacters();
 			}
 		});
@@ -168,12 +161,45 @@ public class CharacterInsideBookViewController implements Initializable {
 						System.out.println(p);
 					}
 					DAOManager.getLibroDAO().updateLibro(book);
-//					DAOManager.getProyectoDAO().updateProyecto(project);
 
 					selectedCharacter = null;
-					selectedCharacterLabel.setText("Ningún proyecto seleccionado");
+					selectedCharacterLabel.setText("Ningún personaje seleccionado");
 					loadCharacters();
 				}
+			}
+		});
+		
+		displayCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				
+				if (selectedCharacter == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+				
+				Stage displayCharacterDialog = new Stage();
+
+				displayCharacterDialog.initModality(Modality.APPLICATION_MODAL);
+				displayCharacterDialog.initStyle(StageStyle.UNDECORATED);
+				displayCharacterDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayCharacterView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				DisplayCharacterViewController displayController = fxmlLoader.getController();
+				displayController.setCharacter(selectedCharacter);
+
+				Scene dialogScene = new Scene(dialogRoot, 600, 630);
+				displayCharacterDialog.setScene(dialogScene);
+				displayCharacterDialog.showAndWait();
+				selectedCharacter = null;
+				selectedCharacterLabel.setText("Ningún personaje seleccionado");				
 			}
 		});
 
@@ -201,7 +227,7 @@ public class CharacterInsideBookViewController implements Initializable {
 
 	private void loadCharacters() {
 		characterFlowPane.getChildren().clear();
-		
+
 		for (Personaje p : book.getPersonajes()) {
 			convertCharacterToPane(p);
 		}
@@ -251,30 +277,9 @@ public class CharacterInsideBookViewController implements Initializable {
 		characterPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-
-				if (event.getClickCount() == 1) {
-					selectedCharacter = p;
-					selectedCharacterLabel.setText("Personaje seleccionado: " + selectedCharacter.getNombre());
-					if (errorLabel.isVisible())
-						errorLabel.setVisible(false);
-				}
-
-//				if (event.getClickCount() == 2) {
-//
-//					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideBookView.fxml"));
-//					BorderPane borderPane = null;
-//					try {
-//						borderPane = fxmlLoader.load();
-//					} catch (IOException e) {
-//					}
-//
-//					InsideBookViewController insideBookViewController = fxmlLoader.getController();
-//					insideBookViewController.setProject(project);
-//					insideBookViewController.setBook(selectedCharacter);
-//					insideBookViewController.setController(mainViewController);
-//
-//					mainViewController.setView(borderPane);
-//				}
+				selectedCharacter = p;
+				selectedCharacterLabel.setText("Personaje seleccionado: " + selectedCharacter.getNombre());
+				if (errorLabel.isVisible()) errorLabel.setVisible(false);
 			}
 		});
 

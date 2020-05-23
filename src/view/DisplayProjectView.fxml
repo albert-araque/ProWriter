@@ -9,44 +9,31 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane"
-	xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="view.controllers.DisplayProjectViewController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.DisplayProjectViewController">
 	<center>
 	</center>
 	<bottom>
-		<Pane prefHeight="490.0" prefWidth="600.0"
-			style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
+		<Pane prefHeight="490.0" prefWidth="600.0" style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
 			<children>
-				<ImageView fx:id="imageView" fitHeight="142.0"
-					fitWidth="150.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" />
-				<Label fx:id="nameLabel" layoutX="184.0" layoutY="37.0"
-					prefHeight="25.0" prefWidth="394.0" text="Nombre: ">
+				<ImageView fx:id="imageView" fitHeight="142.0" fitWidth="150.0" layoutX="25.0" layoutY="14.0" pickOnBounds="true" />
+				<Label fx:id="nameLabel" layoutX="184.0" layoutY="37.0" prefHeight="25.0" prefWidth="394.0" text="Nombre: ">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Label layoutX="184.0" layoutY="119.0" prefHeight="25.0"
-					prefWidth="92.0" text="Descripción:">
+				<Label layoutX="184.0" layoutY="119.0" prefHeight="25.0" prefWidth="92.0" text="Descripción:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<TextArea fx:id="descriptionText" editable="false"
-					layoutX="25.0" layoutY="166.0" prefHeight="100.0" prefWidth="550.0" />
-				<Label layoutX="25.0" layoutY="282.0" prefHeight="25.0"
-					prefWidth="543.0"
-					text="Este proyecto contiene los siguientes libros:">
+				<TextArea fx:id="descriptionText" editable="false" layoutX="25.0" layoutY="166.0" prefHeight="100.0" prefWidth="550.0" />
+				<Label layoutX="25.0" layoutY="282.0" prefHeight="25.0" prefWidth="543.0" text="Este proyecto contiene los siguientes libros:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<ListView fx:id="bookList" layoutX="25.0" layoutY="313.0"
-					prefHeight="100.0" prefWidth="550.0" />
-				<Button fx:id="closeButton" layoutX="497.0" layoutY="430.0"
-					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
-					text="Cerrar" />
+				<ListView fx:id="bookList" layoutX="25.0" layoutY="313.0" prefHeight="100.0" prefWidth="550.0" />
+				<Button fx:id="closeButton" layoutX="497.0" layoutY="430.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="Cerrar" />
 			</children>
 		</Pane>
 	</bottom>

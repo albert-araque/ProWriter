@@ -47,6 +47,7 @@ public class BookViewController implements Initializable {
 	@FXML public Button addBookButton;
 	@FXML public Button updateBookButton;
 	@FXML public Button deleteBookButton;
+	@FXML public Button displayBookButton;
 	@FXML public Label errorLabel;
 	@FXML public Label selectedBookLabel;
 
@@ -66,7 +67,7 @@ public class BookViewController implements Initializable {
 
 		addBooksFromDB();
 
-		//evento al hacer click al boton de añadir
+		//evento al hacer click al boton de aï¿½adir
 		addBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -88,7 +89,7 @@ public class BookViewController implements Initializable {
 				addBookDialog.setScene(dialogScene);
 				addBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningún libro seleccionado");
+				selectedBookLabel.setText("Ningï¿½n libro seleccionado");
 				addBooksFromDB();
 			}
 		});
@@ -98,7 +99,6 @@ public class BookViewController implements Initializable {
 			@Override
 			public void handle(Event event) {
 
-				//!!!! SI SE DESCOMENTA SELECTEDPANE AÑADIR AQUI
 				if (selectedBook == null) {
 					errorLabel.setVisible(true);
 					return;
@@ -125,7 +125,7 @@ public class BookViewController implements Initializable {
 				updateBookDialog.setScene(dialogScene);
 				updateBookDialog.showAndWait();				
 				selectedBook = null;
-				selectedBookLabel.setText("Ningún libro seleccionado");
+				selectedBookLabel.setText("Ningï¿½n libro seleccionado");
 				addBooksFromDB();
 			}
 		});
@@ -140,9 +140,9 @@ public class BookViewController implements Initializable {
 				}			
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminación de libro");
-				alert.setHeaderText("Estás a punto de eliminar el libro de todos los proyectos");
-				alert.setContentText("¿Estás seguro?");
+				alert.setTitle("Eliminaciï¿½n de libro");
+				alert.setHeaderText("Estï¿½s a punto de eliminar el libro de todos los proyectos");
+				alert.setContentText("ï¿½Estï¿½s seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK) {
@@ -150,9 +150,42 @@ public class BookViewController implements Initializable {
 					DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
 
 					selectedBook = null;
-					selectedBookLabel.setText("Ningún libro seleccionado");
+					selectedBookLabel.setText("Ningï¿½n libro seleccionado");
 					addBooksFromDB();
 				}				
+			}
+		});
+
+		displayBookButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				if (selectedBook == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+
+				Stage displayBookDialog = new Stage();
+
+				displayBookDialog.initModality(Modality.APPLICATION_MODAL);
+				displayBookDialog.initStyle(StageStyle.UNDECORATED);
+				displayBookDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayBookView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}				
+
+				DisplayBookViewController displayController = fxmlLoader.getController();
+				displayController.setBook(selectedBook);
+
+				Scene dialogScene = new Scene(dialogRoot, 600, 770);
+				displayBookDialog.setScene(dialogScene);
+				displayBookDialog.showAndWait();				
+				selectedBook = null;
+				selectedBookLabel.setText("Ningun libro seleccionado");			
 			}
 		});
 
@@ -173,11 +206,11 @@ public class BookViewController implements Initializable {
 				mainViewController.setView(borderPane);				
 			}
 		});
-		
+
 		characterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				
+
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/CharacterView.fxml"));
 				BorderPane borderPane = null;
 				try {
@@ -191,7 +224,7 @@ public class BookViewController implements Initializable {
 				mainViewController.setView(borderPane);				
 			}
 		});
-		
+
 		locationButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -218,7 +251,7 @@ public class BookViewController implements Initializable {
 		//crea el pane, el "contenedor" donde va a ir la informacion
 		bookPane = new Pane();
 
-		//si el proyecto tiene una imagen, la añade, si no coge una por defecto
+		//si el libro tiene una imagen, la aï¿½ade, si no coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
@@ -251,7 +284,7 @@ public class BookViewController implements Initializable {
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
 
-		//		characterLabel.setText("Numero de personajes: " + l.getPersonajes().size());
+		characterLabel.setText("Numero de personajes: " + l.getPersonajes().size());
 		characterLabel.setLayoutX(LABEL_XLAY);
 		characterLabel.setLayoutY(NLABEL_YLAY+ 10);
 
@@ -259,33 +292,15 @@ public class BookViewController implements Initializable {
 		bookPane.getChildren().add(projectImage);	
 		bookFlowPane.getChildren().add(bookPane);
 
-		//evento de click para que al hacer click sobre un contenedor de proyecto se quede como seleccionado tanto el proyecto como el contenedor
+		//evento de click para seleccionar el objeto
 		bookPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {			
 
-				if (event.getClickCount() == 1) {
-					selectedBook = l;
-					selectedBookLabel.setText("Libro seleccionado: " + l.getNombre());
-					if (errorLabel.isVisible()) errorLabel.setVisible(false);
-				}
+				selectedBook = l;
+				selectedBookLabel.setText("Libro seleccionado: " + l.getNombre());
+				if (errorLabel.isVisible()) errorLabel.setVisible(false);
 
-				//				if (event.getClickCount() == 2) {
-				//
-				//					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/InsideBookView.fxml"));
-				//					BorderPane borderPane = null;
-				//					try {
-				//						borderPane = fxmlLoader.load();
-				//					} catch (IOException e) {
-				//					}
-				//
-				//					InsideBookViewController insideBookViewController = fxmlLoader.getController();
-				//					insideBookViewController.setProject(project);
-				//					insideBookViewController.setBook(selectedBook);
-				//					insideBookViewController.setController(mainViewController);
-				//
-				//					mainViewController.setView(borderPane);
-				//				}
 			}
 		});
 	}

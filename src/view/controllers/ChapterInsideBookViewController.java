@@ -52,6 +52,7 @@ public class ChapterInsideBookViewController implements Initializable {
 	@FXML public Button addChapterButton;
 	@FXML public Button updateChapterButton;
 	@FXML public Button deleteChapterButton;
+	@FXML public Button displayChapterButton;
 	@FXML public FlowPane chapterFlowPane;
 	
 	private MainViewController mainViewController;
@@ -100,7 +101,7 @@ public class ChapterInsideBookViewController implements Initializable {
 				addChapterDialog.showAndWait();
 				loadChapters();
 				selectedChapter = null;
-				selectedChapterLabel.setText("Ningún libro seleccionado");
+				selectedChapterLabel.setText("Ningún capitulo seleccionado");
 			}
 		});
 		
@@ -134,7 +135,7 @@ public class ChapterInsideBookViewController implements Initializable {
 				updateChapterDialog.showAndWait();
 				loadChapters();
 				selectedChapter = null;
-				selectedChapterLabel.setText("Ningún proyecto seleccionado");
+				selectedChapterLabel.setText("Ningún capitulo seleccionado");
 			}
 		});
 		
@@ -160,9 +161,42 @@ public class ChapterInsideBookViewController implements Initializable {
 					DAOManager.getLibroDAO().updateLibro(book);
 					
 					selectedChapter = null;
-					selectedChapterLabel.setText("Ningún proyecto seleccionado");
+					selectedChapterLabel.setText("Ningún capitulo seleccionado");
 					loadChapters();
 				}
+			}
+		});
+		
+		displayChapterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				
+				if (selectedChapter == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+				
+				Stage displayChapterDialog = new Stage();
+
+				displayChapterDialog.initModality(Modality.APPLICATION_MODAL);
+				displayChapterDialog.initStyle(StageStyle.UNDECORATED);
+				displayChapterDialog.initOwner(Main.getStage());                
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayChapterView.fxml"));
+				BorderPane dialogRoot = null;
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+				
+				DisplayChapterViewController displayChapterViewController = fxmlLoader.getController();
+				displayChapterViewController.setChapter(selectedChapter);
+
+				Scene dialogScene = new Scene(dialogRoot, 600, 415);              
+				displayChapterDialog.setScene(dialogScene);
+				displayChapterDialog.showAndWait();
+				selectedChapter = null;
+				selectedChapterLabel.setText("Ningún proyecto seleccionado");
 			}
 		});
 		

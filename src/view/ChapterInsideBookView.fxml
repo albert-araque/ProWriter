@@ -52,7 +52,7 @@
 								<Insets right="10.0" />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="displayBookButton" alignment="CENTER"
+						<Button fx:id="displayChapterButton" alignment="CENTER"
 							layoutX="27.0" layoutY="20.0" mnemonicParsing="false"
 							prefHeight="30.0" prefWidth="120.0" text="Ver capitulo">
 							<HBox.margin>

@@ -50,6 +50,7 @@ public class CharacterViewController implements Initializable {
 	@FXML public Button addCharacterButton;
 	@FXML public Button updateCharacterButton;
 	@FXML public Button deleteCharacterButton;
+	@FXML public Button displayCharacterButton;
 	
 	@FXML public Label selectedCharacterLabel;
 	@FXML public FlowPane characterFlowPane;
@@ -152,6 +153,40 @@ public class CharacterViewController implements Initializable {
 					selectedCharacterLabel.setText("Ningún personaje seleccionado");
 					addCharactersFromDB();
 				}				
+			}
+		});
+		
+		displayCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+
+				if (selectedCharacter == null) {
+					errorLabel.setVisible(true);
+					return;
+				}				
+
+				Stage displayCharacterDialog = new Stage();
+
+				displayCharacterDialog.initModality(Modality.APPLICATION_MODAL);
+				displayCharacterDialog.initStyle(StageStyle.UNDECORATED);
+				displayCharacterDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayCharacterView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}				
+
+				DisplayCharacterViewController displayController = fxmlLoader.getController();
+				displayController.setCharacter(selectedCharacter);
+
+				Scene dialogScene = new Scene(dialogRoot, 600, 630);
+				displayCharacterDialog.setScene(dialogScene);
+				displayCharacterDialog.showAndWait();				
+				selectedCharacter = null;
+				selectedCharacterLabel.setText("Ningún personaje seleccionado");
 			}
 		});
 
@@ -265,7 +300,7 @@ public class CharacterViewController implements Initializable {
 
 				if (event.getClickCount() == 1) {
 					selectedCharacter = p;
-					selectedCharacterLabel.setText("Libro seleccionado: " + p.getNombre());
+					selectedCharacterLabel.setText("Personaje seleccionado: " + p.getNombre());
 					if (errorLabel.isVisible()) errorLabel.setVisible(false);
 				}
 			}
