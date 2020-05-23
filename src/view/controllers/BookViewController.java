@@ -88,7 +88,7 @@ public class BookViewController implements Initializable {
 				addBookDialog.setScene(dialogScene);
 				addBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningun proyecto seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				addBooksFromDB();
 			}
 		});
@@ -104,11 +104,11 @@ public class BookViewController implements Initializable {
 					return;
 				}				
 
-				Stage updateProjectDialog = new Stage();
+				Stage updateBookDialog = new Stage();
 
-				updateProjectDialog.initModality(Modality.APPLICATION_MODAL);
-				updateProjectDialog.initStyle(StageStyle.UNDECORATED);
-				updateProjectDialog.initOwner(Main.getStage());
+				updateBookDialog.initModality(Modality.APPLICATION_MODAL);
+				updateBookDialog.initStyle(StageStyle.UNDECORATED);
+				updateBookDialog.initOwner(Main.getStage());
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateBookView.fxml"));
 				BorderPane dialogRoot = null;
@@ -122,10 +122,10 @@ public class BookViewController implements Initializable {
 				updateController.setBook(selectedBook);
 
 				Scene dialogScene = new Scene(dialogRoot, 400, 750);
-				updateProjectDialog.setScene(dialogScene);
-				updateProjectDialog.showAndWait();				
+				updateBookDialog.setScene(dialogScene);
+				updateBookDialog.showAndWait();				
 				selectedBook = null;
-				selectedBookLabel.setText("Ningun proyecto seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				addBooksFromDB();
 			}
 		});
@@ -140,9 +140,9 @@ public class BookViewController implements Initializable {
 				}			
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminacion de libro");
-				alert.setHeaderText("Estas a punto de eliminar el libro de todos los proyectos");
-				alert.setContentText("Estas seguro?");
+				alert.setTitle("Eliminación de libro");
+				alert.setHeaderText("Estás a punto de eliminar el libro de todos los proyectos");
+				alert.setContentText("¿Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK) {
@@ -150,7 +150,7 @@ public class BookViewController implements Initializable {
 					DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
 
 					selectedBook = null;
-					selectedBookLabel.setText("Ningun proyecto seleccionado");
+					selectedBookLabel.setText("Ningún libro seleccionado");
 					addBooksFromDB();
 				}				
 			}

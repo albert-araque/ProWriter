@@ -52,7 +52,6 @@ public class UpdateCharacterViewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		//Carga de los personajes que tiene un libro
-		
 		SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 9999);		
 		ageSpinner.setValueFactory(spinnerValueFactory);
 	
