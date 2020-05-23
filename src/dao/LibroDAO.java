@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.ArrayList;
+
 import model.Libro;
 
 public interface LibroDAO {
@@ -11,4 +13,6 @@ public interface LibroDAO {
 	public void updateLibro(Libro updatedLibro);
 
 	public Integer removeLibro(Integer idLibro);
+	
+	public ArrayList<Libro> getLibros();
 }

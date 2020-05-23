@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.ArrayList;
+
 import model.Proyecto;
 
 public interface ProyectoDAO {
@@ -11,5 +13,7 @@ public interface ProyectoDAO {
 	public void updateProyecto(Proyecto updatedProyecto);
 	
 	public Integer removeProyecto(Integer idProyecto);
+	
+	public ArrayList<Proyecto> getProyectos();
 
 }

@@ -1,5 +1,6 @@
 package dao;
 
+
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -14,8 +15,10 @@ import model.Proyecto;
 
 public class CrudManager {
 	
-	public static Integer add(Object object) {
-		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+	static Session session;
+	
+	public static synchronized Integer add(Object object) {
+		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		Integer id = 0;
 		
@@ -28,11 +31,12 @@ public class CrudManager {
 		} finally {
 			session.close();
 		}
+		
 		return id;
 	}
 	
-	public static Object get(Integer idObject, Class<?> objectClass) {
-		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+	public static synchronized Object get(Integer idObject, Class<?> objectClass) {
+		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		Object object = null;
 		
@@ -45,13 +49,13 @@ public class CrudManager {
 			if (transaction != null) transaction.rollback();
 		} finally {
 			session.close();
-		}
+		}		
 		
 		return object;
 	}
 	
-	public static void update(Object object) {
-		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+	public static synchronized void update(Object object) {
+		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		
 		try {
@@ -65,8 +69,8 @@ public class CrudManager {
 		}
 	}
 	
-	public static Integer remove(Integer idObject, Class<?> objectClass) {
-		Session session = SessionFactoryUtil.getSessionFactory().openSession();
+	public static synchronized Integer remove(Integer idObject, Class<?> objectClass) {
+		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		Object object = null;
 		
@@ -80,12 +84,37 @@ public class CrudManager {
 			if (transaction != null) transaction.rollback();
 		} finally {
 			session.close();
-		}
+		}		
 		
 		return idObject;
 	}
 	
-	private static void initializeSet(Object object) {
+	public static synchronized Object[] getList(String className, Class<?> objectClass) {		
+		session = SessionFactoryUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		Object[] objectList = null;
+		
+		try {
+			transaction = session.beginTransaction();
+			objectList = (Object[]) session.createQuery("FROM " + className, objectClass).list().toArray();
+			
+			for (Object object : objectList) {
+				initializeSet(object);
+			}			
+		} catch (HibernateException exception)  {
+			if (transaction != null) transaction.rollback();
+		} finally {
+			session.close();
+		}
+		
+		return objectList;
+	}
+	
+	public static void closeSession() {
+		session.close();
+	}
+	
+	private static synchronized void initializeSet(Object object) {
 		
 		if (object instanceof Proyecto) {
 			Hibernate.initialize(((Proyecto) object).getLibros());
@@ -93,6 +122,7 @@ public class CrudManager {
 			Hibernate.initialize(((Capitulo) object).getEscenas());
 		} else if (object instanceof Escena) {
 			Hibernate.initialize(((Escena) object).getPersonajes());
+			Hibernate.initialize(((Escena) object).getLocalidad());
 		} else if (object instanceof Libro) {
 			Hibernate.initialize(((Libro) object).getCapitulos());
 			Hibernate.initialize(((Libro) object).getPersonajes());
@@ -105,7 +135,7 @@ public class CrudManager {
 		}
 	}
 	
-	private static Integer getId(Object object) {
+	private static synchronized Integer getId(Object object) {
 		
 		if (object instanceof Proyecto) {
 			return ((Proyecto) object).getId();
@@ -121,7 +151,6 @@ public class CrudManager {
 			return ((Personaje) object).getId();
 		}
 		
-		return null;
-		
+		return null;		
 	}
 }

@@ -9,12 +9,14 @@ import java.util.Set;
  */
 public class Escena implements java.io.Serializable {
 
+	private static final long serialVersionUID = -2108701616098456638L;
+	
 	private Integer id;
 	private Capitulo capitulo;
 	private Localidad localidad;
 	private String nombre;
 	private String descripcion;
-	private Set personajes = new HashSet(0);
+	private Set<Personaje> personajes = new HashSet<Personaje>(0);
 
 	public Escena() {
 	}
@@ -24,7 +26,7 @@ public class Escena implements java.io.Serializable {
 		this.localidad = localidad;
 	}
 
-	public Escena(Capitulo capitulo, Localidad localidad, String nombre, String descripcion, Set personajes) {
+	public Escena(Capitulo capitulo, Localidad localidad, String nombre, String descripcion, Set<Personaje> personajes) {
 		this.capitulo = capitulo;
 		this.localidad = localidad;
 		this.nombre = nombre;
@@ -72,12 +74,19 @@ public class Escena implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public Set getPersonajes() {
+	public Set<Personaje> getPersonajes() {
 		return this.personajes;
 	}
 
-	public void setPersonajes(Set personajes) {
+	public void setPersonajes(Set<Personaje> personajes) {
 		this.personajes = personajes;
 	}
+
+	@Override
+	public String toString() {
+		return "Capitulo: " + capitulo.getNombre() + ", escena: " + getNombre();
+	}
+	
+	
 
 }

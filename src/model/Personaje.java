@@ -9,6 +9,8 @@ import java.util.Set;
  */
 public class Personaje implements java.io.Serializable {
 
+	private static final long serialVersionUID = -7626081051608511419L;
+	
 	private Integer id;
 	private String nombre;
 	private String apellido1;
@@ -16,8 +18,8 @@ public class Personaje implements java.io.Serializable {
 	private Integer edad;
 	private String descripcion;
 	private String imagen;
-	private Set libros = new HashSet(0);
-	private Set escenas = new HashSet(0);
+	private Set<Libro> libros = new HashSet<Libro>(0);
+	private Set<Escena> escenas = new HashSet<Escena>(0);
 
 	public Personaje() {
 	}
@@ -25,9 +27,19 @@ public class Personaje implements java.io.Serializable {
 	public Personaje(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	public Personaje(String nombre, String apellido1, String apellido2, Integer edad, String descripcion, String imagen, Set<Libro> libros) {
+		this.nombre = nombre;
+		this.apellido1 = apellido1;
+		this.apellido2 = apellido2;
+		this.edad = edad;
+		this.descripcion = descripcion;
+		this.imagen = imagen;
+		this.libros = libros;
+	}
 
 	public Personaje(String nombre, String apellido1, String apellido2, Integer edad, String descripcion, String imagen,
-			Set libros, Set escenas) {
+			Set<Libro> libros, Set<Escena> escenas) {
 		this.nombre = nombre;
 		this.apellido1 = apellido1;
 		this.apellido2 = apellido2;
@@ -94,20 +106,27 @@ public class Personaje implements java.io.Serializable {
 		this.imagen = imagen;
 	}
 
-	public Set getLibros() {
+	public Set<Libro> getLibros() {
 		return this.libros;
 	}
 
-	public void setLibros(Set libros) {
+	public void setLibros(Set<Libro> libros) {
 		this.libros = libros;
 	}
 
-	public Set getEscenas() {
+	public Set<Escena> getEscenas() {
 		return this.escenas;
 	}
 
-	public void setEscenas(Set escenas) {
+	public void setEscenas(Set<Escena> escenas) {
 		this.escenas = escenas;
 	}
+
+	@Override
+	public String toString() {
+		return getNombre();
+	}
+	
+	
 
 }

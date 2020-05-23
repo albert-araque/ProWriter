@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.ArrayList;
+
 import model.Escena;
 
 public interface EscenaDAO {
@@ -11,5 +13,7 @@ public interface EscenaDAO {
 	public void updateEscena(Escena updatedEscena);
 	
 	public Integer removeEscena(Integer idEscena);
+	
+	public ArrayList<Escena> getEscenas();
 
 }

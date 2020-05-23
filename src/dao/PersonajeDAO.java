@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.ArrayList;
+
 import model.Personaje;
 
 public interface PersonajeDAO {
@@ -11,5 +13,7 @@ public interface PersonajeDAO {
 	public void updatePersonaje(Personaje updatedPersonaje);
 	
 	public Integer removePersonaje(Integer idPersonaje);
+	
+	public ArrayList<Personaje> getPersonajes();
 
 }
