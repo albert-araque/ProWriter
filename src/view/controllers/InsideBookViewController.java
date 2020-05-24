@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import model.Libro;
@@ -24,6 +26,8 @@ public class InsideBookViewController implements Initializable {
 	@FXML public Pane chapterPane;
 	@FXML public Label bookNameDisplay;
 	@FXML public Button backButton;
+	@FXML public ImageView characterPaneImage;
+	@FXML public ImageView chapterPaneImage;
 	
 	private MainViewController mainViewController;
 	private Libro book;
@@ -36,6 +40,9 @@ public class InsideBookViewController implements Initializable {
 			@Override
 			public void run() {
 				bookNameDisplay.setText(project.getNombre() + " > " + book.getNombre());
+				
+				characterPaneImage.setImage(new Image("resources/character_icon.png"));
+				chapterPaneImage.setImage(new Image("resources/capitulo_icono.png"));
 			}
 		});
 		

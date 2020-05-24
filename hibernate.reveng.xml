@@ -2,13 +2,13 @@
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
 
 <hibernate-reverse-engineering>
-  <table-filter match-catalog="prowriterdb" match-name="capitulo"/>
-  <table-filter match-catalog="prowriterdb" match-name="escena"/>
-  <table-filter match-catalog="prowriterdb" match-name="escena_personaje"/>
-  <table-filter match-catalog="prowriterdb" match-name="libro"/>
-  <table-filter match-catalog="prowriterdb" match-name="libro_personaje"/>
-  <table-filter match-catalog="prowriterdb" match-name="localidad"/>
-  <table-filter match-catalog="prowriterdb" match-name="personaje"/>
-  <table-filter match-catalog="prowriterdb" match-name="proyecto"/>
-  <table-filter match-catalog="prowriterdb" match-name="proyecto_libro"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="capitulo"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="escena"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="escena_personaje"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="libro"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="libro_personaje"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="localidad"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="personaje"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="proyecto"/>
+  <table-filter match-catalog="prowriterdb" match-schema="public" match-name="proyecto_libro"/>
 </hibernate-reverse-engineering>

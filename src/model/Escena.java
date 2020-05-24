@@ -1,5 +1,5 @@
 package model;
-// Generated 14-may-2020 19:33:07 by Hibernate Tools 5.4.14.Final
+// Generated 23-may-2020 19:25:06 by Hibernate Tools 5.4.14.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,13 +9,16 @@ import java.util.Set;
  */
 public class Escena implements java.io.Serializable {
 
-	private static final long serialVersionUID = -2108701616098456638L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2617893976012216846L;
 	private Integer id;
 	private Capitulo capitulo;
 	private Localidad localidad;
 	private String nombre;
 	private String descripcion;
+	private Integer orden;
 	private Set<Personaje> personajes = new HashSet<Personaje>(0);
 
 	public Escena() {
@@ -26,12 +29,22 @@ public class Escena implements java.io.Serializable {
 		this.localidad = localidad;
 	}
 
-	public Escena(Capitulo capitulo, Localidad localidad, String nombre, String descripcion, Set<Personaje> personajes) {
+	public Escena(Capitulo capitulo, Localidad localidad, String nombre, String descripcion, Integer orden,
+			Set<Personaje> personajes) {
 		this.capitulo = capitulo;
 		this.localidad = localidad;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
+		this.orden = orden;
 		this.personajes = personajes;
+	}
+
+	public Escena(Capitulo chapter, Localidad localidad, String name, String description, Set<Personaje> characters) {
+		this.capitulo = chapter;
+		this.localidad = localidad;
+		this.nombre = name;
+		this.descripcion = description;
+		this.personajes = characters;
 	}
 
 	public Integer getId() {
@@ -74,6 +87,14 @@ public class Escena implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
+	public Integer getOrden() {
+		return this.orden;
+	}
+
+	public void setOrden(Integer orden) {
+		this.orden = orden;
+	}
+
 	public Set<Personaje> getPersonajes() {
 		return this.personajes;
 	}
@@ -81,12 +102,10 @@ public class Escena implements java.io.Serializable {
 	public void setPersonajes(Set<Personaje> personajes) {
 		this.personajes = personajes;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Capitulo: " + capitulo.getNombre() + ", escena: " + getNombre();
+		return this.getNombre();
 	}
-	
-	
 
 }

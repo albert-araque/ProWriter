@@ -1,25 +1,28 @@
 package view.controllers;
 
-import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
+
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
+
 import dao.DAOManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import model.Capitulo;
 import model.Escena;
 import model.Localidad;
 import model.Personaje;
@@ -43,6 +46,7 @@ public class UpdateSceneViewController implements Initializable {
 	private static double xOffset;
 	private static double yOffset;
 
+	private Capitulo chapter;
 	private Escena scene;
 	private ArrayList<String> arrayLocalidades;
 
@@ -70,8 +74,7 @@ public class UpdateSceneViewController implements Initializable {
 					}
 				}
 
-				characterList.getItems()
-						.addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
+				characterList.getItems().addAll(FXCollections.observableList(new ArrayList<Personaje>(chapter.getLibro().getPersonajes())));
 
 				checkExistingCharacters();
 			}
@@ -150,6 +153,10 @@ public class UpdateSceneViewController implements Initializable {
 				}
 			}
 		}
+	}
+	
+	public void setChapter(Capitulo c) {
+		chapter = c;
 	}
 
 	public void setScene(Escena e) {

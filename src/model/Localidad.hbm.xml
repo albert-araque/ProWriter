@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 14-may-2020 19:33:07 by Hibernate Tools 5.4.14.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-may-2020 19:25:06 by Hibernate Tools 5.4.14.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
-    <class catalog="prowriterdb" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Localidad" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="localidad">
+    <class catalog="prowriterdb" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Localidad" optimistic-lock="version" polymorphism="implicit" schema="public" select-before-update="false" table="localidad">
         <id name="id" type="java.lang.Integer">
-            <column name="ID"/>
+            <column name="id"/>
             <generator class="identity"/>
         </id>
         <property generated="never" lazy="false" name="nombre" optimistic-lock="true" type="string" unique="false">
-            <column length="50" name="NOMBRE" not-null="true"/>
+            <column length="50" name="nombre" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="descripcion" optimistic-lock="true" type="string" unique="false">
-            <column length="65535" name="DESCRIPCION"/>
+            <column name="descripcion"/>
         </property>
         <set embed-xml="true" fetch="select" inverse="true" lazy="false" mutable="true" name="escenas" optimistic-lock="true" sort="unsorted" table="escena">
             <key on-delete="noaction">
-                <column name="IDLOCALIDAD" not-null="true"/>
+                <column name="idlocalidad" not-null="true"/>
             </key>
             <one-to-many class="model.Escena" embed-xml="true" not-found="exception"/>
         </set>
