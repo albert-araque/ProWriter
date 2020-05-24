@@ -326,7 +326,6 @@ public class ProjectViewController implements Initializable{
 		});
 	}
 
-	//obtiene todos los proyectos de la base de datos y los a�ade
 	private void addProjectsFromDB() {
 		Platform.runLater(new Runnable() {			
 			@Override

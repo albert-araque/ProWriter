@@ -128,6 +128,7 @@ public class SceneChapterViewController implements Initializable {
 				}
 
 				UpdateSceneViewController updateSceneViewController = fxmlLoader.getController();
+				updateSceneViewController.setChapter(chapter);
 				updateSceneViewController.setScene(selectedScene);
 
 				Scene dialogScene = new Scene(dialogRoot, 400, 550);              

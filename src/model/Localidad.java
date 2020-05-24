@@ -1,5 +1,5 @@
 package model;
-// Generated 14-may-2020 19:33:07 by Hibernate Tools 5.4.14.Final
+// Generated 23-may-2020 19:25:06 by Hibernate Tools 5.4.14.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,8 +9,10 @@ import java.util.Set;
  */
 public class Localidad implements java.io.Serializable {
 
-	private static final long serialVersionUID = 3350760519531152214L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6339041432824733632L;
 	private Integer id;
 	private String nombre;
 	private String descripcion;
@@ -60,5 +62,12 @@ public class Localidad implements java.io.Serializable {
 	public void setEscenas(Set<Escena> escenas) {
 		this.escenas = escenas;
 	}
+
+	@Override
+	public String toString() {
+		return this.getNombre();
+	}
+	
+	
 
 }

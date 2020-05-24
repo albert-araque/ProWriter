@@ -1,5 +1,5 @@
 package model;
-// Generated 14-may-2020 19:33:07 by Hibernate Tools 5.4.14.Final
+// Generated 23-may-2020 19:25:06 by Hibernate Tools 5.4.14.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,8 +9,10 @@ import java.util.Set;
  */
 public class Personaje implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -7626081051608511419L;
-	
 	private Integer id;
 	private String nombre;
 	private String apellido1;
@@ -27,16 +29,6 @@ public class Personaje implements java.io.Serializable {
 	public Personaje(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	public Personaje(String nombre, String apellido1, String apellido2, Integer edad, String descripcion, String imagen, Set<Libro> libros) {
-		this.nombre = nombre;
-		this.apellido1 = apellido1;
-		this.apellido2 = apellido2;
-		this.edad = edad;
-		this.descripcion = descripcion;
-		this.imagen = imagen;
-		this.libros = libros;
-	}
 
 	public Personaje(String nombre, String apellido1, String apellido2, Integer edad, String descripcion, String imagen,
 			Set<Libro> libros, Set<Escena> escenas) {
@@ -48,6 +40,17 @@ public class Personaje implements java.io.Serializable {
 		this.imagen = imagen;
 		this.libros = libros;
 		this.escenas = escenas;
+	}
+
+	public Personaje(String name, String firstSurname, String secondSurname, int age, String description, String image,
+			Set<Libro> books) {
+		this.nombre = name;
+		this.apellido1 = firstSurname;
+		this.apellido2 = secondSurname;
+		this.edad = age;
+		this.descripcion = description;
+		this.imagen = image;
+		this.libros = books;
 	}
 
 	public Integer getId() {
@@ -124,9 +127,7 @@ public class Personaje implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return getNombre();
-	}
-	
-	
+		return this.getNombre();
+	}	
 
 }

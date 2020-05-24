@@ -60,9 +60,12 @@ public class AddCharacterViewController implements Initializable {
 			public void run() {
 				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));
 
-				for (Libro l : bookList.getItems()) {
-					if (l.getId() == book.getId()) bookList.getCheckModel().check(l);
+				if (book != null) {
+					for (Libro l : bookList.getItems()) {
+						if (l.getId() == book.getId()) bookList.getCheckModel().check(l);
+					}
 				}
+				
 			}
 		});
 
@@ -126,7 +129,7 @@ public class AddCharacterViewController implements Initializable {
 	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books) {
 
 		characterToReturn = new Personaje(name, firstSurname, secondSurname, age, description, image, books);
-		book.getPersonajes().add(characterToReturn);
+		if (book != null) book.getPersonajes().add(characterToReturn);
 		DAOManager.getPersonajeDAO().addPersonaje(characterToReturn);		
 	}
 

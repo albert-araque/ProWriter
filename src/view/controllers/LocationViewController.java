@@ -181,7 +181,7 @@ public class LocationViewController implements Initializable {
 				DisplayLocationViewController displayController = fxmlLoader.getController();
 				displayController.setLocation(selectedLocation);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 350);
+				Scene dialogScene = new Scene(dialogRoot, 600, 415);
 				displayLocationDialog.setScene(dialogScene);
 				displayLocationDialog.showAndWait();				
 				selectedLocation = null;
