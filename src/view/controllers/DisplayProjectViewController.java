@@ -20,31 +20,46 @@ import javafx.scene.layout.BorderPane;
 import model.Libro;
 import model.Proyecto;
 
+/**
+ * Clase que contiene la vista de un proyecto
+ * 
+ * @author Albert Araque, Francisco Jos� Ruiz
+ * @version 1.0
+ */
 public class DisplayProjectViewController implements Initializable {
-	
-	@FXML public BorderPane borderPane;
-	@FXML public ImageView imageView;
-	@FXML public Label nameLabel;
-	@FXML public TextArea descriptionText;
-	@FXML public ListView<Libro> bookList;
-	@FXML public Button closeButton;
-	
+
+	@FXML
+	public BorderPane borderPane;
+	@FXML
+	public ImageView imageView;
+	@FXML
+	public Label nameLabel;
+	@FXML
+	public TextArea descriptionText;
+	@FXML
+	public ListView<Libro> bookList;
+	@FXML
+	public Button closeButton;
+
 	private static double xOffset;
 	private static double yOffset;
-	
+
 	private Proyecto project;
 
+	/**
+	 * M�todo para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				setInformation();
 			}
 		});
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de t�tulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -63,14 +78,17 @@ public class DisplayProjectViewController implements Initializable {
 		closeButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				borderPane.getScene().getWindow().hide();				
+				borderPane.getScene().getWindow().hide();
 			}
 		});
 
 	}
-	
+
+	/**
+	 * M�todo para mostrar informaci�n sobre el proyecto
+	 */
 	private void setInformation() {
-		
+
 		File imageFile = null;
 
 		try { imageFile = new File(project.getImagen()); } catch (Exception e) {}		
@@ -78,13 +96,18 @@ public class DisplayProjectViewController implements Initializable {
 		else {			
 			imageView.setImage(new Image(imageFile.toURI().toString()));
 		}
-		
+
 		nameLabel.setText("Nombre: " + project.getNombre());
 		descriptionText.setText(project.getDescripcion());
 		bookList.getItems().addAll(project.getLibros());
-		
+
 	}
-	
+
+	/**
+	 * M�todo para seleccionar el proyecto
+	 * 
+	 * @param p Proyecto de entrada
+	 */
 	public void setProject(Proyecto p) {
 		project = p;
 	}

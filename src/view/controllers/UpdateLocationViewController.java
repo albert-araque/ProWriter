@@ -17,6 +17,12 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Clase para modificar una localización
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class UpdateLocationViewController implements Initializable {
 
 	@FXML
@@ -35,6 +41,9 @@ public class UpdateLocationViewController implements Initializable {
 
 	private Localidad localidad;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -47,12 +56,12 @@ public class UpdateLocationViewController implements Initializable {
 			}
 		});
 
-		// inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText,
 				Validator.createEmptyValidator("La localidad debe tener un nombre"));
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de
+		// Evento para poder mover la ventana dado que no tiene barra de
 		// titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -69,7 +78,7 @@ public class UpdateLocationViewController implements Initializable {
 			}
 		});
 
-		// evento de click para añadir el personaje
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -82,7 +91,7 @@ public class UpdateLocationViewController implements Initializable {
 			}
 		});
 
-		// evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -90,15 +99,26 @@ public class UpdateLocationViewController implements Initializable {
 			}
 		});
 	}
-	
-private void updateLocation(String name, String description) {
-		
+
+	/**
+	 * Método para actualizar la localización en la base de datos
+	 * 
+	 * @param name        Nombre de la localización
+	 * @param description Descripción de la localización
+	 */
+	private void updateLocation(String name, String description) {
+
 		localidad.setNombre(name);
 		localidad.setDescripcion(description);
-		
+
 		DAOManager.getLocalidadDAO().updateLocalidad(localidad);
 	}
 
+	/**
+	 * Método para seleccionar la localización
+	 * 
+	 * @param l Localización de entrada
+	 */
 	public void setLocation(Localidad l) {
 		localidad = l;
 	}

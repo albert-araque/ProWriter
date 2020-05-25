@@ -8,48 +8,35 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane"
-	xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="view.controllers.DisplayChapterViewController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.DisplayChapterViewController">
 	<center>
 	</center>
 	<bottom>
-		<Pane prefHeight="415.0" prefWidth="600.0"
-			style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
+		<Pane prefHeight="415.0" prefWidth="600.0" style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
 			<children>
-				<Label fx:id="nameLabel" layoutX="25.0" layoutY="36.0"
-					prefHeight="25.0" prefWidth="461.0">
+				<Label fx:id="nameLabel" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="461.0">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Label fx:id="orderLabel" layoutX="493.0" layoutY="36.0"
-					prefHeight="25.0" prefWidth="80.0" text="Nº:">
+				<Label fx:id="orderLabel" layoutX="493.0" layoutY="36.0" prefHeight="25.0" prefWidth="80.0" text="Nº:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Label layoutX="25.0" layoutY="67.0" prefHeight="25.0"
-					prefWidth="92.0" text="Descripción:">
+				<Label layoutX="25.0" layoutY="67.0" prefHeight="25.0" prefWidth="92.0" text="Descripción:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<TextArea fx:id="descriptionText" editable="false"
-					layoutX="25.0" layoutY="98.0" prefHeight="100.0" prefWidth="550.0" />
-				<Label layoutX="25.0" layoutY="209.0" prefHeight="25.0"
-					prefWidth="543.0"
-					text="Este capitulo contiene las siguientes escenas:">
+				<TextArea fx:id="descriptionText" editable="false" layoutX="25.0" layoutY="98.0" prefHeight="100.0" prefWidth="550.0" />
+				<Label layoutX="25.0" layoutY="209.0" prefHeight="25.0" prefWidth="543.0" text="Este capítulo contiene las siguientes escenas:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<ListView fx:id="sceneList" layoutX="25.0" layoutY="240.0"
-					prefHeight="100.0" prefWidth="550.0" />
-				<Button fx:id="closeButton" layoutX="497.0" layoutY="357.0"
-					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
-					text="Cerrar" />
+				<ListView fx:id="sceneList" layoutX="25.0" layoutY="240.0" prefHeight="100.0" prefWidth="550.0" />
+				<Button fx:id="closeButton" layoutX="497.0" layoutY="357.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="Cerrar" />
 			</children>
 		</Pane>
 	</bottom>

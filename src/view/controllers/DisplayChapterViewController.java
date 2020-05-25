@@ -17,31 +17,46 @@ import javafx.scene.layout.BorderPane;
 import model.Capitulo;
 import model.Escena;
 
+/**
+ * Clase que contiene la vista de un capítulo
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class DisplayChapterViewController implements Initializable {
-	
-	@FXML public BorderPane borderPane;
-	@FXML public Label nameLabel;
-	@FXML public Label orderLabel;
-	@FXML public TextArea descriptionText;
-	@FXML public ListView<Escena> sceneList;
-	@FXML public Button closeButton;
-	
+
+	@FXML
+	public BorderPane borderPane;
+	@FXML
+	public Label nameLabel;
+	@FXML
+	public Label orderLabel;
+	@FXML
+	public TextArea descriptionText;
+	@FXML
+	public ListView<Escena> sceneList;
+	@FXML
+	public Button closeButton;
+
 	private static double xOffset;
 	private static double yOffset;
-	
+
 	private Capitulo chapter;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		Platform.runLater(new Runnable() {			
+
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				setInformation();
 			}
 		});
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -60,20 +75,28 @@ public class DisplayChapterViewController implements Initializable {
 		closeButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				borderPane.getScene().getWindow().hide();				
+				borderPane.getScene().getWindow().hide();
 			}
 		});
 
 	}
-	
+
+	/**
+	 * Método para mostrar información sobre el capítulo
+	 */
 	private void setInformation() {
-		
+
 		nameLabel.setText("Nombre: " + chapter.getNombre());
 		orderLabel.setText("Nº: " + chapter.getNumero());
 		descriptionText.setText(chapter.getDescripcion());
 		sceneList.getItems().addAll(chapter.getEscenas());
-	}	
-	
+	}
+
+	/**
+	 * Método para seleccionar el capítulo
+	 * 
+	 * @param c Capítulo de entrada
+	 */
 	public void setChapter(Capitulo c) {
 		chapter = c;
 	}

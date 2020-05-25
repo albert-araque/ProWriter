@@ -34,39 +34,57 @@ import model.Libro;
 import model.Proyecto;
 import view.Main;
 
+/**
+ * Clase que permite acceder a los libros que hay en un proyecto
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class InsideProjectViewController implements Initializable {
 
-	private static final int MAX_LENGHT = 20;
-	private static final int[] PANE_SIZE = {290, 340};
-	private static final int[] IMAGE_FIT = {200, 230};
-	private static final int IMAGE_LAYOUT[] = {45, 22};
+	private static final int MAX_LENGTH = 20;
+	private static final int[] PANE_SIZE = { 290, 340 };
+	private static final int[] IMAGE_FIT = { 200, 230 };
+	private static final int IMAGE_LAYOUT[] = { 45, 22 };
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
-	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
+	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML public FlowPane bookFlowPane;
-	@FXML public Button addBookButton;
-	@FXML public Button updateBookButton;
-	@FXML public Button deleteBookButton;
-	@FXML public Button displayBookButton;
-	@FXML public Button backButton;
-	@FXML public Label errorLabel;
-	@FXML public Label selectedBookLabel;
-	@FXML public Label projectNameDisplay;	
+	@FXML
+	public FlowPane bookFlowPane;
+	@FXML
+	public Button addBookButton;
+	@FXML
+	public Button updateBookButton;
+	@FXML
+	public Button deleteBookButton;
+	@FXML
+	public Button displayBookButton;
+	@FXML
+	public Button backButton;
+	@FXML
+	public Label errorLabel;
+	@FXML
+	public Label selectedBookLabel;
+	@FXML
+	public Label projectNameDisplay;
 
 	private MainViewController mainViewController;
 	private Proyecto project;
 	private Libro selectedBook;
 	private Pane bookPane;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		bookFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
 		bookFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
 
-		//evento al hacer click al boton de añadir
+		// Evento al hacer click al botón añadir
 		addBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -74,7 +92,7 @@ public class InsideProjectViewController implements Initializable {
 
 				addBookDialog.initModality(Modality.APPLICATION_MODAL);
 				addBookDialog.initStyle(StageStyle.UNDECORATED);
-				addBookDialog.initOwner(Main.getStage());                
+				addBookDialog.initOwner(Main.getStage());
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddBookView.fxml"));
 				BorderPane dialogRoot = null;
@@ -87,7 +105,7 @@ public class InsideProjectViewController implements Initializable {
 				AddBookViewController addController = fxmlLoader.getController();
 				addController.setProject(project);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 750);              
+				Scene dialogScene = new Scene(dialogRoot, 400, 750);
 				addBookDialog.setScene(dialogScene);
 				addBookDialog.showAndWait();
 				selectedBook = null;
@@ -96,16 +114,15 @@ public class InsideProjectViewController implements Initializable {
 			}
 		});
 
-		//evento al hacer click al boton de actualizar
+		// Evento al hacer click al botón actualizar
 		updateBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
-				//!!!! SI SE DESCOMENTA SELECTEDPANE AÑADIR AQUI
 				if (selectedBook == null) {
 					errorLabel.setVisible(true);
 					return;
-				}				
+				}
 
 				Stage updateProjectDialog = new Stage();
 
@@ -119,23 +136,22 @@ public class InsideProjectViewController implements Initializable {
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
-				}				
+				}
 
 				UpdateBookViewController updateController = fxmlLoader.getController();
 				updateController.setBook(selectedBook);
 
 				Scene dialogScene = new Scene(dialogRoot, 400, 750);
 				updateProjectDialog.setScene(dialogScene);
-				updateProjectDialog.showAndWait();				
+				updateProjectDialog.showAndWait();
 				selectedBook = null;
 				selectedBookLabel.setText("Ningún libro seleccionado");
 				loadBooks();
 			}
 		});
 
-
-		//Esto borra el libro de la base de datos y lo que deberia hacer es borrar el libro unicamente del proyecto, es decir quitar la relacion que tiene proyecto y libro
-		//evento al hacer click en el boton de borrar
+		// Evento que borra el libro del set de libros del proyecto, y lo deja reflejado
+		// en la base de datos
 		deleteBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -143,7 +159,7 @@ public class InsideProjectViewController implements Initializable {
 				if (selectedBook == null) {
 					errorLabel.setVisible(true);
 					return;
-				}			
+				}
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Eliminación de libro");
@@ -151,23 +167,23 @@ public class InsideProjectViewController implements Initializable {
 				alert.setContentText("¿Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
-				if(resultado.get() == ButtonType.OK) {
+				if (resultado.get() == ButtonType.OK) {
 
-					//Esta línea, si estuviera descomentada,
-					//borraría el libro de la base de datos
-					//DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
+					// Esta línea, si estuviera descomentada,
+					// borraría el libro de la base de datos
+					// DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
 
-					//Esta línea elimina el libro seleccionado del set de libros del proyecto
+					// Esta línea elimina el libro seleccionado del set de libros del proyecto
 					project.getLibros().remove(selectedBook);
 
-					//Ahora solo queda reflejarlo en la base de datos, con un update
+					// Ahora solo queda reflejarlo en la base de datos, con un update
 					DAOManager.getProyectoDAO().updateProyecto(project);
 
 					selectedBook = null;
 					selectedBookLabel.setText("Ningún libro seleccionado");
 					loadBooks();
 
-				}				
+				}
 			}
 		});
 
@@ -191,16 +207,16 @@ public class InsideProjectViewController implements Initializable {
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
-				}				
+				}
 
 				DisplayBookViewController displayController = fxmlLoader.getController();
 				displayController.setBook(selectedBook);
 
 				Scene dialogScene = new Scene(dialogRoot, 600, 770);
 				displayBookDialog.setScene(dialogScene);
-				displayBookDialog.showAndWait();				
+				displayBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningun libro seleccionado");			
+				selectedBookLabel.setText("Ningun libro seleccionado");
 			}
 		});
 
@@ -211,7 +227,7 @@ public class InsideProjectViewController implements Initializable {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ProjectView.fxml"));
 				BorderPane borderPane = null;
 				try {
-					borderPane =fxmlLoader.load();
+					borderPane = fxmlLoader.load();
 				} catch (IOException e) {
 				}
 
@@ -223,73 +239,87 @@ public class InsideProjectViewController implements Initializable {
 			}
 		});
 
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				projectNameDisplay.setText(project.getNombre());				
+				projectNameDisplay.setText(project.getNombre());
 				loadBooks();
 			}
-		});	
+		});
 
 	}
 
+	/**
+	 * Método para mostrar el libro en el panel
+	 * 
+	 * @param l Libro de entrada
+	 */
 	public void convertBookToPane(Libro l) {
 
-		if (l == null) return;
+		if (l == null)
+			return;
 
-		//crea el pane, el "contenedor" donde va a ir la informacion
+		// Crea el contenedor (Pane) donde va la información
 		bookPane = new Pane();
 
-		//si el libro tiene una imagen, la añade, si no coge una por defecto
+		// Si el libro tiene una imagen, la añade, si no, coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
-		try { imageFile = new File(l.getImagen()); } catch (Exception e) {}		
-		if (l.getImagen() == null || l.getImagen().equals("") || !imageFile.exists()) projectImage = new ImageView("resources/libro.png");
-		else {			
+		try {
+			imageFile = new File(l.getImagen());
+		} catch (Exception e) {
+		}
+		if (l.getImagen() == null || l.getImagen().equals("") || !imageFile.exists())
+			projectImage = new ImageView("resources/libro.png");
+		else {
 			projectImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
 
 		Label nameLabel = new Label();
 		Label characterLabel = new Label();
 
-		//establece el margin de cada contenedor
-		FlowPane.setMargin(bookPane, new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
+		// Establece el margen de cada contenedor
+		FlowPane.setMargin(bookPane,
+				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		//establece diversas medidas del contenedor, la imagen, las label
+		// Establece las medidas del contenedor y todo lo que haya dentro de éste
 		bookPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
-		bookPane.getStyleClass().add("pane");		
+		bookPane.getStyleClass().add("pane");
 
 		projectImage.setFitHeight(IMAGE_FIT[0]);
 		projectImage.setFitWidth(IMAGE_FIT[1]);
 		projectImage.setLayoutX(IMAGE_LAYOUT[0]);
 		projectImage.setLayoutY(IMAGE_LAYOUT[1]);
 		projectImage.setPickOnBounds(true);
-		projectImage.setPreserveRatio(true);		
+		projectImage.setPreserveRatio(true);
 
-		if (l.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + l.getNombre().substring(0, MAX_LENGHT) + "...");
-		else nameLabel.setText("Nombre: " + l.getNombre());		
+		if (l.getNombre().length() > MAX_LENGTH)
+			nameLabel.setText("Nombre: " + l.getNombre().substring(0, MAX_LENGTH) + "...");
+		else
+			nameLabel.setText("Nombre: " + l.getNombre());
 		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
 
 		characterLabel.setText("Numero de personajes: " + l.getPersonajes().size());
 		characterLabel.setLayoutX(LABEL_XLAY);
-		characterLabel.setLayoutY(NLABEL_YLAY+ 10);
+		characterLabel.setLayoutY(NLABEL_YLAY + 10);
 
-		bookPane.getChildren().add(nameLabel);	
-		bookPane.getChildren().add(projectImage);	
+		bookPane.getChildren().add(nameLabel);
+		bookPane.getChildren().add(projectImage);
 		bookFlowPane.getChildren().add(bookPane);
 
-		//evento de click para seleccionar el objeto
+		// Evento para seleccionar el objeto
 		bookPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event) {			
+			public void handle(MouseEvent event) {
 
 				if (event.getClickCount() == 1) {
 					selectedBook = l;
 					selectedBookLabel.setText("Libro seleccionado: " + l.getNombre());
-					if (errorLabel.isVisible()) errorLabel.setVisible(false);
+					if (errorLabel.isVisible())
+						errorLabel.setVisible(false);
 				}
 
 				if (event.getClickCount() == 2) {
@@ -312,7 +342,10 @@ public class InsideProjectViewController implements Initializable {
 		});
 	}
 
-	private void loadBooks() {		
+	/**
+	 * Método para cargar los libros en el panel
+	 */
+	private void loadBooks() {
 		bookFlowPane.getChildren().removeAll(bookFlowPane.getChildren());
 
 		for (Libro l : project.getLibros()) {
@@ -320,10 +353,20 @@ public class InsideProjectViewController implements Initializable {
 		}
 	}
 
+	/**
+	 * Método para seleccionar el controlador
+	 * 
+	 * @param controller Controlador de entrada
+	 */
 	public void setController(MainViewController controller) {
 		mainViewController = controller;
 	}
 
+	/**
+	 * Método para seleccionar el proyecto
+	 * 
+	 * @param p Proyecto de entrada
+	 */
 	public void setProyecto(Proyecto p) {
 		project = p;
 	}

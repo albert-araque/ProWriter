@@ -10,87 +10,62 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.CheckListView?>
 
-<BorderPane fx:id="borderPane"
-	xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="view.controllers.AddCharacterViewController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.AddCharacterViewController">
 	<center>
 	</center>
 	<bottom>
-		<Pane prefHeight="600.0" prefWidth="400.0"
-			style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
+		<Pane prefHeight="600.0" prefWidth="400.0" style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
 			<children>
-				<Label layoutX="25.0" layoutY="26.0" text="Añadir personaje"
-					underline="true">
+				<Label layoutX="25.0" layoutY="26.0" text="Añadir personaje" underline="true">
 					<font>
 						<Font name="System Bold" size="30.0" />
 					</font>
 				</Label>
-				<Label layoutX="22.0" layoutY="82.0" prefHeight="25.0"
-					prefWidth="70.0" text="Nombre:">
+				<Label layoutX="22.0" layoutY="82.0" prefHeight="25.0" prefWidth="70.0" text="Nombre:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Label layoutX="23.0" layoutY="200.0" prefHeight="25.0"
-					prefWidth="92.0" text="Descripción:">
+				<Label layoutX="23.0" layoutY="200.0" prefHeight="25.0" prefWidth="92.0" text="Descripción:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<TextField fx:id="nameText" layoutX="120.0" layoutY="81.0"
-					prefHeight="30.0" prefWidth="110.0" />
-				<TextArea fx:id="descriptionText" layoutX="24.0"
-					layoutY="231.0" prefHeight="74.0" prefWidth="358.0" />
-				<Label layoutX="22.0" layoutY="316.0" prefHeight="25.0"
-					prefWidth="63.0" text="Imagen:">
+				<TextField fx:id="nameText" layoutX="120.0" layoutY="81.0" prefHeight="30.0" prefWidth="110.0" />
+				<TextArea fx:id="descriptionText" layoutX="24.0" layoutY="231.0" prefHeight="74.0" prefWidth="358.0" />
+				<Label layoutX="22.0" layoutY="316.0" prefHeight="25.0" prefWidth="63.0" text="Imagen:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<TextField fx:id="imagePath" layoutX="118.0"
-					layoutY="314.0" prefHeight="30.0" prefWidth="190.0" />
-				<Button fx:id="pathButton" layoutX="316.0" layoutY="313.0"
-					mnemonicParsing="false" prefHeight="32.0" prefWidth="36.0"
-					text="..." />
-				<Label layoutX="22.0" layoutY="351.0" prefHeight="25.0"
-					prefWidth="358.0" text="A que libros pertenece el personaje:">
+				<TextField fx:id="imagePath" layoutX="118.0" layoutY="314.0" prefHeight="30.0" prefWidth="190.0" />
+				<Button fx:id="pathButton" layoutX="316.0" layoutY="313.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="36.0" text="..." />
+				<Label layoutX="22.0" layoutY="351.0" prefHeight="25.0" prefWidth="358.0" text="A qué libros pertenece el personaje:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Button fx:id="addButton" layoutX="219.0" layoutY="542.0"
-					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
-					text="Añadir" />
-				<Button fx:id="cancelButton" layoutX="309.0" layoutY="542.0"
-					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
-					text="Cancelar" />
-				<CheckListView fx:id="bookList" layoutX="23.0"
-					layoutY="388.0" prefHeight="120.0" prefWidth="358.0" />
-				<Label layoutX="22.0" layoutY="128.0" prefHeight="25.0"
-					prefWidth="93.0" text="1er Apellido:">
+				<Button fx:id="addButton" layoutX="219.0" layoutY="542.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="Añadir" />
+				<Button fx:id="cancelButton" layoutX="309.0" layoutY="542.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="Cancelar" />
+				<CheckListView fx:id="bookList" layoutX="23.0" layoutY="388.0" prefHeight="120.0" prefWidth="358.0" />
+				<Label layoutX="22.0" layoutY="128.0" prefHeight="25.0" prefWidth="93.0" text="1er Apellido:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<TextField fx:id="firstSurnameText" layoutX="120.0"
-					layoutY="126.0" prefHeight="30.0" prefWidth="262.0" />
-				<Label layoutX="22.0" layoutY="169.0" prefHeight="25.0"
-					prefWidth="99.0" text="2do Apellido:">
+				<TextField fx:id="firstSurnameText" layoutX="120.0" layoutY="126.0" prefHeight="30.0" prefWidth="262.0" />
+				<Label layoutX="22.0" layoutY="169.0" prefHeight="25.0" prefWidth="99.0" text="2do Apellido:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<TextField fx:id="secondSurnameText" layoutX="120.0"
-					layoutY="167.0" prefHeight="30.0" prefWidth="262.0" />
-				<Label layoutX="238.0" layoutY="82.0" prefHeight="25.0"
-					prefWidth="47.0" text="Edad:">
+				<TextField fx:id="secondSurnameText" layoutX="120.0" layoutY="167.0" prefHeight="30.0" prefWidth="262.0" />
+				<Label layoutX="238.0" layoutY="82.0" prefHeight="25.0" prefWidth="47.0" text="Edad:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Spinner fx:id="ageSpinner" editable="true" layoutX="285.0"
-					layoutY="81.0" prefHeight="30.0" prefWidth="96.0" />
+				<Spinner fx:id="ageSpinner" editable="true" layoutX="285.0" layoutY="81.0" prefHeight="30.0" prefWidth="96.0" />
 			</children>
 		</Pane>
 	</bottom>

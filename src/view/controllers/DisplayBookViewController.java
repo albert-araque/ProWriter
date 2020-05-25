@@ -22,34 +22,52 @@ import model.Libro;
 import model.Personaje;
 import model.Proyecto;
 
+/**
+ * Clase que contiene la vista de un libro
+ * 
+ * @author Albert Araque, Francisco Jos� Ruiz
+ * @version 1.0
+ */
 public class DisplayBookViewController implements Initializable {
 
-	@FXML public BorderPane borderPane;
-	@FXML public Label nameLabel;
-	@FXML public Label genreLabel;
-	@FXML public TextArea descriptionText;
-	@FXML public ImageView imageView;
-	@FXML public ListView<Personaje> characterList;
-	@FXML public ListView<Proyecto> projectList;
-	@FXML public ListView<Capitulo> chapterList;
-	@FXML public Button closeButton;
+	@FXML
+	public BorderPane borderPane;
+	@FXML
+	public Label nameLabel;
+	@FXML
+	public Label genreLabel;
+	@FXML
+	public TextArea descriptionText;
+	@FXML
+	public ImageView imageView;
+	@FXML
+	public ListView<Personaje> characterList;
+	@FXML
+	public ListView<Proyecto> projectList;
+	@FXML
+	public ListView<Capitulo> chapterList;
+	@FXML
+	public Button closeButton;
 
 	private static double xOffset;
 	private static double yOffset;
 
 	private Libro book;
 
+	/**
+	 * M�todo para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				setInformation();
 			}
 		});
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de t�tulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -68,19 +86,26 @@ public class DisplayBookViewController implements Initializable {
 		closeButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				borderPane.getScene().getWindow().hide();				
+				borderPane.getScene().getWindow().hide();
 			}
 		});
 
 	}
 
+	/**
+	 * M�todo para mostrar informaci�n sobre el libro
+	 */
 	private void setInformation() {
 
 		File imageFile = null;
 
-		try { imageFile = new File(book.getImagen()); } catch (Exception e) {}		
-		if (book.getImagen() == null || book.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image("resources/libro.png"));
-		else {			
+		try {
+			imageFile = new File(book.getImagen());
+		} catch (Exception e) {
+		}
+		if (book.getImagen() == null || book.getImagen().equals("") || !imageFile.exists())
+			imageView.setImage(new Image(errorFile.toURI().toString()));
+		else {
 			imageView.setImage(new Image(imageFile.toURI().toString()));
 		}
 
@@ -93,6 +118,11 @@ public class DisplayBookViewController implements Initializable {
 
 	}
 
+	/**
+	 * M�todo para seleccionar el libro
+	 * 
+	 * @param l Libro de entrada
+	 */
 	public void setBook(Libro l) {
 		book = l;
 	}

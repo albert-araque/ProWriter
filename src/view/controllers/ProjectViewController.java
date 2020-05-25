@@ -33,44 +33,64 @@ import javafx.stage.StageStyle;
 import model.Proyecto;
 import view.Main;
 
-public class ProjectViewController implements Initializable{
+/**
+ * Clase que contiene la vista general de los proyectos
+ * 
+ * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @version 1.0
+ */
+public class ProjectViewController implements Initializable {
 
-	private static final int MAX_LENGHT = 20;
-	private static final int[] PANE_SIZE = {290, 340};
-	private static final int[] IMAGE_FIT = {200, 230};
-	private static final int IMAGE_LAYOUT[] = {45, 22};
+	private static final int MAX_LENGTH = 20;
+	private static final int[] PANE_SIZE = { 290, 340 };
+	private static final int[] IMAGE_FIT = { 200, 230 };
+	private static final int IMAGE_LAYOUT[] = { 45, 22 };
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
 	private static final int BLABEL_YLAY = 300;
-	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
+	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML public FlowPane projectFlowPane;
-	@FXML public Button addProjectButton;
-	@FXML public Button updateProjectButton;
-	@FXML public Button deleteProjectButton;
-	@FXML public Button displayProjectButton;
-	@FXML public Label errorLabel;
-	@FXML public Label selectedProjectLabel;
-	@FXML public Label selectedPaneLabel;
+	@FXML
+	public FlowPane projectFlowPane;
+	@FXML
+	public Button addProjectButton;
+	@FXML
+	public Button updateProjectButton;
+	@FXML
+	public Button deleteProjectButton;
+	@FXML
+	public Button displayProjectButton;
+	@FXML
+	public Label errorLabel;
+	@FXML
+	public Label selectedProjectLabel;
+	@FXML
+	public Label selectedPaneLabel;
 
-	@FXML public Pane bookButton;
-	@FXML public Pane characterButton;
-	@FXML public Pane locationButton;
+	@FXML
+	public Pane bookButton;
+	@FXML
+	public Pane characterButton;
+	@FXML
+	public Pane locationButton;
 
 	private Pane projectPane;
 	private Proyecto selectedProject;
 	private MainViewController mainViewController;
 
+	/**
+	 * Mï¿½todo para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		projectFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
 		projectFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
 
-		addProjectsFromDB();		
+		addProjectsFromDB();
 
-		//evento al hacer click al boton de aï¿½adir
+		// Evento al hacer click al botï¿½n aï¿½adir
 		addProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -78,7 +98,7 @@ public class ProjectViewController implements Initializable{
 
 				addProjectDialog.initModality(Modality.APPLICATION_MODAL);
 				addProjectDialog.initStyle(StageStyle.UNDECORATED);
-				addProjectDialog.initOwner(Main.getStage());                
+				addProjectDialog.initOwner(Main.getStage());
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddProjectView.fxml"));
 				BorderPane dialogRoot = null;
@@ -87,16 +107,16 @@ public class ProjectViewController implements Initializable{
 				} catch (IOException e) {
 				}
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 600);              
+				Scene dialogScene = new Scene(dialogRoot, 400, 600);
 				addProjectDialog.setScene(dialogScene);
 				addProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningún proyecto seleccionado");
+				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
 			}
 		});
 
-		//evento al hacer click al boton de actualizar
+		// Evento al hacer click al botï¿½n actualizar
 		updateProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -104,7 +124,7 @@ public class ProjectViewController implements Initializable{
 				if (selectedProject == null) {
 					errorLabel.setVisible(true);
 					return;
-				}				
+				}
 
 				Stage updateProjectDialog = new Stage();
 
@@ -117,7 +137,7 @@ public class ProjectViewController implements Initializable{
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
-				}				
+				}
 
 				UpdateProjectViewController updateController = fxmlLoader.getController();
 				updateController.setProject(selectedProject);
@@ -127,11 +147,11 @@ public class ProjectViewController implements Initializable{
 				updateProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningún proyecto seleccionado");
+				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
 			}
 		});
 
-		//evento al hacer click en el boton de borrar
+		// evento al hacer click en el boton de borrar
 		deleteProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -139,32 +159,31 @@ public class ProjectViewController implements Initializable{
 				if (selectedProject == null) {
 					errorLabel.setVisible(true);
 					return;
-				}			
+				}
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminación de proyecto");
-				alert.setHeaderText("Estás a punto de eliminar el proyecto");
-				alert.setContentText("Estás seguro?");
+				alert.setTitle("Eliminaciï¿½n de proyecto");
+				alert.setHeaderText("Estï¿½s a punto de eliminar el proyecto");
+				alert.setContentText("Estï¿½s seguro?");
 				
 				Optional<ButtonType> resultado = alert.showAndWait();
-				if(resultado.get() == ButtonType.OK)
-				{
+				if (resultado.get() == ButtonType.OK) {
 					DAOManager.getProyectoDAO().removeProyecto(selectedProject.getId());
 					selectedProject = null;
-					selectedProjectLabel.setText("Ningún proyecto seleccionado");
+					selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
 					addProjectsFromDB();
-				}				
+				}
 			}
 		});
-		
+
 		displayProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				
+
 				if (selectedProject == null) {
 					errorLabel.setVisible(true);
 					return;
-				}				
+				}
 
 				Stage displayProjectDialog = new Stage();
 
@@ -177,7 +196,7 @@ public class ProjectViewController implements Initializable{
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
-				}				
+				}
 
 				DisplayProjectViewController displayController = fxmlLoader.getController();
 				displayController.setProject(selectedProject);
@@ -186,7 +205,7 @@ public class ProjectViewController implements Initializable{
 				displayProjectDialog.setScene(dialogScene);
 				displayProjectDialog.showAndWait();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningún proyecto seleccionado");				
+				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
 			}
 		});
 
@@ -208,11 +227,11 @@ public class ProjectViewController implements Initializable{
 				mainViewController.setView(borderPane);
 			}
 		});
-		
+
 		characterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				
+
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/CharacterView.fxml"));
 				BorderPane borderPane = null;
 				try {
@@ -223,10 +242,10 @@ public class ProjectViewController implements Initializable{
 				CharacterViewController characterViewController = fxmlLoader.getController();
 				characterViewController.setController(mainViewController);
 
-				mainViewController.setView(borderPane);				
+				mainViewController.setView(borderPane);
 			}
 		});
-		
+
 		locationButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -241,48 +260,61 @@ public class ProjectViewController implements Initializable{
 				LocationViewController locationViewController = fxmlLoader.getController();
 				locationViewController.setController(mainViewController);
 
-				mainViewController.setView(borderPane);				
+				mainViewController.setView(borderPane);
 			}
 		});
 
 	}
 
+	/**
+	 * Mï¿½todo para mostrar el proyecto en el panel
+	 * 
+	 * @param p Proyecto de entrada
+	 */
 	public void convertProjectToPane(Proyecto p) {
 
-		if (p == null) return;
+		if (p == null)
+			return;
 
-		//crea el pane, el "contenedor" donde va a ir la informacion
+		// Crea el contenedor (Pane) donde va la informaciï¿½n
 		projectPane = new Pane();
 
-		//si el proyecto tiene una imagen, la aï¿½ade, si no coge una por defecto
+		// Si el proyecto tiene una imagen, la aï¿½ade, si no, coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
-		try { imageFile = new File(p.getImagen()); } catch (Exception e) {}		
-		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists()) projectImage = new ImageView("resources/proyecto.png");
-		else {			
+		try {
+			imageFile = new File(p.getImagen());
+		} catch (Exception e) {
+		}
+		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists())
+			projectImage = new ImageView("resources/proyecto.png");
+		else {
 			projectImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
 
 		Label bookCountLabel = new Label("Numero de libros: " + p.getLibros().size());
 		Label nameLabel = new Label();
 
-		//establece el margin de cada contenedor
-		FlowPane.setMargin(projectPane, new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
+		// Establece el margen de cada contenedor
+		FlowPane.setMargin(projectPane,
+				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		//establece diversas medidas del contenedor, la imagen, las label
+		// Establece las medidas del contenedor y todo lo que haya dentro de ï¿½ste
 		projectPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
-		projectPane.getStyleClass().add("pane");		
+		projectPane.getStyleClass().add("pane");
 
 		projectImage.setFitHeight(IMAGE_FIT[0]);
 		projectImage.setFitWidth(IMAGE_FIT[1]);
 		projectImage.setLayoutX(IMAGE_LAYOUT[0]);
 		projectImage.setLayoutY(IMAGE_LAYOUT[1]);
 		projectImage.setPickOnBounds(true);
-		projectImage.setPreserveRatio(true);		
+		projectImage.setPreserveRatio(true);
 
-		if (p.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGHT) + "...");
-		else nameLabel.setText("Nombre: " + p.getNombre());		
+		if (p.getNombre().length() > MAX_LENGTH)
+			nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGTH) + "...");
+		else
+			nameLabel.setText("Nombre: " + p.getNombre());
 		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
@@ -292,19 +324,21 @@ public class ProjectViewController implements Initializable{
 		bookCountLabel.setFont(new Font(FONT_SIZE));
 
 		projectPane.getChildren().add(nameLabel);
-		projectPane.getChildren().add(bookCountLabel);		
-		projectPane.getChildren().add(projectImage);	
+		projectPane.getChildren().add(bookCountLabel);
+		projectPane.getChildren().add(projectImage);
 		projectFlowPane.getChildren().add(projectPane);
 
-		//evento de click para que al hacer click sobre un contenedor de proyecto se quede como seleccionado tanto el proyecto como el contenedor
+		// Evento para que quede seleccionado proyecto y contenedor al hacer click sobre
+		// un contenedor de proyecto
 		projectPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event) {			
+			public void handle(MouseEvent event) {
 
 				if (event.getClickCount() == 1) {
-					selectedProject = p;					
+					selectedProject = p;
 					selectedProjectLabel.setText("Proyecto seleccionado: " + p.getNombre());
-					if (errorLabel.isVisible()) errorLabel.setVisible(false);
+					if (errorLabel.isVisible())
+						errorLabel.setVisible(false);
 				}
 
 				if (event.getClickCount() == 2) {
@@ -326,8 +360,11 @@ public class ProjectViewController implements Initializable{
 		});
 	}
 
+	/**
+	 * Mï¿½todo para mostrar los proyectos de la base de datos
+	 */
 	private void addProjectsFromDB() {
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 
@@ -335,11 +372,16 @@ public class ProjectViewController implements Initializable{
 
 				for (Proyecto p : DAOManager.getProyectoDAO().getProyectos()) {
 					convertProjectToPane(p);
-				}				
+				}
 			}
 		});
 	}
 
+	/**
+	 * Mï¿½todo para seleccionar el controlador
+	 * 
+	 * @param controller Controlador de entrada
+	 */
 	public void setController(MainViewController controller) {
 		mainViewController = controller;
 	}

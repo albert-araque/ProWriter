@@ -27,6 +27,12 @@ import model.Escena;
 import model.Localidad;
 import model.Personaje;
 
+/**
+ * Clase para modificar una escena
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class UpdateSceneViewController implements Initializable {
 	@FXML
 	public TextField nameText;
@@ -50,6 +56,9 @@ public class UpdateSceneViewController implements Initializable {
 	private Escena scene;
 	private ArrayList<String> arrayLocalidades;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -65,27 +74,25 @@ public class UpdateSceneViewController implements Initializable {
 					arrayLocalidades.add(l.getNombre());
 				}
 				locationChoiceBox.getItems().addAll(FXCollections.observableArrayList(arrayLocalidades));
-				for(Localidad l : DAOManager.getLocalidadDAO().getLocalidades())
-				{
-					if(l.getId() == scene.getLocalidad().getId())
-					{
+				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades()) {
+					if (l.getId() == scene.getLocalidad().getId()) {
 						locationChoiceBox.setValue(l.getNombre());
 						break;
 					}
 				}
 
-				characterList.getItems().addAll(FXCollections.observableList(new ArrayList<Personaje>(chapter.getLibro().getPersonajes())));
+				characterList.getItems().addAll(
+						FXCollections.observableList(new ArrayList<Personaje>(chapter.getLibro().getPersonajes())));
 
 				checkExistingCharacters();
 			}
 		});
 
-		// inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText,
-				Validator.createEmptyValidator("El libro debe tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro debe tener un nombre"));
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de
+		// Evento para poder mover la ventana dado que no tiene barra de
 		// titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -102,49 +109,57 @@ public class UpdateSceneViewController implements Initializable {
 			}
 		});
 
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
 				if (validationSupport.isInvalid())
 					return;
-				
-				//Cuando alguna de las localidades de la base de datos
-				//coincida con la de locationChoiceBox, la guardamos y salimos
-				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades())
-				{
-					if (l.getNombre().equals(locationChoiceBox.getSelectionModel().getSelectedItem()))
-					{
+
+				// Cuando alguna de las localidades de la base de datos
+				// coincida con la de locationChoiceBox, la guardamos y salimos
+				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades()) {
+					if (l.getNombre().equals(locationChoiceBox.getSelectionModel().getSelectedItem())) {
 						updateScene(nameText.getText(), descriptionText.getText(), l,
 								new HashSet<Personaje>(characterList.getCheckModel().getCheckedItems()));
 					}
 				}
-				
+
 				borderPane.getScene().getWindow().hide();
 			}
-
-			
 		});
 
-		// evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 				borderPane.getScene().getWindow().hide();
 			}
 		});
-
 	}
-	
-	private void updateScene(String name, String description, Localidad selectedLocalidad, HashSet<Personaje> characters) {
+
+	/**
+	 * Método para actualizar la escena en la base de datos
+	 * 
+	 * @param name              Nombre de la escena
+	 * @param description       Descripción de la escena
+	 * @param selectedLocalidad Localidad de la escena
+	 * @param characters        Personajes de la escena
+	 */
+	private void updateScene(String name, String description, Localidad selectedLocalidad,
+			HashSet<Personaje> characters) {
 		scene.setNombre(name);
 		scene.setDescripcion(description);
 		scene.setLocalidad(selectedLocalidad);
 		scene.setPersonajes(characters);
-		
+
 		DAOManager.getEscenaDAO().updateEscena(scene);
 	}
-	
+
+	/**
+	 * Método para tildar personajes
+	 */
 	private void checkExistingCharacters() {
 		for (Personaje character : characterList.getItems()) {
 			for (Personaje existingCharacters : scene.getPersonajes()) {
@@ -154,11 +169,21 @@ public class UpdateSceneViewController implements Initializable {
 			}
 		}
 	}
-	
+
+	/**
+	 * Método para seleccionar el capítulo
+	 * 
+	 * @param c Capítulo de entrada
+	 */
 	public void setChapter(Capitulo c) {
 		chapter = c;
 	}
 
+	/**
+	 * Método para seleccionar la escena
+	 * 
+	 * @param e Escena de entrada
+	 */
 	public void setScene(Escena e) {
 		scene = e;
 	}

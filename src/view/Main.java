@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,11 +18,20 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * Clase principal
+ * 
+ * @author Albert Araque, Francisco Jos� Ruiz
+ * @version 1.0
+ */
 
 public class Main extends Application {
 
-	private static Stage mainStage;	
+	private static Stage mainStage;
 
+	/**
+	 * M�todo que prepara la vista principal del programa
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -30,17 +40,17 @@ public class Main extends Application {
 
 			mainStage = primaryStage;
 
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/view/MainView.fxml"));
+			AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/MainView.fxml"));
 
-			Scene scene = new Scene(root, 400, 400);			
+			Scene scene = new Scene(root, 400, 400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 			primaryStage.setTitle("ProWriter");
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
-			primaryStage.show();	
+			primaryStage.show();
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -80,6 +90,11 @@ public class Main extends Application {
 		launch(args);
 	}
 
+	/**
+	 * M�todo que devuelve el contenedor JavaFX principal
+	 * 
+	 * @return
+	 */
 	public static Stage getStage() {
 		return mainStage;
 	}

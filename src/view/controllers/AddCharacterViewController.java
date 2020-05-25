@@ -29,19 +29,36 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import model.Libro;
 import model.Personaje;
 
+/**
+ * Clase para aï¿½adir un personaje
+ * 
+ * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @version 1.0
+ */
 public class AddCharacterViewController implements Initializable {
 
-	@FXML public BorderPane borderPane;
-	@FXML public TextField nameText;
-	@FXML public Spinner<Integer> ageSpinner;
-	@FXML public TextField firstSurnameText;
-	@FXML public TextField secondSurnameText;
-	@FXML public TextArea descriptionText;
-	@FXML public TextField imagePath;
-	@FXML public Button pathButton;
-	@FXML public Button addButton;
-	@FXML public Button cancelButton;
-	@FXML public CheckListView<Libro> bookList;
+	@FXML
+	public BorderPane borderPane;
+	@FXML
+	public TextField nameText;
+	@FXML
+	public Spinner<Integer> ageSpinner;
+	@FXML
+	public TextField firstSurnameText;
+	@FXML
+	public TextField secondSurnameText;
+	@FXML
+	public TextArea descriptionText;
+	@FXML
+	public TextField imagePath;
+	@FXML
+	public Button pathButton;
+	@FXML
+	public Button addButton;
+	@FXML
+	public Button cancelButton;
+	@FXML
+	public CheckListView<Libro> bookList;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -49,31 +66,36 @@ public class AddCharacterViewController implements Initializable {
 	private Personaje characterToReturn = null;
 	private Libro book;
 
+	/**
+	 * Mï¿½todo para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 9999);		
+
+		SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 9999);
 		ageSpinner.setValueFactory(spinnerValueFactory);
-	
-		Platform.runLater(new Runnable() {			
+
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));
 
 				if (book != null) {
 					for (Libro l : bookList.getItems()) {
-						if (l.getId() == book.getId()) bookList.getCheckModel().check(l);
+						if (l.getId() == book.getId())
+							bookList.getCheckModel().check(l);
 					}
 				}
-				
+
 			}
 		});
 
-		//inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validaciï¿½n para que el campo de nombre no quede vacï¿½o
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El personaje debe tener un nombre"));
+		validationSupport.registerValidator(nameText,
+				Validator.createEmptyValidator("El personaje debe tener un nombre"));
 
-		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de tï¿½tulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -89,21 +111,22 @@ public class AddCharacterViewController implements Initializable {
 			}
 		});
 
-		//evento de click para añadir el personaje
+		// Evento para aï¿½adir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
-				if (validationSupport.isInvalid()) return;
+				if (validationSupport.isInvalid())
+					return;
 
 				addCharacterToDB(nameText.getText(), firstSurnameText.getText(), secondSurnameText.getText(),
-								ageSpinner.getValue(), descriptionText.getText(), imagePath.getText(), 
-								new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()));
+						ageSpinner.getValue(), descriptionText.getText(), imagePath.getText(),
+						new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()));
 				borderPane.getScene().getWindow().hide();
 			}
 		});
 
-		//evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -111,13 +134,14 @@ public class AddCharacterViewController implements Initializable {
 			}
 		});
 
-		//evento de click para mostrar el selector de archivo, con un filtro de extensiones de imagenes
+		// Evento para mostrar el selector de archivo, con un filtro de extensiones de
+		// imï¿½genes
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 				chooseFileDialog();
 			}
-		});	
+		});
 
 	}
 	
@@ -133,13 +157,31 @@ public class AddCharacterViewController implements Initializable {
 		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
-	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books) {
+	/**
+	 * Mï¿½todo para aï¿½adir el personaje a la base de datos
+	 * 
+	 * @param name          Nombre del personaje
+	 * @param firstSurname  Primer apellido del personaje
+	 * @param secondSurname Segundo apellido del personaje
+	 * @param age           Edad del personaje
+	 * @param description   Descripciï¿½n del personaje
+	 * @param image         Imagen del personaje
+	 * @param books         Libros donde aparece el personaje
+	 */
+	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description,
+			String image, Set<Libro> books) {
 
 		characterToReturn = new Personaje(name, firstSurname, secondSurname, age, description, image, books);
-		if (book != null) book.getPersonajes().add(characterToReturn);
-		DAOManager.getPersonajeDAO().addPersonaje(characterToReturn);		
+		if (book != null)
+			book.getPersonajes().add(characterToReturn);
+		DAOManager.getPersonajeDAO().addPersonaje(characterToReturn);
 	}
 
+	/**
+	 * Mï¿½todo para seleccionar el libro
+	 * 
+	 * @param l Libro de entrada
+	 */
 	public void setBook(Libro l) {
 		book = l;
 	}

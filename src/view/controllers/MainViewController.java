@@ -11,42 +11,58 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-public class MainViewController implements Initializable{
-	
-	@FXML public AnchorPane rootView;
-	
-	private BorderPane currentView;	
+/**
+ * Clase que sobre la que se sobrepondrán todas las demás vistas del programa
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
+public class MainViewController implements Initializable {
 
+	@FXML
+	public AnchorPane rootView;
+
+	private BorderPane currentView;
+
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ProjectView.fxml"));
-		
+
 		try {
 			currentView = fxmlLoader.load();
 		} catch (IOException e) {
 		}
-		
+
 		ProjectViewController projectViewController = fxmlLoader.getController();
 		projectViewController.setController(this);
-		
+
 		currentView.prefWidthProperty().bind(rootView.widthProperty());
 		currentView.prefHeightProperty().bind(rootView.heightProperty());
-		
+
 		rootView.getChildren().add(currentView);
-		
+
 	}
-	
+
+	/**
+	 * Método para seleccionar la vista en el panel
+	 * 
+	 * @param view Panel de entrada
+	 */
 	public void setView(Pane view) {
-		if (view == null) return;
-		
+		if (view == null)
+			return;
+
 		currentView = (BorderPane) view;
-		
+
 		currentView.prefWidthProperty().bind(rootView.widthProperty());
 		currentView.prefHeightProperty().bind(rootView.heightProperty());
-		
+
 		rootView.getChildren().clear();
-		rootView.getChildren().add(currentView);		
+		rootView.getChildren().add(currentView);
 	}
 
 }
