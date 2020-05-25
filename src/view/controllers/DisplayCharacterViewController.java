@@ -22,29 +22,21 @@ import model.Libro;
 import model.Personaje;
 
 /**
- * Clase que contiene la vista de un personaje
+ * Controlador de la vista de un personaje
  * 
- * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class DisplayCharacterViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public ImageView imageView;
-	@FXML
-	public Label nameLabel;
-	@FXML
-	public Label ageLabel;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public ListView<Libro> bookList;
-	@FXML
-	public ListView<Escena> sceneList;
-	@FXML
-	public Button closeButton;
+	@FXML public BorderPane borderPane;
+	@FXML public ImageView imageView;
+	@FXML public Label nameLabel;
+	@FXML public Label ageLabel;
+	@FXML public TextArea descriptionText;
+	@FXML public ListView<Libro> bookList;
+	@FXML public ListView<Escena> sceneList;
+	@FXML public Button closeButton;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -52,7 +44,7 @@ public class DisplayCharacterViewController implements Initializable {
 	private Personaje character;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -64,7 +56,7 @@ public class DisplayCharacterViewController implements Initializable {
 			}
 		});
 
-		// Evento para poder mover la ventana, dado que no tiene barra de tï¿½tulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -90,7 +82,7 @@ public class DisplayCharacterViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para mostrar informaciï¿½n sobre el personaje
+	 * Método para mostrar información sobre el personaje
 	 */
 	private void setInformation() {
 
@@ -113,7 +105,7 @@ public class DisplayCharacterViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para seleccionar el personaje
+	 * Método para seleccionar el personaje
 	 * 
 	 * @param p Personaje de entrada
 	 */

@@ -18,8 +18,8 @@ import model.Proyecto;
  * Este CrudManager permite realizar las operaciones basicas CRUD (Create, Read, Update, Delete) con cualquier entidad de la base de datos.
  * 
  * 
- * @author Albert
- * @author Paco
+ * @author Albert Araque
+ * @author Francisco José Ruiz
  * 
  */
 public class CrudManager {
@@ -104,7 +104,7 @@ public class CrudManager {
 	 * 
 	 * @param idObject el id de la entidad que queremos borrar
 	 * @param objectClass la clase de la entidad que queremos borrar
-	 * @return
+	 * @return id de la entidad eliminada
 	 */
 	public static synchronized Integer remove(Integer idObject, Class<?> objectClass) {
 		session = SessionFactoryUtil.getSessionFactory().openSession();
@@ -133,7 +133,7 @@ public class CrudManager {
 	 * 
 	 * @param className el nombre de la clase de las entitades que queremos obtener
 	 * @param objectClass la clase de las entidades que queremos obtener
-	 * @return
+	 * @return vector de entidades de la clase correspondiente
 	 */
 	public static synchronized Object[] getList(String className, Class<?> objectClass) {		
 		session = SessionFactoryUtil.getSessionFactory().openSession();
@@ -189,8 +189,8 @@ public class CrudManager {
 	 * Este metodo hace una cast a la clase a la que pertenezca el objeto introducido, al utilizar Object como clase general no podemos obtener el 
 	 * ID, entonces tenemos que averiguar primero que objeto esta instanciado, hacer un cast y obtener el ID.
 	 * 
-	 * @param object
-	 * @return
+	 * @param object la entidad de la cual queremos obtener el id
+	 * @return el id de la entidad introducida
 	 */
 	private static synchronized Integer getId(Object object) {
 		

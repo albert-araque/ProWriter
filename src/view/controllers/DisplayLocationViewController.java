@@ -18,23 +18,18 @@ import model.Escena;
 import model.Localidad;
 
 /**
- * Clase que contiene la vista de una localización
+ * Controlador de la vista de una localización
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class DisplayLocationViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public Label nameLabel;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public ListView<Escena> sceneList;
-	@FXML
-	public Button closeButton;
+	@FXML public BorderPane borderPane;
+	@FXML public Label nameLabel;
+	@FXML public TextArea descriptionText;
+	@FXML public ListView<Escena> sceneList;
+	@FXML public Button closeButton;
 
 	private static double xOffset;
 	private static double yOffset;

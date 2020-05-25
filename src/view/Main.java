@@ -93,7 +93,7 @@ public class Main extends Application {
 	/**
 	 * M�todo que devuelve el contenedor JavaFX principal
 	 * 
-	 * @return
+	 * @return devuelve la ventana principal del programa
 	 */
 	public static Stage getStage() {
 		return mainStage;

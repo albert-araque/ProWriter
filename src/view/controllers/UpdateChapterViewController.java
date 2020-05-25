@@ -22,25 +22,19 @@ import javafx.scene.layout.BorderPane;
 import model.Capitulo;
 
 /**
- * Clase para modificar un capítulo
+ * Controlador de la vista para modificar un capítulo
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class UpdateChapterViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextField chapterOrder;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
+	@FXML public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public TextField chapterOrder;
+	@FXML public TextArea descriptionText;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
 
 	private static double xOffset;
 	private static double yOffset;

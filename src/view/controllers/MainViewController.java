@@ -12,7 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 /**
- * Clase que sobre la que se sobrepondrán todas las demás vistas del programa
+ * Controlador de la vista sobre la que se sobrepondrán todas las demás vistas del programa
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0

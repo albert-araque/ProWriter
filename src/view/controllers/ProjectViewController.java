@@ -34,9 +34,9 @@ import model.Proyecto;
 import view.Main;
 
 /**
- * Clase que contiene la vista general de los proyectos
+ * Controlador de la vista general de los proyectos
  * 
- * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class ProjectViewController implements Initializable {
@@ -51,36 +51,24 @@ public class ProjectViewController implements Initializable {
 	private static final int BLABEL_YLAY = 300;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public FlowPane projectFlowPane;
-	@FXML
-	public Button addProjectButton;
-	@FXML
-	public Button updateProjectButton;
-	@FXML
-	public Button deleteProjectButton;
-	@FXML
-	public Button displayProjectButton;
-	@FXML
-	public Label errorLabel;
-	@FXML
-	public Label selectedProjectLabel;
-	@FXML
-	public Label selectedPaneLabel;
-
-	@FXML
-	public Pane bookButton;
-	@FXML
-	public Pane characterButton;
-	@FXML
-	public Pane locationButton;
+	@FXML public FlowPane projectFlowPane;
+	@FXML public Button addProjectButton;
+	@FXML public Button updateProjectButton;
+	@FXML public Button deleteProjectButton;
+	@FXML public Button displayProjectButton;
+	@FXML public Label errorLabel;
+	@FXML public Label selectedProjectLabel;
+	@FXML public Label selectedPaneLabel;
+	@FXML public Pane bookButton;
+	@FXML public Pane characterButton;
+	@FXML public Pane locationButton;
 
 	private Pane projectPane;
 	private Proyecto selectedProject;
 	private MainViewController mainViewController;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -90,7 +78,7 @@ public class ProjectViewController implements Initializable {
 
 		addProjectsFromDB();
 
-		// Evento al hacer click al botï¿½n aï¿½adir
+		// Evento al hacer click al botón añadir
 		addProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -112,11 +100,11 @@ public class ProjectViewController implements Initializable {
 				addProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
+				selectedProjectLabel.setText("Ningún proyecto seleccionado");
 			}
 		});
 
-		// Evento al hacer click al botï¿½n actualizar
+		// Evento al hacer click al botón actualizar
 		updateProjectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -147,7 +135,7 @@ public class ProjectViewController implements Initializable {
 				updateProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
+				selectedProjectLabel.setText("Ningún proyecto seleccionado");
 			}
 		});
 
@@ -162,15 +150,15 @@ public class ProjectViewController implements Initializable {
 				}
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminaciï¿½n de proyecto");
-				alert.setHeaderText("Estï¿½s a punto de eliminar el proyecto");
-				alert.setContentText("Estï¿½s seguro?");
+				alert.setTitle("Eliminación de proyecto");
+				alert.setHeaderText("Estás a punto de eliminar el proyecto");
+				alert.setContentText("Estás seguro?");
 				
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if (resultado.get() == ButtonType.OK) {
 					DAOManager.getProyectoDAO().removeProyecto(selectedProject.getId());
 					selectedProject = null;
-					selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
+					selectedProjectLabel.setText("Ningún proyecto seleccionado");
 					addProjectsFromDB();
 				}
 			}
@@ -205,7 +193,7 @@ public class ProjectViewController implements Initializable {
 				displayProjectDialog.setScene(dialogScene);
 				displayProjectDialog.showAndWait();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
+				selectedProjectLabel.setText("Ningún proyecto seleccionado");
 			}
 		});
 
@@ -267,7 +255,7 @@ public class ProjectViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para mostrar el proyecto en el panel
+	 * Método para mostrar el proyecto en el panel
 	 * 
 	 * @param p Proyecto de entrada
 	 */
@@ -276,10 +264,10 @@ public class ProjectViewController implements Initializable {
 		if (p == null)
 			return;
 
-		// Crea el contenedor (Pane) donde va la informaciï¿½n
+		// Crea el contenedor (Pane) donde va la información
 		projectPane = new Pane();
 
-		// Si el proyecto tiene una imagen, la aï¿½ade, si no, coge una por defecto
+		// Si el proyecto tiene una imagen, la añade, si no, coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
@@ -300,7 +288,7 @@ public class ProjectViewController implements Initializable {
 		FlowPane.setMargin(projectPane,
 				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		// Establece las medidas del contenedor y todo lo que haya dentro de ï¿½ste
+		// Establece las medidas del contenedor y todo lo que haya dentro de éste
 		projectPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
 		projectPane.getStyleClass().add("pane");
 
@@ -361,7 +349,7 @@ public class ProjectViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para mostrar los proyectos de la base de datos
+	 * Método para mostrar los proyectos de la base de datos
 	 */
 	private void addProjectsFromDB() {
 		Platform.runLater(new Runnable() {
@@ -378,7 +366,7 @@ public class ProjectViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para seleccionar el controlador
+	 * Método para seleccionar el controlador
 	 * 
 	 * @param controller Controlador de entrada
 	 */

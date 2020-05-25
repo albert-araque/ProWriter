@@ -17,7 +17,7 @@ import javafx.scene.input.MouseEvent;
 import model.Localidad;
 
 /**
- * Clase para añadir una localización
+ * Controlador de la vista para añadir una localización
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0

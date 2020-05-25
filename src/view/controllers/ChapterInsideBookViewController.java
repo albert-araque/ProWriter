@@ -34,7 +34,7 @@ import model.Proyecto;
 import view.Main;
 
 /**
- * Clase que contiene la vista de los capítulos de un libro
+ * Controlador de la vista de los capitulo dentro de un libro
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
@@ -51,24 +51,15 @@ public class ChapterInsideBookViewController implements Initializable {
 	private static final int OLABEL_YLAY = 250;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public Label selectedChapterLabel;
-	@FXML
-	public Label errorLabel;
-	@FXML
-	public Label bookNameDisplay;
-	@FXML
-	public Button backButton;
-	@FXML
-	public Button addChapterButton;
-	@FXML
-	public Button updateChapterButton;
-	@FXML
-	public Button deleteChapterButton;
-	@FXML
-	public Button displayChapterButton;
-	@FXML
-	public FlowPane chapterFlowPane;
+	@FXML public Label selectedChapterLabel;
+	@FXML public Label errorLabel;
+	@FXML public Label bookNameDisplay;
+	@FXML public Button backButton;
+	@FXML public Button addChapterButton;
+	@FXML public Button updateChapterButton;
+	@FXML public Button deleteChapterButton;
+	@FXML public Button displayChapterButton;
+	@FXML public FlowPane chapterFlowPane;
 
 	private MainViewController mainViewController;
 	private Libro book;
@@ -252,7 +243,7 @@ public class ChapterInsideBookViewController implements Initializable {
 	}
 
 	/**
-	 * Método para mostrar el capítulo en el panel
+	 * Método que coge los capitulos del libro y los añade en forma de Pane al flowPane
 	 * 
 	 * @param c Capítulo de entrada
 	 */

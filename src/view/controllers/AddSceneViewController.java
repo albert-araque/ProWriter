@@ -27,7 +27,7 @@ import model.Localidad;
 import model.Personaje;
 
 /**
- * Clase para añadir una escena
+ * Controlador de la vista para añadir una escena
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0

@@ -5,6 +5,12 @@ import java.util.Arrays;
 
 import model.Libro;
 
+/**
+ * Operaciones CRUD de Libro
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public class LibroHibernate implements LibroDAO {
 
 	@Override

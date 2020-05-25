@@ -32,7 +32,7 @@ import model.Personaje;
 import view.Main;
 
 /**
- * Clase que contiene la vista general de los personajes
+ * Controlador de la vista general de los personajes
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
@@ -48,28 +48,16 @@ public class CharacterViewController implements Initializable {
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public Pane projectButton;
-	@FXML
-	public Pane bookButton;
-	@FXML
-	public Pane locationButton;
-	@FXML
-	public Label errorLabel;
-
-	@FXML
-	public Button addCharacterButton;
-	@FXML
-	public Button updateCharacterButton;
-	@FXML
-	public Button deleteCharacterButton;
-	@FXML
-	public Button displayCharacterButton;
-
-	@FXML
-	public Label selectedCharacterLabel;
-	@FXML
-	public FlowPane characterFlowPane;
+	@FXML public Pane projectButton;
+	@FXML public Pane bookButton;
+	@FXML public Pane locationButton;
+	@FXML public Label errorLabel;
+	@FXML public Button addCharacterButton;
+	@FXML public Button updateCharacterButton;
+	@FXML public Button deleteCharacterButton;
+	@FXML public Button displayCharacterButton;
+	@FXML public Label selectedCharacterLabel;
+	@FXML public FlowPane characterFlowPane;
 
 	private MainViewController mainViewController;
 
@@ -266,7 +254,7 @@ public class CharacterViewController implements Initializable {
 	}
 
 	/**
-	 * Método para mostrar el personaje en el panel
+	 * Método que coge los personajes de la BD y los añade en forma de Pane al flowPane
 	 * 
 	 * @param p Personaje de entrada
 	 */

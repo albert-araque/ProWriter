@@ -8,36 +8,50 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.DisplaySceneViewController">
+<BorderPane fx:id="borderPane"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="view.controllers.DisplaySceneViewController">
 	<center>
 	</center>
 	<bottom>
-		<Pane prefHeight="440.0" prefWidth="600.0" style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
+		<Pane prefHeight="440.0" prefWidth="600.0"
+			style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
 			<children>
-				<Label fx:id="nameLabel" layoutX="25.0" layoutY="28.0" prefHeight="25.0" prefWidth="551.0" text="Nombre: ">
+				<Label fx:id="nameLabel" layoutX="25.0" layoutY="28.0"
+					prefHeight="25.0" prefWidth="551.0" text="Nombre: ">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Label layoutX="25.0" layoutY="103.0" prefHeight="25.0" prefWidth="92.0" text="Descripción:">
+				<Label layoutX="25.0" layoutY="103.0" prefHeight="25.0"
+					prefWidth="92.0" text="Descripción:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<TextArea fx:id="descriptionText" editable="false" layoutX="25.0" layoutY="137.0" prefHeight="100.0" prefWidth="550.0" />
-				<Label layoutX="25.0" layoutY="245.0" prefHeight="25.0" prefWidth="543.0" text="En esta escena aparecen los siguientes personajes:">
+				<TextArea fx:id="descriptionText" editable="false"
+					layoutX="25.0" layoutY="137.0" prefHeight="100.0" prefWidth="550.0" />
+				<Label layoutX="25.0" layoutY="245.0" prefHeight="25.0"
+					prefWidth="543.0"
+					text="En esta escena aparecen los siguientes personajes:">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<ListView fx:id="characterList" layoutX="25.0" layoutY="276.0" prefHeight="100.0" prefWidth="550.0" />
-				<Button fx:id="closeButton" layoutX="498.0" layoutY="387.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="Cerrar" />
-				<Label fx:id="chapterLabel" layoutX="25.0" layoutY="53.0" prefHeight="25.0" prefWidth="551.0" text="Capítulo: ">
+				<ListView fx:id="characterList" layoutX="25.0"
+					layoutY="276.0" prefHeight="100.0" prefWidth="550.0" />
+				<Button fx:id="closeButton" layoutX="498.0" layoutY="387.0"
+					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
+					text="Cerrar" />
+				<Label fx:id="chapterLabel" layoutX="25.0" layoutY="53.0"
+					prefHeight="25.0" prefWidth="551.0" text="Capítulo: ">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
-				<Label fx:id="locationLabel" layoutX="25.0" layoutY="78.0" prefHeight="25.0" prefWidth="552.0" text="Localización:">
+				<Label fx:id="locationLabel" layoutX="25.0" layoutY="78.0"
+					prefHeight="25.0" prefWidth="552.0" text="Localización:">
 					<font>
 						<Font size="16.0" />
 					</font>

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import model.Personaje;
-
+/**
+ * Operaciones CRUD de Personaje
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public class PersonajeHibernate implements PersonajeDAO {
 
 	@Override

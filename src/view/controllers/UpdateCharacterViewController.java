@@ -30,35 +30,24 @@ import model.Libro;
 import model.Personaje;
 
 /**
- * Clase para modificar un personaje
+ * Controlador de la vista para modificar un personaje
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class UpdateCharacterViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public TextField nameText;
-	@FXML
-	public Spinner<Integer> ageSpinner;
-	@FXML
-	public TextField firstSurnameText;
-	@FXML
-	public TextField secondSurnameText;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public TextField imagePath;
-	@FXML
-	public Button pathButton;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public CheckListView<Libro> bookList;
+	@FXML public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public Spinner<Integer> ageSpinner;
+	@FXML public TextField firstSurnameText;
+	@FXML public TextField secondSurnameText;
+	@FXML public TextArea descriptionText;
+	@FXML public TextField imagePath;
+	@FXML public Button pathButton;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public CheckListView<Libro> bookList;
 
 	private static double xOffset;
 	private static double yOffset;

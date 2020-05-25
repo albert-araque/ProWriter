@@ -18,25 +18,19 @@ import model.Capitulo;
 import model.Escena;
 
 /**
- * Clase que contiene la vista de un capítulo
+ * Controlador de la vista de un capítulo
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class DisplayChapterViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public Label nameLabel;
-	@FXML
-	public Label orderLabel;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public ListView<Escena> sceneList;
-	@FXML
-	public Button closeButton;
+	@FXML public BorderPane borderPane;
+	@FXML public Label nameLabel;
+	@FXML public Label orderLabel;
+	@FXML public TextArea descriptionText;
+	@FXML public ListView<Escena> sceneList;
+	@FXML public Button closeButton;
 
 	private static double xOffset;
 	private static double yOffset;

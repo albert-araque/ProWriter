@@ -18,27 +18,20 @@ import model.Escena;
 import model.Personaje;
 
 /**
- * Clase que contiene la vista de una escena
+ * Controlador de la vista de una escena
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class DisplaySceneViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public Label nameLabel;
-	@FXML
-	public Label chapterLabel;
-	@FXML
-	public Label locationLabel;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public ListView<Personaje> characterList;
-	@FXML
-	public Button closeButton;
+	@FXML public BorderPane borderPane;
+	@FXML public Label nameLabel;
+	@FXML public Label chapterLabel;
+	@FXML public Label locationLabel;
+	@FXML public TextArea descriptionText;
+	@FXML public ListView<Personaje> characterList;
+	@FXML public Button closeButton;
 
 	private static double xOffset;
 	private static double yOffset;

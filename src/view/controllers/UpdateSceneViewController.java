@@ -28,26 +28,20 @@ import model.Localidad;
 import model.Personaje;
 
 /**
- * Clase para modificar una escena
+ * Controlador de la vista para modificar una escena
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class UpdateSceneViewController implements Initializable {
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public ChoiceBox<String> locationChoiceBox;
-	@FXML
-	public CheckListView<Personaje> characterList;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public BorderPane borderPane;
+	
+	@FXML public TextField nameText;
+	@FXML public TextArea descriptionText; 
+	@FXML public ChoiceBox<String> locationChoiceBox;
+	@FXML public CheckListView<Personaje> characterList;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public BorderPane borderPane;
 
 	private static double xOffset;
 	private static double yOffset;

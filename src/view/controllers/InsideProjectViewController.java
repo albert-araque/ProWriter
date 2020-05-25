@@ -35,7 +35,7 @@ import model.Proyecto;
 import view.Main;
 
 /**
- * Clase que permite acceder a los libros que hay en un proyecto
+ * Controlador de la vista que permite acceder a los libros que hay en un proyecto
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
@@ -51,24 +51,15 @@ public class InsideProjectViewController implements Initializable {
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public FlowPane bookFlowPane;
-	@FXML
-	public Button addBookButton;
-	@FXML
-	public Button updateBookButton;
-	@FXML
-	public Button deleteBookButton;
-	@FXML
-	public Button displayBookButton;
-	@FXML
-	public Button backButton;
-	@FXML
-	public Label errorLabel;
-	@FXML
-	public Label selectedBookLabel;
-	@FXML
-	public Label projectNameDisplay;
+	@FXML public FlowPane bookFlowPane;
+	@FXML public Button addBookButton;
+	@FXML public Button updateBookButton;
+	@FXML public Button deleteBookButton;
+	@FXML public Button displayBookButton;
+	@FXML public Button backButton;
+	@FXML public Label errorLabel;
+	@FXML public Label selectedBookLabel;
+	@FXML public Label projectNameDisplay;
 
 	private MainViewController mainViewController;
 	private Proyecto project;

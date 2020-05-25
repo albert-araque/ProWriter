@@ -35,7 +35,7 @@ import model.Proyecto;
 import view.Main;
 
 /**
- * Clase que contiene la vista de las escenas de un capítulo
+ * Controlador de la vista de las escenas de un capítulo
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
@@ -51,24 +51,15 @@ public class SceneChapterViewController implements Initializable {
 	private static final int NLABEL_YLAY = 230;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public Label selectedSceneLabel;
-	@FXML
-	public Label errorLabel;
-	@FXML
-	public Label chapterNameDisplay;
-	@FXML
-	public Button backButton;
-	@FXML
-	public Button addSceneButton;
-	@FXML
-	public Button updateSceneButton;
-	@FXML
-	public Button deleteSceneButton;
-	@FXML
-	public Button displaySceneButton;
-	@FXML
-	public FlowPane sceneFlowPane;
+	@FXML public Label selectedSceneLabel;
+	@FXML public Label errorLabel;
+	@FXML public Label chapterNameDisplay;
+	@FXML public Button backButton;
+	@FXML public Button addSceneButton;
+	@FXML public Button updateSceneButton;
+	@FXML public Button deleteSceneButton;
+	@FXML public Button displaySceneButton;
+	@FXML public FlowPane sceneFlowPane;
 
 	private MainViewController mainViewController;
 	private Pane scenePane;

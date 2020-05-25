@@ -28,29 +28,21 @@ import model.Libro;
 import model.Proyecto;
 
 /**
- * Clase para modificar un proyecto
+ * Controlador de la vista para modificar un proyecto
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class UpdateProjectViewController implements Initializable {
 
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextField imagePath;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public CheckListView<Libro> bookList;
-	@FXML
-	public Button updateButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public Button pathButton;
-	@FXML
-	public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public TextField imagePath;
+	@FXML public TextArea descriptionText;
+	@FXML public CheckListView<Libro> bookList;
+	@FXML public Button updateButton;
+	@FXML public Button cancelButton;
+	@FXML public Button pathButton;
+	@FXML public BorderPane borderPane;
 
 	private static double xOffset;
 	private static double yOffset;

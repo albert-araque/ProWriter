@@ -20,27 +20,20 @@ import model.Libro;
 import model.Proyecto;
 
 /**
- * Clase para seleccionar capítulos o personajes de un libro
+ * Controlador de la vista para seleccionar capítulos o personajes de un libro
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class InsideBookViewController implements Initializable {
 
-	@FXML
-	public BorderPane bookViewPane;
-	@FXML
-	public Pane characterPane;
-	@FXML
-	public Pane chapterPane;
-	@FXML
-	public Label bookNameDisplay;
-	@FXML
-	public Button backButton;
-	@FXML
-	public ImageView characterPaneImage;
-	@FXML
-	public ImageView chapterPaneImage;
+	@FXML public BorderPane bookViewPane;
+	@FXML public Pane characterPane;
+	@FXML public Pane chapterPane;
+	@FXML public Label bookNameDisplay;
+	@FXML public Button backButton;
+	@FXML public ImageView characterPaneImage;
+	@FXML public ImageView chapterPaneImage;
 
 	private MainViewController mainViewController;
 	private Libro book;

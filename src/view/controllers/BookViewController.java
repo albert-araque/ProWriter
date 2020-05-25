@@ -33,9 +33,9 @@ import model.Libro;
 import view.Main;
 
 /**
- * Clase que contiene la vista general de los libros
+ * Controlador de la vista general de libros
  * 
- * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class BookViewController implements Initializable {
@@ -49,34 +49,24 @@ public class BookViewController implements Initializable {
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public FlowPane bookFlowPane;
-	@FXML
-	public Button addBookButton;
-	@FXML
-	public Button updateBookButton;
-	@FXML
-	public Button deleteBookButton;
-	@FXML
-	public Button displayBookButton;
-	@FXML
-	public Label errorLabel;
-	@FXML
-	public Label selectedBookLabel;
+	@FXML public FlowPane bookFlowPane;
+	@FXML public Button addBookButton;
+	@FXML public Button updateBookButton;
+	@FXML public Button deleteBookButton;
+	@FXML public Button displayBookButton;
+	@FXML public Label errorLabel;
+	@FXML public Label selectedBookLabel;
 
-	@FXML
-	public Pane projectButton;
-	@FXML
-	public Pane characterButton;
-	@FXML
-	public Pane locationButton;
+	@FXML public Pane projectButton;
+	@FXML public Pane characterButton;
+	@FXML public Pane locationButton;
 
 	private Pane bookPane;
 	private Libro selectedBook;
 	private MainViewController mainViewController;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -86,7 +76,7 @@ public class BookViewController implements Initializable {
 
 		addBooksFromDB();
 
-		// Evento al hacer click al botï¿½n aï¿½adir
+		// Evento al hacer click al botón añadir
 		addBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -108,12 +98,12 @@ public class BookViewController implements Initializable {
 				addBookDialog.setScene(dialogScene);
 				addBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningï¿½n libro seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				addBooksFromDB();
 			}
 		});
 
-		// Evento al hacer click al botï¿½n actualizar
+		// Evento al hacer click al botón actualizar
 		updateBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -144,12 +134,12 @@ public class BookViewController implements Initializable {
 				updateBookDialog.setScene(dialogScene);
 				updateBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningï¿½n libro seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				addBooksFromDB();
 			}
 		});
 
-		// Evento al hacer click al botï¿½n eliminar
+		// Evento al hacer click al botón eliminar
 		deleteBookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -160,9 +150,9 @@ public class BookViewController implements Initializable {
 				}
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminaciï¿½n de libro");
-				alert.setHeaderText("Estï¿½s a punto de eliminar el libro de todos los proyectos");
-				alert.setContentText("Estï¿½s seguro?");
+				alert.setTitle("Eliminación de libro");
+				alert.setHeaderText("Estás a punto de eliminar el libro de todos los proyectos");
+				alert.setContentText("Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if (resultado.get() == ButtonType.OK) {
@@ -170,7 +160,7 @@ public class BookViewController implements Initializable {
 					DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
 
 					selectedBook = null;
-					selectedBookLabel.setText("Ningï¿½n libro seleccionado");
+					selectedBookLabel.setText("Ningún libro seleccionado");
 					addBooksFromDB();
 				}
 			}
@@ -266,7 +256,7 @@ public class BookViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para mostrar el libro en el panel
+	 * Método que coge los libros de la base de datos y los añade en forma de Pane al flowPane
 	 * 
 	 * @param l Libro de entrada
 	 */
@@ -275,10 +265,10 @@ public class BookViewController implements Initializable {
 		if (l == null)
 			return;
 
-		// Crea el contenedor (Pane) donde va la informaciï¿½n
+		// Crea el contenedor (Pane) donde va la información
 		bookPane = new Pane();
 
-		// Si el libro tiene una imagen, la aï¿½ade, si no, coge una por defecto
+		// Si el libro tiene una imagen, la añade, si no, coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
@@ -341,7 +331,7 @@ public class BookViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para cargar los libros de la base de datos
+	 * Método para cargar los libros de la base de datos
 	 */
 	private void addBooksFromDB() {
 		bookFlowPane.getChildren().clear();
@@ -351,7 +341,7 @@ public class BookViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para seleccionar el controlador
+	 * Método para seleccionar el controlador
 	 * 
 	 * @param controller Controlador de entrada
 	 */

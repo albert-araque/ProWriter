@@ -29,33 +29,23 @@ import model.Personaje;
 import model.Proyecto;
 
 /**
- * Clase para aï¿½adir un libro
+ * Controlador de la vista para añadir un libro
  * 
  * @author Albert Araque, Francisco Josï¿½ Ruiz
  * @version 1.0
  */
 public class AddBookViewController implements Initializable {
 
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextField imagePath;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public TextField genreText;
-	@FXML
-	public CheckListView<Personaje> characterList;
-	@FXML
-	public CheckListView<Proyecto> projectList;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public Button pathButton;
-	@FXML
-	public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public TextField imagePath;
+	@FXML public TextArea descriptionText;
+	@FXML public TextField genreText;
+	@FXML public CheckListView<Personaje> characterList;
+	@FXML public CheckListView<Proyecto> projectList;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public Button pathButton;
+	@FXML public BorderPane borderPane;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -65,7 +55,7 @@ public class AddBookViewController implements Initializable {
 	private Proyecto project;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -74,7 +64,7 @@ public class AddBookViewController implements Initializable {
 			@Override
 			public void run() {
 				characterList.getItems()
-						.addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
+				.addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
 				projectList.getItems().addAll(FXCollections.observableList(DAOManager.getProyectoDAO().getProyectos()));
 
 				if (project != null) {
@@ -87,11 +77,11 @@ public class AddBookViewController implements Initializable {
 			}
 		});
 
-		// Inicializa la validaciï¿½n para que el campo de nombre no quede vacï¿½o
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro debe tener un nombre"));
 
-		// Evento para poder mover la ventana, dado que no tiene barra de tï¿½tulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -115,7 +105,7 @@ public class AddBookViewController implements Initializable {
 			}
 		});
 
-		// Evento para aï¿½adir el contenido
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -131,15 +121,15 @@ public class AddBookViewController implements Initializable {
 		});
 
 		// Evento para mostrar el selector de archivo, con un filtro de extensiones de
-		// imï¿½genes
+		// imágenes
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-		});		
-			}			
 				chooseFileDialog();
+			}			
+		});
 	}
-	
+
 	/**
 	 * Muestra un dialogo para elegir un archivo
 	 */
@@ -153,11 +143,11 @@ public class AddBookViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para aï¿½adir el libro al proyecto, y guardarlo en la base de datos
+	 * Método para añadir el libro al proyecto, y guardarlo en la base de datos
 	 * 
 	 * @param name        Nombre del libro
-	 * @param description Descripciï¿½n del libro
-	 * @param genre       Gï¿½nero literario del libro
+	 * @param description Descripción del libro
+	 * @param genre       Género literario del libro
 	 * @param imagePath   Imagen del libro
 	 * @param characters  Personajes del libro
 	 * @param projects    Proyectos en los que se encuentra el libro
@@ -166,13 +156,12 @@ public class AddBookViewController implements Initializable {
 			Set<Proyecto> projects) {
 
 		bookToReturn = new Libro(name, description, genre, imagePath, characters, projects);
-		if (project != null)
-			project.getLibros().add(bookToReturn);
+		if (project != null) project.getLibros().add(bookToReturn);
 		DAOManager.getLibroDAO().addLibro(bookToReturn);
 	}
 
 	/**
-	 * Mï¿½todo para seleccionar el proyecto
+	 * Método para seleccionar el proyecto
 	 * 
 	 * @param p Proyecto de entrada
 	 */

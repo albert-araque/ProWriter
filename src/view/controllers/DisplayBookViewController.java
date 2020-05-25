@@ -23,31 +23,22 @@ import model.Personaje;
 import model.Proyecto;
 
 /**
- * Clase que contiene la vista de un libro
+ * Controlador de la vista para mostrar un libro
  * 
- * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class DisplayBookViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public Label nameLabel;
-	@FXML
-	public Label genreLabel;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public ImageView imageView;
-	@FXML
-	public ListView<Personaje> characterList;
-	@FXML
-	public ListView<Proyecto> projectList;
-	@FXML
-	public ListView<Capitulo> chapterList;
-	@FXML
-	public Button closeButton;
+	@FXML public BorderPane borderPane;
+	@FXML public Label nameLabel;
+	@FXML public Label genreLabel;
+	@FXML public TextArea descriptionText;
+	@FXML public ImageView imageView;
+	@FXML public ListView<Personaje> characterList;
+	@FXML public ListView<Proyecto> projectList;
+	@FXML public ListView<Capitulo> chapterList;
+	@FXML public Button closeButton;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -55,7 +46,7 @@ public class DisplayBookViewController implements Initializable {
 	private Libro book;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -93,7 +84,7 @@ public class DisplayBookViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para mostrar informaciï¿½n sobre el libro
+	 * Método para mostrar información sobre el libro
 	 */
 	private void setInformation() {
 
@@ -104,7 +95,7 @@ public class DisplayBookViewController implements Initializable {
 		} catch (Exception e) {
 		}
 		if (book.getImagen() == null || book.getImagen().equals("") || !imageFile.exists())
-			imageView.setImage(new Image(errorFile.toURI().toString()));
+			imageView.setImage(new Image("resources/libro.png"));
 		else {
 			imageView.setImage(new Image(imageFile.toURI().toString()));
 		}
@@ -119,7 +110,7 @@ public class DisplayBookViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para seleccionar el libro
+	 * Mtodo para seleccionar el libro
 	 * 
 	 * @param l Libro de entrada
 	 */

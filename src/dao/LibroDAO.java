@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import model.Libro;
 
+/**
+ * Interfaz de Libro
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public interface LibroDAO {
 	
 	public Integer addLibro(Libro libro);

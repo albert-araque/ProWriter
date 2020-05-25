@@ -18,23 +18,18 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Clase para modificar una localización
+ * Controlador de la vista para modificar una localización
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class UpdateLocationViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextArea descriptionText;
+	@FXML public BorderPane borderPane;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public TextField nameText;
+	@FXML public TextArea descriptionText;
 
 	private static double xOffset;
 	private static double yOffset;

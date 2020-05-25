@@ -21,25 +21,19 @@ import model.Libro;
 import model.Proyecto;
 
 /**
- * Clase que contiene la vista de un proyecto
+ * Controlador de la vista de un proyecto
  * 
- * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class DisplayProjectViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public ImageView imageView;
-	@FXML
-	public Label nameLabel;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public ListView<Libro> bookList;
-	@FXML
-	public Button closeButton;
+	@FXML public BorderPane borderPane;
+	@FXML public ImageView imageView;
+	@FXML public Label nameLabel;
+	@FXML public TextArea descriptionText;
+	@FXML public ListView<Libro> bookList;
+	@FXML public Button closeButton;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -47,7 +41,7 @@ public class DisplayProjectViewController implements Initializable {
 	private Proyecto project;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -59,7 +53,7 @@ public class DisplayProjectViewController implements Initializable {
 			}
 		});
 
-		// Evento para poder mover la ventana, dado que no tiene barra de tï¿½tulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -85,7 +79,7 @@ public class DisplayProjectViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para mostrar informaciï¿½n sobre el proyecto
+	 * Método para mostrar información sobre el proyecto
 	 */
 	private void setInformation() {
 
@@ -104,7 +98,7 @@ public class DisplayProjectViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para seleccionar el proyecto
+	 * Método para seleccionar el proyecto
 	 * 
 	 * @param p Proyecto de entrada
 	 */

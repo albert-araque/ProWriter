@@ -28,29 +28,21 @@ import model.Libro;
 import model.Proyecto;
 
 /**
- * Clase para aï¿½adir un proyecto
+ * Controlador de la vista para añadir un proyecto
  * 
- * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class AddProjectViewController implements Initializable {
 
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextField imagePath;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public CheckListView<Libro> bookList;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public Button pathButton;
-	@FXML
-	public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public TextField imagePath;
+	@FXML public TextArea descriptionText;
+	@FXML public CheckListView<Libro> bookList;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public Button pathButton;
+	@FXML public BorderPane borderPane;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -58,7 +50,7 @@ public class AddProjectViewController implements Initializable {
 	private Proyecto projectToReturn = null;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -70,12 +62,12 @@ public class AddProjectViewController implements Initializable {
 			}
 		});
 
-		// Inicializa la validaciï¿½n para que el campo de nombre no quede vacï¿½o
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText,
 				Validator.createEmptyValidator("El proyecto debe tener un nombre"));
 
-		// Evento para poder mover la ventana, dado que no tiene barra de tï¿½tulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -99,7 +91,7 @@ public class AddProjectViewController implements Initializable {
 			}
 		});
 
-		// Evento para aï¿½adir el contenido
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -114,7 +106,7 @@ public class AddProjectViewController implements Initializable {
 		});
 
 		// Evento para mostrar el selector de archivo, con un filtro de extensiones de
-		// imï¿½genes
+		// imágenes
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -123,7 +115,7 @@ public class AddProjectViewController implements Initializable {
 		});
 	}
 	/**
-	 * Mï¿½todo que permite seleccionar la imagen asociada
+	 * Método que permite seleccionar la imagen asociada
 	 */
 	private void chooseFileDialog() {
 		FileChooser fileChooser = new FileChooser();
@@ -136,10 +128,10 @@ public class AddProjectViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para aï¿½adir el proyecto a la base de datos
+	 * Método para añadir el proyecto a la base de datos
 	 * 
 	 * @param name        Nombre del proyecto
-	 * @param description Descripciï¿½n del proyecto
+	 * @param description Descripción del proyecto
 	 * @param imagePath   Imagen del proyecto
 	 * @param books       Libros que contiene el proyecto
 	 */

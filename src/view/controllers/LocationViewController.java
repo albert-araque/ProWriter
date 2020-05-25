@@ -30,7 +30,7 @@ import model.Localidad;
 import view.Main;
 
 /**
- * Clase que contiene la vista general de las localizaciones
+ * Controlador de la vista general de las localizaciones
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
@@ -46,28 +46,16 @@ public class LocationViewController implements Initializable {
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML
-	public Pane projectButton;
-	@FXML
-	public Pane bookButton;
-	@FXML
-	public Pane characterButton;
-	@FXML
-	public Label errorLabel;
-
-	@FXML
-	public Button addLocationButton;
-	@FXML
-	public Button updateLocationButton;
-	@FXML
-	public Button deleteLocationButton;
-	@FXML
-	public Button displayLocationButton;
-
-	@FXML
-	public Label selectedLocationLabel;
-	@FXML
-	public FlowPane locationFlowPane;
+	@FXML public Pane projectButton;
+	@FXML public Pane bookButton;
+	@FXML public Pane characterButton;
+	@FXML public Label errorLabel;
+	@FXML public Button addLocationButton;
+	@FXML public Button updateLocationButton;
+	@FXML public Button deleteLocationButton;
+	@FXML public Button displayLocationButton;
+	@FXML public Label selectedLocationLabel;
+	@FXML public FlowPane locationFlowPane;
 
 	private MainViewController mainViewController;
 

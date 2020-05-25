@@ -30,35 +30,24 @@ import model.Libro;
 import model.Personaje;
 
 /**
- * Clase para aï¿½adir un personaje
+ * Controlador de la vista para añadir un personaje
  * 
- * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class AddCharacterViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public TextField nameText;
-	@FXML
-	public Spinner<Integer> ageSpinner;
-	@FXML
-	public TextField firstSurnameText;
-	@FXML
-	public TextField secondSurnameText;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public TextField imagePath;
-	@FXML
-	public Button pathButton;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public CheckListView<Libro> bookList;
+	@FXML public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public Spinner<Integer> ageSpinner;
+	@FXML public TextField firstSurnameText;
+	@FXML public TextField secondSurnameText;
+	@FXML public TextArea descriptionText;
+	@FXML public TextField imagePath;
+	@FXML public Button pathButton;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public CheckListView<Libro> bookList;
 
 	private static double xOffset;
 	private static double yOffset;
@@ -67,7 +56,7 @@ public class AddCharacterViewController implements Initializable {
 	private Libro book;
 
 	/**
-	 * Mï¿½todo para inicializar la clase
+	 * Método para inicializar la clase
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -90,12 +79,12 @@ public class AddCharacterViewController implements Initializable {
 			}
 		});
 
-		// Inicializa la validaciï¿½n para que el campo de nombre no quede vacï¿½o
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText,
 				Validator.createEmptyValidator("El personaje debe tener un nombre"));
 
-		// Evento para poder mover la ventana, dado que no tiene barra de tï¿½tulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -111,7 +100,7 @@ public class AddCharacterViewController implements Initializable {
 			}
 		});
 
-		// Evento para aï¿½adir el contenido
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -135,7 +124,7 @@ public class AddCharacterViewController implements Initializable {
 		});
 
 		// Evento para mostrar el selector de archivo, con un filtro de extensiones de
-		// imï¿½genes
+		// imágenes
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -158,13 +147,13 @@ public class AddCharacterViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para aï¿½adir el personaje a la base de datos
+	 * Método para añadir el personaje a la base de datos
 	 * 
 	 * @param name          Nombre del personaje
 	 * @param firstSurname  Primer apellido del personaje
 	 * @param secondSurname Segundo apellido del personaje
 	 * @param age           Edad del personaje
-	 * @param description   Descripciï¿½n del personaje
+	 * @param description   Descripción del personaje
 	 * @param image         Imagen del personaje
 	 * @param books         Libros donde aparece el personaje
 	 */
@@ -178,7 +167,7 @@ public class AddCharacterViewController implements Initializable {
 	}
 
 	/**
-	 * Mï¿½todo para seleccionar el libro
+	 * Método para seleccionar el libro
 	 * 
 	 * @param l Libro de entrada
 	 */

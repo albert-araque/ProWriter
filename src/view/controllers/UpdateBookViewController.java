@@ -27,33 +27,23 @@ import model.Personaje;
 import model.Proyecto;
 
 /**
- * Clase para modificar un libro
+ * Controlador de la vista para modificar un libro
  * 
  * @author Albert Araque, Francisco José Ruiz
  * @version 1.0
  */
 public class UpdateBookViewController implements Initializable {
 
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextField imagePath;
-	@FXML
-	public TextArea descriptionText;
-	@FXML
-	public TextField genreText;
-	@FXML
-	public CheckListView<Personaje> characterList;
-	@FXML
-	public CheckListView<Proyecto> projectList;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public Button pathButton;
-	@FXML
-	public BorderPane borderPane;
+	@FXML public TextField nameText;
+	@FXML public TextField imagePath;
+	@FXML public TextArea descriptionText;
+	@FXML public TextField genreText;
+	@FXML public CheckListView<Personaje> characterList;
+	@FXML public CheckListView<Proyecto> projectList;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public Button pathButton;
+	@FXML public BorderPane borderPane;
 
 	private static double xOffset;
 	private static double yOffset;

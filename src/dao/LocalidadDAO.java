@@ -3,7 +3,12 @@ package dao;
 import java.util.ArrayList;
 
 import model.Localidad;
-
+/**
+ * Interfaz de Localidad
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public interface LocalidadDAO {
 	
 	public Integer addLocalidad(Localidad localidad);
