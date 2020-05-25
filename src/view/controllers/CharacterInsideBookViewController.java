@@ -47,6 +47,7 @@ public class CharacterInsideBookViewController implements Initializable {
 	private static final int[] PANE_SIZE = { 290, 340 };
 	private static final int[] IMAGE_FIT = { 200, 230 };
 	private static final int IMAGE_LAYOUT[] = { 45, 22 };
+	private static final int ADD_IMAGE_Y = 62;
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
@@ -56,7 +57,6 @@ public class CharacterInsideBookViewController implements Initializable {
 	@FXML public Label errorLabel;
 	@FXML public Label bookNameDisplay;
 	@FXML public Button backButton;
-	@FXML public Button addCharacterButton;
 	@FXML public Button updateCharacterButton;
 	@FXML public Button deleteCharacterButton;
 	@FXML public Button displayCharacterButton;
@@ -81,35 +81,6 @@ public class CharacterInsideBookViewController implements Initializable {
 			@Override
 			public void run() {
 				bookNameDisplay.setText(project.getNombre() + " > " + book.getNombre());
-				loadCharacters();
-			}
-		});
-
-		addCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-				Stage addCharacterDialog = new Stage();
-
-				addCharacterDialog.initModality(Modality.APPLICATION_MODAL);
-				addCharacterDialog.initStyle(StageStyle.UNDECORATED);
-				addCharacterDialog.initOwner(Main.getStage());
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddCharacterView.fxml"));
-				BorderPane dialogRoot = null;
-
-				try {
-					dialogRoot = fxmlLoader.load();
-				} catch (IOException e) {
-				}
-
-				AddCharacterViewController addController = fxmlLoader.getController();
-				addController.setBook(book);
-
-				Scene dialogScene = new Scene(dialogRoot, 400, 600);
-				addCharacterDialog.setScene(dialogScene);
-				addCharacterDialog.showAndWait();
-				selectedCharacter = null;
-				selectedCharacterLabel.setText("Ningún personaje seleccionado");
 				loadCharacters();
 			}
 		});
@@ -243,6 +214,7 @@ public class CharacterInsideBookViewController implements Initializable {
 		for (Personaje p : book.getPersonajes()) {
 			convertCharacterToPane(p);
 		}
+		addButtonPane();
 	}
 
 	/**
@@ -251,6 +223,8 @@ public class CharacterInsideBookViewController implements Initializable {
 	 * @param p Personaje de entrada
 	 */
 	private void convertCharacterToPane(Personaje p) {
+
+		
 
 		if (p == null)
 			return;
@@ -309,6 +283,56 @@ public class CharacterInsideBookViewController implements Initializable {
 
 	}
 
+	/**
+	 * Método que añade un Pane para añadir un objeto a la BD
+	 *  
+	 */
+	private void addButtonPane() {
+		
+		Pane addPane = new Pane();
+		ImageView addImage = new ImageView("resources/add_icon.png");
+		
+		addImage.setFitHeight(IMAGE_FIT[0]);
+		addImage.setFitWidth(IMAGE_FIT[1]);
+		addImage.setLayoutX(IMAGE_LAYOUT[0]);
+		addImage.setLayoutY(ADD_IMAGE_Y);
+		addImage.setPickOnBounds(true);
+		addImage.setPreserveRatio(false);
+		
+		addPane.getChildren().add(addImage);
+		characterFlowPane.getChildren().add(addPane);
+		
+		// Evento al hacer click al botón añadir
+		addPane.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				Stage addCharacterDialog = new Stage();
+
+				addCharacterDialog.initModality(Modality.APPLICATION_MODAL);
+				addCharacterDialog.initStyle(StageStyle.UNDECORATED);
+				addCharacterDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddCharacterView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				AddCharacterViewController addController = fxmlLoader.getController();
+				addController.setBook(book);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 600);
+				addCharacterDialog.setScene(dialogScene);
+				addCharacterDialog.showAndWait();
+				selectedCharacter = null;
+				selectedCharacterLabel.setText("Ningún personaje seleccionado");
+				loadCharacters();				
+			}
+		});
+	}
+	
 	/**
 	 * Método para seleccionar el proyecto
 	 * 

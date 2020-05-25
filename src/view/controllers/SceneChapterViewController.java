@@ -46,6 +46,7 @@ public class SceneChapterViewController implements Initializable {
 	private static final int[] PANE_SIZE = { 290, 340 };
 	private static final int[] IMAGE_FIT = { 200, 230 };
 	private static final int IMAGE_LAYOUT[] = { 45, 22 };
+	private static final int ADD_IMAGE_Y = 62;
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 230;
@@ -55,7 +56,6 @@ public class SceneChapterViewController implements Initializable {
 	@FXML public Label errorLabel;
 	@FXML public Label chapterNameDisplay;
 	@FXML public Button backButton;
-	@FXML public Button addSceneButton;
 	@FXML public Button updateSceneButton;
 	@FXML public Button deleteSceneButton;
 	@FXML public Button displaySceneButton;
@@ -83,35 +83,6 @@ public class SceneChapterViewController implements Initializable {
 				chapterNameDisplay
 						.setText(project.getNombre() + " > " + book.getNombre() + " > " + chapter.getNombre());
 				loadScenes();
-			}
-		});
-
-		addSceneButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-
-				Stage addSceneDialog = new Stage();
-
-				addSceneDialog.initModality(Modality.APPLICATION_MODAL);
-				addSceneDialog.initStyle(StageStyle.UNDECORATED);
-				addSceneDialog.initOwner(Main.getStage());
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddSceneView.fxml"));
-				BorderPane dialogRoot = null;
-				try {
-					dialogRoot = fxmlLoader.load();
-				} catch (IOException e) {
-				}
-
-				AddSceneViewController addSceneViewController = fxmlLoader.getController();
-				addSceneViewController.setChapter(chapter);
-
-				Scene dialogScene = new Scene(dialogRoot, 400, 550);
-				addSceneDialog.setScene(dialogScene);
-				addSceneDialog.showAndWait();
-				loadScenes();
-				selectedScene = null;
-				selectedSceneLabel.setText("Ningúna escena seleccionada");
 			}
 		});
 
@@ -241,6 +212,57 @@ public class SceneChapterViewController implements Initializable {
 		for (Escena e : chapter.getEscenas()) {
 			convertSceneToPane(e);
 		}
+		
+		addButtonPane();
+	}
+	
+	/**
+	 * Método que añade un Pane para añadir un objeto a la BD
+	 *  
+	 */
+	private void addButtonPane() {
+		
+		Pane addPane = new Pane();
+		ImageView addImage = new ImageView("resources/add_icon.png");
+		
+		addImage.setFitHeight(IMAGE_FIT[0]);
+		addImage.setFitWidth(IMAGE_FIT[1]);
+		addImage.setLayoutX(IMAGE_LAYOUT[0]);
+		addImage.setLayoutY(ADD_IMAGE_Y);
+		addImage.setPickOnBounds(true);
+		addImage.setPreserveRatio(false);
+		
+		addPane.getChildren().add(addImage);
+		sceneFlowPane.getChildren().add(addPane);
+		
+		// Evento al hacer click al botón añadir
+		addPane.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				Stage addSceneDialog = new Stage();
+
+				addSceneDialog.initModality(Modality.APPLICATION_MODAL);
+				addSceneDialog.initStyle(StageStyle.UNDECORATED);
+				addSceneDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddSceneView.fxml"));
+				BorderPane dialogRoot = null;
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				AddSceneViewController addSceneViewController = fxmlLoader.getController();
+				addSceneViewController.setChapter(chapter);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 550);
+				addSceneDialog.setScene(dialogScene);
+				addSceneDialog.showAndWait();
+				loadScenes();
+				selectedScene = null;
+				selectedSceneLabel.setText("Ningúna escena seleccionada");				
+			}
+		});
 	}
 
 	/**
@@ -296,6 +318,8 @@ public class SceneChapterViewController implements Initializable {
 		});
 
 	}
+	
+	
 
 	/**
 	 * Método para seleccionar el proyecto

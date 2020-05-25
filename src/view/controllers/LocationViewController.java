@@ -41,6 +41,7 @@ public class LocationViewController implements Initializable {
 	private static final int[] PANE_SIZE = { 290, 340 };
 	private static final int[] IMAGE_FIT = { 200, 230 };
 	private static final int IMAGE_LAYOUT[] = { 45, 22 };
+	private static final int ADD_IMAGE_Y = 62;
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
@@ -50,7 +51,6 @@ public class LocationViewController implements Initializable {
 	@FXML public Pane bookButton;
 	@FXML public Pane characterButton;
 	@FXML public Label errorLabel;
-	@FXML public Button addLocationButton;
 	@FXML public Button updateLocationButton;
 	@FXML public Button deleteLocationButton;
 	@FXML public Button displayLocationButton;
@@ -72,33 +72,6 @@ public class LocationViewController implements Initializable {
 		locationFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
 
 		addLocationsFromDB();
-
-		// Evento al hacer click al botón añadir
-		addLocationButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-				Stage addLocationDialog = new Stage();
-
-				addLocationDialog.initModality(Modality.APPLICATION_MODAL);
-				addLocationDialog.initStyle(StageStyle.UNDECORATED);
-				addLocationDialog.initOwner(Main.getStage());
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddLocationView.fxml"));
-				BorderPane dialogRoot = null;
-
-				try {
-					dialogRoot = fxmlLoader.load();
-				} catch (IOException e) {
-				}
-
-				Scene dialogScene = new Scene(dialogRoot, 400, 350);
-				addLocationDialog.setScene(dialogScene);
-				addLocationDialog.showAndWait();
-				selectedLocation = null;
-				selectedLocationLabel.setText("Ninguna localidad seleccionada");
-				addLocationsFromDB();
-			}
-		});
 
 		// Evento al hacer click al botón actualizar
 		updateLocationButton.setOnMouseClicked(new EventHandler<Event>() {
@@ -333,6 +306,54 @@ public class LocationViewController implements Initializable {
 		for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades()) {
 			convertLocationToPane(l);
 		}
+		addButtonPane();
+	}
+	
+	/**
+	 * Método que añade un Pane para añadir un objeto a la BD
+	 *  
+	 */
+	private void addButtonPane() {
+		
+		Pane addPane = new Pane();
+		ImageView addImage = new ImageView("resources/add_icon.png");
+		
+		addImage.setFitHeight(IMAGE_FIT[0]);
+		addImage.setFitWidth(IMAGE_FIT[1]);
+		addImage.setLayoutX(IMAGE_LAYOUT[0]);
+		addImage.setLayoutY(ADD_IMAGE_Y);
+		addImage.setPickOnBounds(true);
+		addImage.setPreserveRatio(false);
+		
+		addPane.getChildren().add(addImage);
+		locationFlowPane.getChildren().add(addPane);
+		
+		// Evento al hacer click al botón añadir
+		addPane.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				Stage addLocationDialog = new Stage();
+
+				addLocationDialog.initModality(Modality.APPLICATION_MODAL);
+				addLocationDialog.initStyle(StageStyle.UNDECORATED);
+				addLocationDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddLocationView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 350);
+				addLocationDialog.setScene(dialogScene);
+				addLocationDialog.showAndWait();
+				selectedLocation = null;
+				selectedLocationLabel.setText("Ninguna localidad seleccionada");
+				addLocationsFromDB();				
+			}
+		});
 	}
 
 	/**

@@ -46,13 +46,13 @@ public class InsideProjectViewController implements Initializable {
 	private static final int[] PANE_SIZE = { 290, 340 };
 	private static final int[] IMAGE_FIT = { 200, 230 };
 	private static final int IMAGE_LAYOUT[] = { 45, 22 };
+	private static final int ADD_IMAGE_Y = 62;
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
 	@FXML public FlowPane bookFlowPane;
-	@FXML public Button addBookButton;
 	@FXML public Button updateBookButton;
 	@FXML public Button deleteBookButton;
 	@FXML public Button displayBookButton;
@@ -74,36 +74,6 @@ public class InsideProjectViewController implements Initializable {
 
 		bookFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
 		bookFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
-
-		// Evento al hacer click al botón añadir
-		addBookButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-				Stage addBookDialog = new Stage();
-
-				addBookDialog.initModality(Modality.APPLICATION_MODAL);
-				addBookDialog.initStyle(StageStyle.UNDECORATED);
-				addBookDialog.initOwner(Main.getStage());
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddBookView.fxml"));
-				BorderPane dialogRoot = null;
-
-				try {
-					dialogRoot = fxmlLoader.load();
-				} catch (IOException e) {
-				}
-
-				AddBookViewController addController = fxmlLoader.getController();
-				addController.setProject(project);
-
-				Scene dialogScene = new Scene(dialogRoot, 400, 750);
-				addBookDialog.setScene(dialogScene);
-				addBookDialog.showAndWait();
-				selectedBook = null;
-				selectedBookLabel.setText("Ningún libro seleccionado");
-				loadBooks();
-			}
-		});
 
 		// Evento al hacer click al botón actualizar
 		updateBookButton.setOnMouseClicked(new EventHandler<Event>() {
@@ -342,6 +312,58 @@ public class InsideProjectViewController implements Initializable {
 		for (Libro l : project.getLibros()) {
 			convertBookToPane(l);
 		}
+		
+		addButtonPane();
+	}
+	
+	/**
+	 * Método que añade un Pane para añadir un objeto a la BD
+	 *  
+	 */
+	private void addButtonPane() {
+		
+		Pane addPane = new Pane();
+		ImageView addImage = new ImageView("resources/add_icon.png");
+		
+		addImage.setFitHeight(IMAGE_FIT[0]);
+		addImage.setFitWidth(IMAGE_FIT[1]);
+		addImage.setLayoutX(IMAGE_LAYOUT[0]);
+		addImage.setLayoutY(ADD_IMAGE_Y);
+		addImage.setPickOnBounds(true);
+		addImage.setPreserveRatio(false);
+		
+		addPane.getChildren().add(addImage);
+		bookFlowPane.getChildren().add(addPane);
+		
+		// Evento al hacer click al botón añadir
+		addPane.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				Stage addBookDialog = new Stage();
+
+				addBookDialog.initModality(Modality.APPLICATION_MODAL);
+				addBookDialog.initStyle(StageStyle.UNDECORATED);
+				addBookDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddBookView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				AddBookViewController addController = fxmlLoader.getController();
+				addController.setProject(project);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 750);
+				addBookDialog.setScene(dialogScene);
+				addBookDialog.showAndWait();
+				selectedBook = null;
+				selectedBookLabel.setText("Ningún libro seleccionado");
+				loadBooks();				
+			}
+		});
 	}
 
 	/**

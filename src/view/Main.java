@@ -30,7 +30,7 @@ public class Main extends Application {
 	private static Stage mainStage;
 
 	/**
-	 * Mï¿½todo que prepara la vista principal del programa
+	 * Método que prepara la vista principal del programa
 	 */
 	@Override
 	public void start(Stage primaryStage) {
@@ -91,7 +91,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Mï¿½todo que devuelve el contenedor JavaFX principal
+	 * Método que devuelve el contenedor JavaFX principal
 	 * 
 	 * @return devuelve la ventana principal del programa
 	 */
