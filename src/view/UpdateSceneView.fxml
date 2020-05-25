@@ -41,7 +41,7 @@
 				<Button fx:id="addButton" layoutX="219.0" layoutY="491.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="Actualizar" />
 				<Button fx:id="cancelButton" layoutX="309.0" layoutY="491.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0" text="Cancelar" />
 				<CheckListView fx:id="characterList" layoutX="23.0" layoutY="356.0" prefHeight="120.0" prefWidth="358.0" />
-				<Label layoutX="22.0" layoutY="253.0" prefHeight="25.0" prefWidth="80.0" text="Localidad:">
+				<Label layoutX="22.0" layoutY="253.0" prefHeight="25.0" prefWidth="100.0" text="Localización:">
 					<font>
 						<Font size="16.0" />
 					</font>

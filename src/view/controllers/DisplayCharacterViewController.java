@@ -21,33 +21,50 @@ import model.Escena;
 import model.Libro;
 import model.Personaje;
 
+/**
+ * Clase que contiene la vista de un personaje
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class DisplayCharacterViewController implements Initializable {
-	
-	@FXML public BorderPane borderPane;
-	@FXML public ImageView imageView;
-	@FXML public Label nameLabel;
-	@FXML public Label ageLabel;
-	@FXML public TextArea descriptionText;
-	@FXML public ListView<Libro> bookList;
-	@FXML public ListView<Escena> sceneList;
-	@FXML public Button closeButton;
-	
+
+	@FXML
+	public BorderPane borderPane;
+	@FXML
+	public ImageView imageView;
+	@FXML
+	public Label nameLabel;
+	@FXML
+	public Label ageLabel;
+	@FXML
+	public TextArea descriptionText;
+	@FXML
+	public ListView<Libro> bookList;
+	@FXML
+	public ListView<Escena> sceneList;
+	@FXML
+	public Button closeButton;
+
 	private static double xOffset;
 	private static double yOffset;
-	
+
 	private Personaje character;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				setInformation();
 			}
 		});
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -66,34 +83,46 @@ public class DisplayCharacterViewController implements Initializable {
 		closeButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				borderPane.getScene().getWindow().hide();				
+				borderPane.getScene().getWindow().hide();
 			}
 		});
 
 	}
-	
+
+	/**
+	 * Método para mostrar información sobre el personaje
+	 */
 	private void setInformation() {
-		
+
 		File imageFile = null;
 		File errorFile = new File("./src/resources/character_icon.png");
 
-		try { imageFile = new File(character.getImagen()); } catch (Exception e) {}		
-		if (character.getImagen() == null || character.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image(errorFile.toURI().toString()));
-		else {			
+		try {
+			imageFile = new File(character.getImagen());
+		} catch (Exception e) {
+		}
+		if (character.getImagen() == null || character.getImagen().equals("") || !imageFile.exists())
+			imageView.setImage(new Image(errorFile.toURI().toString()));
+		else {
 			imageView.setImage(new Image(imageFile.toURI().toString()));
 		}
-		
-		String apellido1 = character.getApellido1() == null? "" : character.getApellido1();
-		String apellido2 = character.getApellido2() == null? "" : character.getApellido2(); 
-		
+
+		String apellido1 = character.getApellido1() == null ? "" : character.getApellido1();
+		String apellido2 = character.getApellido2() == null ? "" : character.getApellido2();
+
 		nameLabel.setText("Nombre: " + character.getNombre() + " " + apellido1 + " " + apellido2);
 		ageLabel.setText(String.valueOf(character.getEdad()));
 		descriptionText.setText(character.getDescripcion());
 		bookList.getItems().addAll(character.getLibros());
 		sceneList.getItems().addAll(character.getEscenas());
-		
+
 	}
-	
+
+	/**
+	 * Método para seleccionar el personaje
+	 * 
+	 * @param p Personaje de entrada
+	 */
 	public void setCharacter(Personaje p) {
 		character = p;
 	}

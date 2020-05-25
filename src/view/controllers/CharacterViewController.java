@@ -31,35 +31,54 @@ import javafx.stage.StageStyle;
 import model.Personaje;
 import view.Main;
 
+/**
+ * Clase que contiene la vista general de los personajes
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class CharacterViewController implements Initializable {
-	
-	private static final int MAX_LENGHT = 20;
-	private static final int[] PANE_SIZE = {290, 340};
-	private static final int[] IMAGE_FIT = {200, 230};
-	private static final int IMAGE_LAYOUT[] = {45, 22};
+
+	private static final int MAX_LENGTH = 20;
+	private static final int[] PANE_SIZE = { 290, 340 };
+	private static final int[] IMAGE_FIT = { 200, 230 };
+	private static final int IMAGE_LAYOUT[] = { 45, 22 };
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 275;
-	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
+	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML public Pane projectButton;
-	@FXML public Pane bookButton;
-	@FXML public Pane locationButton;
-	@FXML public Label errorLabel;
-	
-	@FXML public Button addCharacterButton;
-	@FXML public Button updateCharacterButton;
-	@FXML public Button deleteCharacterButton;
-	@FXML public Button displayCharacterButton;
-	
-	@FXML public Label selectedCharacterLabel;
-	@FXML public FlowPane characterFlowPane;
-	
+	@FXML
+	public Pane projectButton;
+	@FXML
+	public Pane bookButton;
+	@FXML
+	public Pane locationButton;
+	@FXML
+	public Label errorLabel;
+
+	@FXML
+	public Button addCharacterButton;
+	@FXML
+	public Button updateCharacterButton;
+	@FXML
+	public Button deleteCharacterButton;
+	@FXML
+	public Button displayCharacterButton;
+
+	@FXML
+	public Label selectedCharacterLabel;
+	@FXML
+	public FlowPane characterFlowPane;
+
 	private MainViewController mainViewController;
-	
+
 	private Pane characterPane;
 	private Personaje selectedCharacter;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		characterFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
@@ -67,7 +86,7 @@ public class CharacterViewController implements Initializable {
 
 		addCharactersFromDB();
 
-		//evento al hacer click al boton de añadir
+		// Evento al hacer click al botón añadir
 		addCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -75,7 +94,7 @@ public class CharacterViewController implements Initializable {
 
 				addCharacterDialog.initModality(Modality.APPLICATION_MODAL);
 				addCharacterDialog.initStyle(StageStyle.UNDECORATED);
-				addCharacterDialog.initOwner(Main.getStage());                
+				addCharacterDialog.initOwner(Main.getStage());
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AddCharacterView.fxml"));
 				BorderPane dialogRoot = null;
@@ -94,7 +113,7 @@ public class CharacterViewController implements Initializable {
 			}
 		});
 
-		//evento al hacer click al boton de actualizar
+		// Evento al hacer click al botón actualizar
 		updateCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -102,7 +121,7 @@ public class CharacterViewController implements Initializable {
 				if (selectedCharacter == null) {
 					errorLabel.setVisible(true);
 					return;
-				}				
+				}
 
 				Stage updateCharacterDialog = new Stage();
 
@@ -116,14 +135,14 @@ public class CharacterViewController implements Initializable {
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
-				}				
+				}
 
 				UpdateCharacterViewController updateController = fxmlLoader.getController();
 				updateController.setPersonaje(selectedCharacter);
 
 				Scene dialogScene = new Scene(dialogRoot, 400, 600);
 				updateCharacterDialog.setScene(dialogScene);
-				updateCharacterDialog.showAndWait();				
+				updateCharacterDialog.showAndWait();
 				selectedCharacter = null;
 				selectedCharacterLabel.setText("Ningún personaje seleccionado");
 				addCharactersFromDB();
@@ -137,7 +156,7 @@ public class CharacterViewController implements Initializable {
 				if (selectedCharacter == null) {
 					errorLabel.setVisible(true);
 					return;
-				}			
+				}
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Eliminación de personaje");
@@ -145,17 +164,17 @@ public class CharacterViewController implements Initializable {
 				alert.setContentText("¿Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
-				if(resultado.get() == ButtonType.OK) {
+				if (resultado.get() == ButtonType.OK) {
 
 					DAOManager.getPersonajeDAO().removePersonaje(selectedCharacter.getId());
 
 					selectedCharacter = null;
 					selectedCharacterLabel.setText("Ningún personaje seleccionado");
 					addCharactersFromDB();
-				}				
+				}
 			}
 		});
-		
+
 		displayCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -163,7 +182,7 @@ public class CharacterViewController implements Initializable {
 				if (selectedCharacter == null) {
 					errorLabel.setVisible(true);
 					return;
-				}				
+				}
 
 				Stage displayCharacterDialog = new Stage();
 
@@ -177,14 +196,14 @@ public class CharacterViewController implements Initializable {
 				try {
 					dialogRoot = fxmlLoader.load();
 				} catch (IOException e) {
-				}				
+				}
 
 				DisplayCharacterViewController displayController = fxmlLoader.getController();
 				displayController.setCharacter(selectedCharacter);
 
 				Scene dialogScene = new Scene(dialogRoot, 600, 630);
 				displayCharacterDialog.setScene(dialogScene);
-				displayCharacterDialog.showAndWait();				
+				displayCharacterDialog.showAndWait();
 				selectedCharacter = null;
 				selectedCharacterLabel.setText("Ningún personaje seleccionado");
 			}
@@ -207,7 +226,7 @@ public class CharacterViewController implements Initializable {
 				mainViewController.setView(borderPane);
 			}
 		});
-		
+
 		bookButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -225,7 +244,7 @@ public class CharacterViewController implements Initializable {
 				mainViewController.setView(borderPane);
 			}
 		});
-		
+
 		locationButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -245,75 +264,98 @@ public class CharacterViewController implements Initializable {
 		});
 
 	}
-	
+
+	/**
+	 * Método para mostrar el personaje en el panel
+	 * 
+	 * @param p Personaje de entrada
+	 */
 	public void convertCharacterToPane(Personaje p) {
 
-		if (p == null) return;
+		if (p == null)
+			return;
 
-		//crea el pane, el "contenedor" donde va a ir la informacion
+		// Crea el contenedor (Pane) donde va la información
 		characterPane = new Pane();
 
-		//si el proyecto tiene una imagen, la añade, si no coge una por defecto
+		// si el proyecto tiene una imagen, la añade, si no coge una por defecto
 		ImageView projectImage;
 		File imageFile = null;
 
-		try { imageFile = new File(p.getImagen()); } catch (Exception e) {}		
-		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists()) projectImage = new ImageView("resources/character_icon.png");
-		else {			
+		try {
+			imageFile = new File(p.getImagen());
+		} catch (Exception e) {
+		}
+		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists())
+			projectImage = new ImageView("resources/character_icon.png");
+		else {
 			projectImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
 
 		Label nameLabel = new Label();
 		Label characterLabel = new Label();
 
-		//establece el margin de cada contenedor
-		FlowPane.setMargin(characterPane, new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
+		// Establece el margen de cada contenedor
+		FlowPane.setMargin(characterPane,
+				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		//establece diversas medidas del contenedor, la imagen, las label
+		// Establece las medidas del contenedor y todo lo que haya dentro de éste
 		characterPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
-		characterPane.getStyleClass().add("pane");		
+		characterPane.getStyleClass().add("pane");
 
 		projectImage.setFitHeight(IMAGE_FIT[0]);
 		projectImage.setFitWidth(IMAGE_FIT[1]);
 		projectImage.setLayoutX(IMAGE_LAYOUT[0]);
 		projectImage.setLayoutY(IMAGE_LAYOUT[1]);
 		projectImage.setPickOnBounds(true);
-		projectImage.setPreserveRatio(true);		
+		projectImage.setPreserveRatio(true);
 
-		if (p.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGHT) + "...");
-		else nameLabel.setText("Nombre: " + p.getNombre());		
+		if (p.getNombre().length() > MAX_LENGTH)
+			nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGTH) + "...");
+		else
+			nameLabel.setText("Nombre: " + p.getNombre());
 		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
 
 		characterLabel.setLayoutX(LABEL_XLAY);
-		characterLabel.setLayoutY(NLABEL_YLAY+ 10);
+		characterLabel.setLayoutY(NLABEL_YLAY + 10);
 
-		characterPane.getChildren().add(nameLabel);	
-		characterPane.getChildren().add(projectImage);	
+		characterPane.getChildren().add(nameLabel);
+		characterPane.getChildren().add(projectImage);
 		characterFlowPane.getChildren().add(characterPane);
 
-		//evento de click para que al hacer click sobre un contenedor de proyecto se quede como seleccionado tanto el proyecto como el contenedor
+		// Evento para que quede seleccionado proyecto y contenedor al hacer click sobre
+		// un contenedor de proyecto
 		characterPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event) {			
+			public void handle(MouseEvent event) {
 
 				if (event.getClickCount() == 1) {
 					selectedCharacter = p;
 					selectedCharacterLabel.setText("Personaje seleccionado: " + p.getNombre());
-					if (errorLabel.isVisible()) errorLabel.setVisible(false);
+					if (errorLabel.isVisible())
+						errorLabel.setVisible(false);
 				}
 			}
 		});
 	}
-	
+
+	/**
+	 * Método para cargar los personajes de la base de datos
+	 */
 	private void addCharactersFromDB() {
 		characterFlowPane.getChildren().clear();
 		for (Personaje p : DAOManager.getPersonajeDAO().getPersonajes()) {
 			convertCharacterToPane(p);
 		}
 	}
-	
+
+	/**
+	 * Método para seleccionar el controlador
+	 * 
+	 * @param controller Controlador de entrada
+	 */
 	public void setController(MainViewController controller) {
 		mainViewController = controller;
 	}

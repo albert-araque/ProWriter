@@ -26,29 +26,46 @@ import model.Libro;
 import model.Personaje;
 import model.Proyecto;
 
+/**
+ * Clase para modificar un libro
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class UpdateBookViewController implements Initializable {
 
-	@FXML public TextField nameText;
-	@FXML public TextField imagePath;
-	@FXML public TextArea descriptionText;
-	@FXML public TextField genreText;
-	@FXML public CheckListView<Personaje> characterList;
-	@FXML public CheckListView<Proyecto> projectList;
-	@FXML public Button addButton;
-	@FXML public Button cancelButton;
-	@FXML public Button pathButton;
-	@FXML public BorderPane borderPane;
+	@FXML
+	public TextField nameText;
+	@FXML
+	public TextField imagePath;
+	@FXML
+	public TextArea descriptionText;
+	@FXML
+	public TextField genreText;
+	@FXML
+	public CheckListView<Personaje> characterList;
+	@FXML
+	public CheckListView<Proyecto> projectList;
+	@FXML
+	public Button addButton;
+	@FXML
+	public Button cancelButton;
+	@FXML
+	public Button pathButton;
+	@FXML
+	public BorderPane borderPane;
 
 	private static double xOffset;
 	private static double yOffset;
 
 	private Libro book;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		// inicia un hilo para cargar los libros en el checklistview para añadirlos al
-		// proyecto
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -66,12 +83,11 @@ public class UpdateBookViewController implements Initializable {
 			}
 		});
 
-		// inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText,
-				Validator.createEmptyValidator("El libro debe tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro debe tener un nombre"));
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de
+		// Evento para poder mover la ventana dado que no tiene barra de
 		// titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -88,7 +104,7 @@ public class UpdateBookViewController implements Initializable {
 			}
 		});
 
-		// evento de click para añadir el proyecto
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -103,7 +119,7 @@ public class UpdateBookViewController implements Initializable {
 			}
 		});
 
-		// evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -111,8 +127,6 @@ public class UpdateBookViewController implements Initializable {
 			}
 		});
 
-		// evento de click para mostrar el selector de archivo,
-		// con un filtro de extensiones de imagenes
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -121,6 +135,9 @@ public class UpdateBookViewController implements Initializable {
 		});
 	}
 
+	/**
+	 * Método que permite seleccionar la imagen asociada
+	 */
 	private void chooseFileDialog() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -131,7 +148,16 @@ public class UpdateBookViewController implements Initializable {
 		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
-	// metodo para añadir el proyecto a la base de datos
+	/**
+	 * Método para actualizar el libro en la base de datos
+	 * 
+	 * @param name        Nombre del libro
+	 * @param description Descripción del libro
+	 * @param genre       Género del libro
+	 * @param imagePath   Imagen del libro
+	 * @param characters  Personajes del libro
+	 * @param projects    Proyectos del libro
+	 */
 	private void updateBook(String name, String description, String genre, String imagePath, Set<Personaje> characters,
 			Set<Proyecto> projects) {
 
@@ -145,6 +171,9 @@ public class UpdateBookViewController implements Initializable {
 		DAOManager.getLibroDAO().updateLibro(book);
 	}
 
+	/**
+	 * Método para tildar personajes
+	 */
 	private void checkExistingCharacters() {
 		for (Personaje character : characterList.getItems()) {
 			for (Personaje existingCharacters : book.getPersonajes()) {
@@ -155,6 +184,9 @@ public class UpdateBookViewController implements Initializable {
 		}
 	}
 
+	/**
+	 * Método para tildar proyectos
+	 */
 	private void checkExistingProjects() {
 		for (Proyecto proyecto : projectList.getItems()) {
 			for (Proyecto existingProyects : book.getProyectos()) {
@@ -165,6 +197,11 @@ public class UpdateBookViewController implements Initializable {
 		}
 	}
 
+	/**
+	 * Método para seleccionar el libro
+	 * 
+	 * @param l Libro de entrada
+	 */
 	public void setBook(Libro l) {
 		book = l;
 	}

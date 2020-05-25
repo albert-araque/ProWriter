@@ -34,26 +34,41 @@ import model.Libro;
 import model.Proyecto;
 import view.Main;
 
+/**
+ * Clase que contiene la vista de las escenas de un capítulo
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class SceneChapterViewController implements Initializable {
 
-	private static final int MAX_LENGHT = 20;
-	private static final int[] PANE_SIZE = {290, 340};
-	private static final int[] IMAGE_FIT = {200, 230};
-	private static final int IMAGE_LAYOUT[] = {45, 22};
+	private static final int MAX_LENGTH = 20;
+	private static final int[] PANE_SIZE = { 290, 340 };
+	private static final int[] IMAGE_FIT = { 200, 230 };
+	private static final int IMAGE_LAYOUT[] = { 45, 22 };
 	private static final int FONT_SIZE = 14;
 	private static final int LABEL_XLAY = 32;
 	private static final int NLABEL_YLAY = 230;
-	private static final int[] FLOWPANE_MARGIN = {10, 8, 20, 8};
+	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML public Label selectedSceneLabel;
-	@FXML public Label errorLabel;
-	@FXML public Label chapterNameDisplay;
-	@FXML public Button backButton;
-	@FXML public Button addSceneButton;
-	@FXML public Button updateSceneButton;
-	@FXML public Button deleteSceneButton;
-	@FXML public Button displaySceneButton;
-	@FXML public FlowPane sceneFlowPane;
+	@FXML
+	public Label selectedSceneLabel;
+	@FXML
+	public Label errorLabel;
+	@FXML
+	public Label chapterNameDisplay;
+	@FXML
+	public Button backButton;
+	@FXML
+	public Button addSceneButton;
+	@FXML
+	public Button updateSceneButton;
+	@FXML
+	public Button deleteSceneButton;
+	@FXML
+	public Button displaySceneButton;
+	@FXML
+	public FlowPane sceneFlowPane;
 
 	private MainViewController mainViewController;
 	private Pane scenePane;
@@ -62,16 +77,20 @@ public class SceneChapterViewController implements Initializable {
 	private Proyecto project;
 	private Escena selectedScene;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		sceneFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
 		sceneFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
 
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				chapterNameDisplay.setText(project.getNombre() + " > " + book.getNombre() + " > " + chapter.getNombre());
+				chapterNameDisplay
+						.setText(project.getNombre() + " > " + book.getNombre() + " > " + chapter.getNombre());
 				loadScenes();
 			}
 		});
@@ -96,7 +115,7 @@ public class SceneChapterViewController implements Initializable {
 				AddSceneViewController addSceneViewController = fxmlLoader.getController();
 				addSceneViewController.setChapter(chapter);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 550);              
+				Scene dialogScene = new Scene(dialogRoot, 400, 550);
 				addSceneDialog.setScene(dialogScene);
 				addSceneDialog.showAndWait();
 				loadScenes();
@@ -118,7 +137,7 @@ public class SceneChapterViewController implements Initializable {
 
 				addChapterDialog.initModality(Modality.APPLICATION_MODAL);
 				addChapterDialog.initStyle(StageStyle.UNDECORATED);
-				addChapterDialog.initOwner(Main.getStage());                
+				addChapterDialog.initOwner(Main.getStage());
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateSceneView.fxml"));
 				BorderPane dialogRoot = null;
@@ -131,7 +150,7 @@ public class SceneChapterViewController implements Initializable {
 				updateSceneViewController.setChapter(chapter);
 				updateSceneViewController.setScene(selectedScene);
 
-				Scene dialogScene = new Scene(dialogRoot, 400, 550);              
+				Scene dialogScene = new Scene(dialogRoot, 400, 550);
 				addChapterDialog.setScene(dialogScene);
 				addChapterDialog.showAndWait();
 				loadScenes();
@@ -179,7 +198,7 @@ public class SceneChapterViewController implements Initializable {
 
 				addChapterDialog.initModality(Modality.APPLICATION_MODAL);
 				addChapterDialog.initStyle(StageStyle.UNDECORATED);
-				addChapterDialog.initOwner(Main.getStage());                
+				addChapterDialog.initOwner(Main.getStage());
 
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplaySceneView.fxml"));
 				BorderPane dialogRoot = null;
@@ -191,7 +210,7 @@ public class SceneChapterViewController implements Initializable {
 				DisplaySceneViewController displaySceneViewController = fxmlLoader.getController();
 				displaySceneViewController.setScene(selectedScene);
 
-				Scene dialogScene = new Scene(dialogRoot, 600, 440);              
+				Scene dialogScene = new Scene(dialogRoot, 600, 440);
 				addChapterDialog.setScene(dialogScene);
 				addChapterDialog.showAndWait();
 				loadScenes();
@@ -199,7 +218,7 @@ public class SceneChapterViewController implements Initializable {
 				selectedSceneLabel.setText("Ningún capítulo seleccionado");
 
 			}
-		});		
+		});
 
 		backButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -208,7 +227,7 @@ public class SceneChapterViewController implements Initializable {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ChapterInsideBookView.fxml"));
 				BorderPane borderPane = null;
 				try {
-					borderPane =fxmlLoader.load();
+					borderPane = fxmlLoader.load();
 				} catch (IOException e) {
 				}
 
@@ -217,12 +236,14 @@ public class SceneChapterViewController implements Initializable {
 				chapterInsideBookViewController.setBook(book);
 				chapterInsideBookViewController.setController(mainViewController);
 
-				mainViewController.setView(borderPane);	
+				mainViewController.setView(borderPane);
 			}
-		});	
-
+		});
 	}
 
+	/**
+	 * Método para cargar las escenas
+	 */
 	private void loadScenes() {
 		sceneFlowPane.getChildren().clear();
 
@@ -231,19 +252,26 @@ public class SceneChapterViewController implements Initializable {
 		}
 	}
 
+	/**
+	 * Método para mostrar la escena en el panel
+	 * 
+	 * @param e Escena de entrada
+	 */
 	private void convertSceneToPane(Escena e) {
 
-		if (e == null) return;
+		if (e == null)
+			return;
 		scenePane = new Pane();
 
 		Label nameLabel = new Label();
 
 		ImageView chapterImage = new ImageView("resources/capitulo_icono.png");
 
-		//establece el margin de cada contenedor
-		FlowPane.setMargin(scenePane, new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
+		// Establece el margen de cada contenedor
+		FlowPane.setMargin(scenePane,
+				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		//establece diversas medidas del contenedor, la imagen, las label
+		// Establece las medidas del contenedor y todo lo que haya dentro de éste
 		scenePane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
 		scenePane.getStyleClass().add("pane");
 
@@ -254,8 +282,10 @@ public class SceneChapterViewController implements Initializable {
 		chapterImage.setPickOnBounds(true);
 		chapterImage.setPreserveRatio(true);
 
-		if (e.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + e.getNombre().substring(0, MAX_LENGHT) + "...");
-		else nameLabel.setText("Nombre: " + e.getNombre());		
+		if (e.getNombre().length() > MAX_LENGTH)
+			nameLabel.setText("Nombre: " + e.getNombre().substring(0, MAX_LENGTH) + "...");
+		else
+			nameLabel.setText("Nombre: " + e.getNombre());
 		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
@@ -269,24 +299,45 @@ public class SceneChapterViewController implements Initializable {
 			public void handle(MouseEvent event) {
 				selectedScene = e;
 				selectedSceneLabel.setText("Escena seleccionada: " + selectedScene.getNombre());
-				if (errorLabel.isVisible()) errorLabel.setVisible(false);
+				if (errorLabel.isVisible())
+					errorLabel.setVisible(false);
 			}
 		});
 
 	}
 
+	/**
+	 * Método para seleccionar el proyecto
+	 * 
+	 * @param p Proyecto de entrada
+	 */
 	public void setProject(Proyecto p) {
 		project = p;
 	}
 
+	/**
+	 * Método para seleccionar el libro
+	 * 
+	 * @param l Libro de entrada
+	 */
 	public void setBook(Libro l) {
 		book = l;
 	}
 
+	/**
+	 * Método para seleccionar el capítulo
+	 * 
+	 * @param c Capítulo de entrada
+	 */
 	public void setChapter(Capitulo c) {
 		chapter = c;
 	}
 
+	/**
+	 * Método para seleccionar el controlador
+	 * 
+	 * @param controller Controlador de entrada
+	 */
 	public void setController(MainViewController controller) {
 		mainViewController = controller;
 	}

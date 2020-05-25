@@ -26,6 +26,12 @@ import model.Escena;
 import model.Localidad;
 import model.Personaje;
 
+/**
+ * Clase para añadir una escena
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class AddSceneViewController implements Initializable {
 
 	@FXML
@@ -47,46 +53,45 @@ public class AddSceneViewController implements Initializable {
 	private static double yOffset;
 
 	private Capitulo chapter;
-	
+
 	private ArrayList<String> arrayLocalidades;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		// inicia un hilo para cargar los personajes en el checklistview para añadirlos
-		// al proyecto
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				//Cargamos el nombre de la localidad en donde podría desarrollarse la escena
+				// Cargamos el nombre de la localidad en donde podría desarrollarse la escena
 				arrayLocalidades = new ArrayList<>();
-				
-				for(Localidad l : DAOManager.getLocalidadDAO().getLocalidades())
-				{
+
+				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades()) {
 					arrayLocalidades.add(l.getNombre());
 				}
-				
-				//Añadimos el aviso de que se debe señalizar una localidad para continuar,
-				//seguidamente añadimos los nombres de arrayLocalidades
+
+				// Añadimos el aviso de que se debe señalizar una localidad para continuar,
+				// seguidamente añadimos los nombres de arrayLocalidades
 				locationChoiceBox.getItems().add("Seleccione una localidad para continuar");
-				
-				locationChoiceBox.getItems()
-				.addAll(FXCollections.observableArrayList(arrayLocalidades));
-				
-				//Le indicamos al usuario que debe seleccionar una localidad para continuar
+
+				locationChoiceBox.getItems().addAll(FXCollections.observableArrayList(arrayLocalidades));
+
+				// Le indicamos al usuario que debe seleccionar una localidad para continuar
 				locationChoiceBox.setValue("Seleccione una localidad para continuar");
-				
-				//Cargamos la lista de personajes que aparecen en la escena
-				characterList.getItems().addAll(FXCollections.observableList(new ArrayList<Personaje>(chapter.getLibro().getPersonajes())));
+
+				// Cargamos la lista de personajes que aparecen en la escena
+				characterList.getItems().addAll(
+						FXCollections.observableList(new ArrayList<Personaje>(chapter.getLibro().getPersonajes())));
 			}
 		});
 
-		// inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText,
-				Validator.createEmptyValidator("La escena debe tener un nombre"));
+		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("La escena debe tener un nombre"));
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de
+		// Evento para poder mover la ventana dado que no tiene barra de
 		// titulo
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -103,19 +108,18 @@ public class AddSceneViewController implements Initializable {
 			}
 		});
 
-		// evento de click para añadir la escena
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
-				if (validationSupport.isInvalid() || locationChoiceBox.getSelectionModel().getSelectedIndex() == 0)	return;
-				
-				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades())
-				{
-					//Cuando alguna de las localidades de la base de datos
-					//coincida con la de locationChoiceBox, la guardamos y salimos
-					if (l.getNombre().equals(locationChoiceBox.getSelectionModel().getSelectedItem()))
-					{
+				if (validationSupport.isInvalid() || locationChoiceBox.getSelectionModel().getSelectedIndex() == 0)
+					return;
+
+				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades()) {
+					// Cuando alguna de las localidades de la base de datos
+					// coincida con la de locationChoiceBox, la guardamos y salimos
+					if (l.getNombre().equals(locationChoiceBox.getSelectionModel().getSelectedItem())) {
 						addSceneToDB(nameText.getText(), descriptionText.getText(), l,
 								new HashSet<Personaje>(characterList.getCheckModel().getCheckedItems()));
 						borderPane.getScene().getWindow().hide();
@@ -125,7 +129,7 @@ public class AddSceneViewController implements Initializable {
 			}
 		});
 
-		// evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -134,7 +138,14 @@ public class AddSceneViewController implements Initializable {
 		});
 	}
 
-	// metodo para añadir el proyecto a la base de datos
+	/**
+	 * Método para añadir el proyecto a la base de datos
+	 * 
+	 * @param name        Nombre del proyecto
+	 * @param description Descripción del proyecto
+	 * @param localidad   Localidades que contiene el proyecto
+	 * @param characters  Personajes que contiene el proyecto
+	 */
 	private void addSceneToDB(String name, String description, Localidad localidad, Set<Personaje> characters) {
 
 		Escena sceneToReturn = new Escena(chapter, localidad, name, description, characters);
@@ -142,6 +153,11 @@ public class AddSceneViewController implements Initializable {
 		chapter.getEscenas().add(sceneToReturn);
 	}
 
+	/**
+	 * Método para seleccionar el capítulo
+	 * 
+	 * @param c Capítulo de entrada
+	 */
 	public void setChapter(Capitulo c) {
 		chapter = c;
 	}

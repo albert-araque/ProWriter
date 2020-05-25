@@ -35,9 +35,15 @@ import model.Personaje;
 import model.Proyecto;
 import view.Main;
 
+/**
+ * Clase que contiene la vista de los personajes de un libro
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class CharacterInsideBookViewController implements Initializable {
 
-	private static final int MAX_LENGHT = 20;
+	private static final int MAX_LENGTH = 20;
 	private static final int[] PANE_SIZE = { 290, 340 };
 	private static final int[] IMAGE_FIT = { 200, 230 };
 	private static final int IMAGE_LAYOUT[] = { 45, 22 };
@@ -46,15 +52,24 @@ public class CharacterInsideBookViewController implements Initializable {
 	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
-	@FXML public Label selectedCharacterLabel;
-	@FXML public Label errorLabel;
-	@FXML public Label bookNameDisplay;
-	@FXML public Button backButton;
-	@FXML public Button addCharacterButton;
-	@FXML public Button updateCharacterButton;
-	@FXML public Button deleteCharacterButton;
-	@FXML public Button displayCharacterButton;
-	@FXML public FlowPane characterFlowPane;
+	@FXML
+	public Label selectedCharacterLabel;
+	@FXML
+	public Label errorLabel;
+	@FXML
+	public Label bookNameDisplay;
+	@FXML
+	public Button backButton;
+	@FXML
+	public Button addCharacterButton;
+	@FXML
+	public Button updateCharacterButton;
+	@FXML
+	public Button deleteCharacterButton;
+	@FXML
+	public Button displayCharacterButton;
+	@FXML
+	public FlowPane characterFlowPane;
 
 	private MainViewController mainViewController;
 	private Libro book;
@@ -62,6 +77,9 @@ public class CharacterInsideBookViewController implements Initializable {
 	private Pane characterPane;
 	private Personaje selectedCharacter;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -168,16 +186,16 @@ public class CharacterInsideBookViewController implements Initializable {
 				}
 			}
 		});
-		
+
 		displayCharacterButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				
+
 				if (selectedCharacter == null) {
 					errorLabel.setVisible(true);
 					return;
 				}
-				
+
 				Stage displayCharacterDialog = new Stage();
 
 				displayCharacterDialog.initModality(Modality.APPLICATION_MODAL);
@@ -199,7 +217,7 @@ public class CharacterInsideBookViewController implements Initializable {
 				displayCharacterDialog.setScene(dialogScene);
 				displayCharacterDialog.showAndWait();
 				selectedCharacter = null;
-				selectedCharacterLabel.setText("Ningún personaje seleccionado");				
+				selectedCharacterLabel.setText("Ningún personaje seleccionado");
 			}
 		});
 
@@ -225,6 +243,9 @@ public class CharacterInsideBookViewController implements Initializable {
 
 	}
 
+	/**
+	 * Método para cargar los personajes
+	 */
 	private void loadCharacters() {
 		characterFlowPane.getChildren().clear();
 
@@ -233,6 +254,11 @@ public class CharacterInsideBookViewController implements Initializable {
 		}
 	}
 
+	/**
+	 * Método para mostrar el personaje en el panel
+	 * 
+	 * @param p Personaje de entrada
+	 */
 	private void convertCharacterToPane(Personaje p) {
 
 		if (p == null)
@@ -243,17 +269,21 @@ public class CharacterInsideBookViewController implements Initializable {
 		ImageView characterImage;
 		File imageFile = null;
 
-		try { imageFile = new File(p.getImagen()); } catch (Exception e) {}		
-		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists()) characterImage = new ImageView("resources/character_icon.png");
-		else {			
+		try {
+			imageFile = new File(p.getImagen());
+		} catch (Exception e) {
+		}
+		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists())
+			characterImage = new ImageView("resources/character_icon.png");
+		else {
 			characterImage = new ImageView(new Image(imageFile.toURI().toString()));
 		}
 
-		// establece el margin de cada contenedor
+		// Establece el margen de cada contenedor
 		FlowPane.setMargin(characterPane,
 				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		// establece diversas medidas del contenedor, la imagen, las label
+		// Establece las medidas del contenedor y todo lo que haya dentro de éste
 		characterPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
 		characterPane.getStyleClass().add("pane");
 
@@ -261,17 +291,19 @@ public class CharacterInsideBookViewController implements Initializable {
 		characterImage.setFitWidth(IMAGE_FIT[1]);
 		characterImage.setLayoutX(IMAGE_LAYOUT[0]);
 		characterImage.setLayoutY(IMAGE_LAYOUT[1]);
-		characterImage.setPreserveRatio(true);		
+		characterImage.setPreserveRatio(true);
 		characterImage.setPickOnBounds(true);
 
-		if (p.getNombre().length() > MAX_LENGHT) nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGHT) + "...");
-		else nameLabel.setText("Nombre: " + p.getNombre());		
+		if (p.getNombre().length() > MAX_LENGTH)
+			nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGTH) + "...");
+		else
+			nameLabel.setText("Nombre: " + p.getNombre());
 		nameLabel.setLayoutX(LABEL_XLAY);
 		nameLabel.setLayoutY(NLABEL_YLAY);
 		nameLabel.setFont(new Font(FONT_SIZE));
 
-		characterPane.getChildren().add(nameLabel);	
-		characterPane.getChildren().add(characterImage);	
+		characterPane.getChildren().add(nameLabel);
+		characterPane.getChildren().add(characterImage);
 		characterFlowPane.getChildren().add(characterPane);
 
 		characterPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -279,20 +311,36 @@ public class CharacterInsideBookViewController implements Initializable {
 			public void handle(MouseEvent event) {
 				selectedCharacter = p;
 				selectedCharacterLabel.setText("Personaje seleccionado: " + selectedCharacter.getNombre());
-				if (errorLabel.isVisible()) errorLabel.setVisible(false);
+				if (errorLabel.isVisible())
+					errorLabel.setVisible(false);
 			}
 		});
 
 	}
 
+	/**
+	 * Método para seleccionar el proyecto
+	 * 
+	 * @param p Proyecto de entrada
+	 */
 	public void setProject(Proyecto p) {
 		project = p;
 	}
 
+	/**
+	 * Método para seleccionar el libro
+	 * 
+	 * @param l Libro de entrada
+	 */
 	public void setBook(Libro l) {
 		book = l;
 	}
 
+	/**
+	 * Método para seleccionar el controlador
+	 * 
+	 * @param controller Controlador de entrada
+	 */
 	public void setController(MainViewController controller) {
 		mainViewController = controller;
 	}
