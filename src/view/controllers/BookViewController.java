@@ -89,7 +89,7 @@ public class BookViewController implements Initializable {
 				addBookDialog.setScene(dialogScene);
 				addBookDialog.showAndWait();
 				selectedBook = null;
-				selectedBookLabel.setText("Ningï¿½n libro seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				addBooksFromDB();
 			}
 		});
@@ -125,7 +125,7 @@ public class BookViewController implements Initializable {
 				updateBookDialog.setScene(dialogScene);
 				updateBookDialog.showAndWait();				
 				selectedBook = null;
-				selectedBookLabel.setText("Ningï¿½n libro seleccionado");
+				selectedBookLabel.setText("Ningún libro seleccionado");
 				addBooksFromDB();
 			}
 		});
@@ -140,9 +140,9 @@ public class BookViewController implements Initializable {
 				}			
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminaciï¿½n de libro");
-				alert.setHeaderText("Estï¿½s a punto de eliminar el libro de todos los proyectos");
-				alert.setContentText("ï¿½Estï¿½s seguro?");
+				alert.setTitle("Eliminación de libro");
+				alert.setHeaderText("Estás a punto de eliminar el libro de todos los proyectos");
+				alert.setContentText("Estás seguro?");
 
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK) {
@@ -150,7 +150,7 @@ public class BookViewController implements Initializable {
 					DAOManager.getLibroDAO().removeLibro(selectedBook.getId());
 
 					selectedBook = null;
-					selectedBookLabel.setText("Ningï¿½n libro seleccionado");
+					selectedBookLabel.setText("Ningún libro seleccionado");
 					addBooksFromDB();
 				}				
 			}
@@ -185,7 +185,7 @@ public class BookViewController implements Initializable {
 				displayBookDialog.setScene(dialogScene);
 				displayBookDialog.showAndWait();				
 				selectedBook = null;
-				selectedBookLabel.setText("Ningun libro seleccionado");			
+				selectedBookLabel.setText("Ningún libro seleccionado");			
 			}
 		});
 

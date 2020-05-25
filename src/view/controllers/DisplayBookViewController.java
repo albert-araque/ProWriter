@@ -77,10 +77,9 @@ public class DisplayBookViewController implements Initializable {
 	private void setInformation() {
 
 		File imageFile = null;
-		File errorFile = new File("./src/resources/libro.png");
 
 		try { imageFile = new File(book.getImagen()); } catch (Exception e) {}		
-		if (book.getImagen() == null || book.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image(errorFile.toURI().toString()));
+		if (book.getImagen() == null || book.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image("resources/libro.png"));
 		else {			
 			imageView.setImage(new Image(imageFile.toURI().toString()));
 		}

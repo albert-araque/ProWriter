@@ -101,7 +101,7 @@ public class SceneChapterViewController implements Initializable {
 				addSceneDialog.showAndWait();
 				loadScenes();
 				selectedScene = null;
-				selectedSceneLabel.setText("Ningún capítulo seleccionado");
+				selectedSceneLabel.setText("Ningúna escena seleccionada");
 			}
 		});
 
@@ -136,7 +136,7 @@ public class SceneChapterViewController implements Initializable {
 				addChapterDialog.showAndWait();
 				loadScenes();
 				selectedScene = null;
-				selectedSceneLabel.setText("Ningún capítulo seleccionado");
+				selectedSceneLabel.setText("Ningúna escena seleccionada");
 			}
 		});
 
@@ -161,7 +161,7 @@ public class SceneChapterViewController implements Initializable {
 					DAOManager.getCapituloDAO().updateCapitulo(chapter);
 
 					selectedScene = null;
-					selectedSceneLabel.setText("Ningun proyecto seleccionado");
+					selectedSceneLabel.setText("Ninguna escena seleccionada");
 					loadScenes();
 				}
 			}
@@ -196,7 +196,7 @@ public class SceneChapterViewController implements Initializable {
 				addChapterDialog.showAndWait();
 				loadScenes();
 				selectedScene = null;
-				selectedSceneLabel.setText("Ningún capítulo seleccionado");
+				selectedSceneLabel.setText("Ningúna escena seleccionada");
 
 			}
 		});		

@@ -13,10 +13,25 @@ import model.Localidad;
 import model.Personaje;
 import model.Proyecto;
 
+/**
+ * 
+ * Este CrudManager permite realizar las operaciones basicas CRUD (Create, Read, Update, Delete) con cualquier entidad de la base de datos.
+ * 
+ * 
+ * @author Albert
+ * @author Paco
+ * 
+ */
 public class CrudManager {
 	
 	static Session session;
 	
+	/**
+	 *  Añade una entidad a la base de datos.
+	 * 
+	 * @param object la entidad a introducir
+	 * @return devuelve el id de la entidad introducida
+	 */
 	public static synchronized Integer add(Object object) {
 		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -35,6 +50,14 @@ public class CrudManager {
 		return id;
 	}
 	
+	/**
+	 * 
+	 * Obtiene una entidad como objeto de la base de datos.
+	 * 
+	 * @param idObject el id de la entidad que queremos obtener
+	 * @param objectClass la clase de la entidad que queremos obtener
+	 * @return la entidad
+	 */
 	public static synchronized Object get(Integer idObject, Class<?> objectClass) {
 		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -54,6 +77,12 @@ public class CrudManager {
 		return object;
 	}
 	
+	/**
+	 * 
+	 * Actualiza una entidad de la base de datos.
+	 * 
+	 * @param object el objeto actualizado
+	 */
 	public static synchronized void update(Object object) {
 		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -69,6 +98,14 @@ public class CrudManager {
 		}
 	}
 	
+	/**
+	 * 
+	 * Borra una entidad de la base de datos.
+	 * 
+	 * @param idObject el id de la entidad que queremos borrar
+	 * @param objectClass la clase de la entidad que queremos borrar
+	 * @return
+	 */
 	public static synchronized Integer remove(Integer idObject, Class<?> objectClass) {
 		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -89,6 +126,15 @@ public class CrudManager {
 		return idObject;
 	}
 	
+	/**
+	 * 
+	 * Obtiene una lista de todas las entidades que hay en una tabla determinada.
+	 * 
+	 * 
+	 * @param className el nombre de la clase de las entitades que queremos obtener
+	 * @param objectClass la clase de las entidades que queremos obtener
+	 * @return
+	 */
 	public static synchronized Object[] getList(String className, Class<?> objectClass) {		
 		session = SessionFactoryUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
@@ -110,10 +156,13 @@ public class CrudManager {
 		return objectList;
 	}
 	
-	public static void closeSession() {
-		session.close();
-	}
 	
+	/**
+	 * 
+	 * Este metodo hace un cast a la clase a la que perteneza el objeto introducido y inizializa todos los Set que tenga.
+	 * 
+	 * @param object la entidad
+	 */
 	private static synchronized void initializeSet(Object object) {
 		
 		if (object instanceof Proyecto) {
@@ -135,6 +184,14 @@ public class CrudManager {
 		}
 	}
 	
+	/**
+	 * 
+	 * Este metodo hace una cast a la clase a la que pertenezca el objeto introducido, al utilizar Object como clase general no podemos obtener el 
+	 * ID, entonces tenemos que averiguar primero que objeto esta instanciado, hacer un cast y obtener el ID.
+	 * 
+	 * @param object
+	 * @return
+	 */
 	private static synchronized Integer getId(Object object) {
 		
 		if (object instanceof Proyecto) {

@@ -92,7 +92,7 @@ public class ProjectViewController implements Initializable{
 				addProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
+				selectedProjectLabel.setText("Ningún proyecto seleccionado");
 			}
 		});
 
@@ -127,7 +127,7 @@ public class ProjectViewController implements Initializable{
 				updateProjectDialog.showAndWait();
 				addProjectsFromDB();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
+				selectedProjectLabel.setText("Ningún proyecto seleccionado");
 			}
 		});
 
@@ -142,16 +142,16 @@ public class ProjectViewController implements Initializable{
 				}			
 
 				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminaciï¿½n de proyecto");
-				alert.setHeaderText("Estï¿½s a punto de eliminar el proyecto");
-				alert.setContentText("ï¿½Estï¿½s seguro?");
+				alert.setTitle("Eliminación de proyecto");
+				alert.setHeaderText("Estás a punto de eliminar el proyecto");
+				alert.setContentText("Estás seguro?");
 				
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK)
 				{
 					DAOManager.getProyectoDAO().removeProyecto(selectedProject.getId());
 					selectedProject = null;
-					selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");
+					selectedProjectLabel.setText("Ningún proyecto seleccionado");
 					addProjectsFromDB();
 				}				
 			}
@@ -186,7 +186,7 @@ public class ProjectViewController implements Initializable{
 				displayProjectDialog.setScene(dialogScene);
 				displayProjectDialog.showAndWait();
 				selectedProject = null;
-				selectedProjectLabel.setText("Ningï¿½n proyecto seleccionado");				
+				selectedProjectLabel.setText("Ningún proyecto seleccionado");				
 			}
 		});
 

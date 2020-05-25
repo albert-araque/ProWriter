@@ -115,15 +115,22 @@ public class AddCharacterViewController implements Initializable {
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu personaje");
-				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
-				fileChooser.getExtensionFilters().add(imageFilter);
-				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
+				chooseFileDialog();
 			}
 		});	
 
+	}
+	
+	/**
+	 * Muestra un dialogo para elegir un archivo
+	 */
+	private void chooseFileDialog() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setTitle("Selecciona una imagen para tu personaje");
+		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
+		fileChooser.getExtensionFilters().add(imageFilter);
+		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
 	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description, String image, Set<Libro> books) {

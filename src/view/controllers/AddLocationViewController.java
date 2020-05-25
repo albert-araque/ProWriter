@@ -18,16 +18,11 @@ import model.Localidad;
 
 public class AddLocationViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextArea descriptionText;
+	@FXML public BorderPane borderPane;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public TextField nameText;
+	@FXML public TextArea descriptionText;
 
 	private static double xOffset;
 	private static double yOffset;

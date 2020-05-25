@@ -196,7 +196,7 @@ public class ChapterInsideBookViewController implements Initializable {
 				displayChapterDialog.setScene(dialogScene);
 				displayChapterDialog.showAndWait();
 				selectedChapter = null;
-				selectedChapterLabel.setText("Ningún proyecto seleccionado");
+				selectedChapterLabel.setText("Ningún capitulo seleccionado");
 			}
 		});
 		

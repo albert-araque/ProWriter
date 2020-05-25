@@ -75,10 +75,9 @@ public class DisplayCharacterViewController implements Initializable {
 	private void setInformation() {
 		
 		File imageFile = null;
-		File errorFile = new File("./src/resources/character_icon.png");
-
+		
 		try { imageFile = new File(character.getImagen()); } catch (Exception e) {}		
-		if (character.getImagen() == null || character.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image(errorFile.toURI().toString()));
+		if (character.getImagen() == null || character.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image("resources/character_icon.png"));
 		else {			
 			imageView.setImage(new Image(imageFile.toURI().toString()));
 		}

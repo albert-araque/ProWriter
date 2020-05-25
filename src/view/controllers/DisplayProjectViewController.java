@@ -72,10 +72,9 @@ public class DisplayProjectViewController implements Initializable {
 	private void setInformation() {
 		
 		File imageFile = null;
-		File errorFile = new File("./src/resources/libro.png");
 
 		try { imageFile = new File(project.getImagen()); } catch (Exception e) {}		
-		if (project.getImagen() == null || project.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image(errorFile.toURI().toString()));
+		if (project.getImagen() == null || project.getImagen().equals("") || !imageFile.exists()) imageView.setImage(new Image("resources/proyecto.png"));
 		else {			
 			imageView.setImage(new Image(imageFile.toURI().toString()));
 		}

@@ -79,7 +79,7 @@ public class AddChapterViewController implements Initializable {
 
 				if (validationSupport.isInvalid()) return;
 				
-				if (bookIdAndChapterNumberAreTheSame()) {
+				if (isChapterOrderRepeated()) {
 					alertRepeated();
 					return;
 				}
@@ -99,7 +99,7 @@ public class AddChapterViewController implements Initializable {
 
 	}
 	
-	private boolean bookIdAndChapterNumberAreTheSame() {
+	private boolean isChapterOrderRepeated() {
 		for (Capitulo cap : DAOManager.getCapituloDAO().getCapitulos()) {
 			if (cap.getLibro().getId() == book.getId() && cap.getNumero() == Integer.valueOf(chapterOrder.getText())) return true;
 		}

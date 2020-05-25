@@ -146,7 +146,16 @@ public class LocationViewController implements Initializable {
 				Optional<ButtonType> resultado = alert.showAndWait();
 				if(resultado.get() == ButtonType.OK) {
 
-					DAOManager.getLocalidadDAO().removeLocalidad(selectedLocation.getId());
+					try {
+						DAOManager.getLocalidadDAO().removeLocalidad(selectedLocation.getId());
+					} catch (Exception e) {
+						Alert errorAlert = new Alert(AlertType.ERROR);
+						errorAlert.setTitle("Eliminación de localidad");
+						errorAlert.setHeaderText("No ha sido posible eliminar la localidad");
+						errorAlert.setContentText("No ha sido posible eliminar la localidad, puede que este asignada a alguna escena");
+						errorAlert.showAndWait();
+					}
+					
 
 					selectedLocation = null;
 					selectedLocationLabel.setText("Ninguna localidad seleccionada");

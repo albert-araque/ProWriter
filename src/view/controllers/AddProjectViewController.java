@@ -103,6 +103,9 @@ public class AddProjectViewController implements Initializable {
 		});		
 	}
 	
+	/**
+	 * Muestra un dialogo para elegir un archivo
+	 */
 	private void chooseFileDialog() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
