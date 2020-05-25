@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="340.0" prefWidth="290.0" styleClass="pane"
+	stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<ImageView fitHeight="230.0" fitWidth="200.0" layoutX="45.0"
+			layoutY="22.0" pickOnBounds="true" preserveRatio="true" />
+		<Label layoutX="31.0" layoutY="265.0" text="">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Label>
+		<Label layoutX="31.0" layoutY="287.0" text="">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Label>
+	</children>
+</Pane>

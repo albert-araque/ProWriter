@@ -23,7 +23,7 @@
 	<top>
 		<BorderPane prefHeight="50.0" prefWidth="1280.0">
 			<right>
-				<HBox alignment="CENTER" prefHeight="50.0" prefWidth="82.0"
+				<HBox alignment="CENTER" prefHeight="50.0" prefWidth="67.0"
 					BorderPane.alignment="CENTER">
 					<children>
 						<Button fx:id="backButton" mnemonicParsing="false"

@@ -1,28 +1,32 @@
 package view.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
+
 import dao.DAOManager;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -38,29 +42,21 @@ import view.Main;
 public class LocationViewController implements Initializable {
 
 	private static final int MAX_LENGTH = 20;
-	private static final int[] PANE_SIZE = { 290, 340 };
 	private static final int[] IMAGE_FIT = { 200, 230 };
 	private static final int IMAGE_LAYOUT[] = { 45, 22 };
 	private static final int ADD_IMAGE_Y = 62;
-	private static final int FONT_SIZE = 14;
-	private static final int LABEL_XLAY = 32;
-	private static final int NLABEL_YLAY = 275;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
 	@FXML public Pane projectButton;
 	@FXML public Pane bookButton;
 	@FXML public Pane characterButton;
 	@FXML public Label errorLabel;
-	@FXML public Button updateLocationButton;
-	@FXML public Button deleteLocationButton;
-	@FXML public Button displayLocationButton;
 	@FXML public Label selectedLocationLabel;
 	@FXML public FlowPane locationFlowPane;
 
 	private MainViewController mainViewController;
-
-	private Pane locationPane;
 	private Localidad selectedLocation;
+	private ContextMenu contextMenu = new ContextMenu();	
 
 	/**
 	 * Método para inicializar la clase
@@ -72,111 +68,7 @@ public class LocationViewController implements Initializable {
 		locationFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
 
 		addLocationsFromDB();
-
-		// Evento al hacer click al botón actualizar
-		updateLocationButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-
-				if (selectedLocation == null) {
-					errorLabel.setVisible(true);
-					return;
-				}
-
-				Stage updateLocationDialog = new Stage();
-
-				updateLocationDialog.initModality(Modality.APPLICATION_MODAL);
-				updateLocationDialog.initStyle(StageStyle.UNDECORATED);
-				updateLocationDialog.initOwner(Main.getStage());
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateLocationView.fxml"));
-				BorderPane dialogRoot = null;
-
-				try {
-					dialogRoot = fxmlLoader.load();
-				} catch (IOException e) {
-				}
-
-				UpdateLocationViewController updateController = fxmlLoader.getController();
-				updateController.setLocation(selectedLocation);
-
-				Scene dialogScene = new Scene(dialogRoot, 400, 350);
-				updateLocationDialog.setScene(dialogScene);
-				updateLocationDialog.showAndWait();
-				selectedLocation = null;
-				selectedLocationLabel.setText("Ninguna localidad seleccionada");
-				addLocationsFromDB();
-			}
-		});
-
-		deleteLocationButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-
-				if (selectedLocation == null) {
-					errorLabel.setVisible(true);
-					return;
-				}
-
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Eliminación de localidad");
-				alert.setHeaderText("Estás a punto de eliminar la localidad de todos los proyectos");
-				alert.setContentText("¿Estás seguro?");
-
-				Optional<ButtonType> resultado = alert.showAndWait();
-				if (resultado.get() == ButtonType.OK) {
-
-					try {
-						DAOManager.getLocalidadDAO().removeLocalidad(selectedLocation.getId());
-					} catch (Exception e) {
-						Alert errorAlert = new Alert(AlertType.ERROR);
-						errorAlert.setTitle("Eliminación de localidad");
-						errorAlert.setHeaderText("No ha sido posible eliminar la localidad");
-						errorAlert.setContentText("No ha sido posible eliminar la localidad, puede que este asignada a alguna escena");
-						errorAlert.showAndWait();
-					}
-					
-
-					selectedLocation = null;
-					selectedLocationLabel.setText("Ninguna localidad seleccionada");
-					addLocationsFromDB();
-				}
-			}
-		});
-
-		displayLocationButton.setOnMouseClicked(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-
-				if (selectedLocation == null) {
-					errorLabel.setVisible(true);
-					return;
-				}
-
-				Stage displayLocationDialog = new Stage();
-
-				displayLocationDialog.initModality(Modality.APPLICATION_MODAL);
-				displayLocationDialog.initStyle(StageStyle.UNDECORATED);
-				displayLocationDialog.initOwner(Main.getStage());
-
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayLocationView.fxml"));
-				BorderPane dialogRoot = null;
-
-				try {
-					dialogRoot = fxmlLoader.load();
-				} catch (IOException e) {
-				}
-
-				DisplayLocationViewController displayController = fxmlLoader.getController();
-				displayController.setLocation(selectedLocation);
-
-				Scene dialogScene = new Scene(dialogRoot, 600, 415);
-				displayLocationDialog.setScene(dialogScene);
-				displayLocationDialog.showAndWait();
-				selectedLocation = null;
-				selectedLocationLabel.setText("Ninguna localidad seleccionada");
-			}
-		});
+		createContextMenu();
 
 		projectButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -231,69 +123,45 @@ public class LocationViewController implements Initializable {
 				mainViewController.setView(borderPane);
 			}
 		});
-
 	}
 
 	/**
 	 * Método para mostrar la localización en el panel
 	 * 
 	 * @param l Localización de entrada
+	 * @throws IOException 
 	 */
-	public void convertLocationToPane(Localidad l) {
+	private void convertLocationToPane(Localidad l) throws IOException {
 
-		if (l == null)
-			return;
+		if (l == null) return;
 
-		// Crea el contenedor (Pane) donde va la información
-		locationPane = new Pane();
+		// Crea i carga el contendor (Pane) donde va la información
+		Pane locationPane = FXMLLoader.load(getClass().getResource("/view/StandardPane.fxml"));
+		FlowPane.setMargin(locationPane,	new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
 
-		Label nameLabel = new Label();
-		Label locationLabel = new Label();
+		//Carga la imagen del Pane				
+		((ImageView) locationPane.getChildren().get(0)).setImage(new Image("resources/localidad.png"));
 
-		ImageView locationImage = new ImageView("resources/localidad.png");
+		//Ponemos texto a las labels que queramos
+		if (l.getNombre().length() > MAX_LENGTH) {
+			((Label) locationPane.getChildren().get(1)).setText("Nombre: " + l.getNombre().substring(0, MAX_LENGTH) + "...");
+		} else {			
+			((Label) locationPane.getChildren().get(1)).setText("Nombre: " + l.getNombre());
+		}
 
-		// Establece el margen de cada contenedor
-		FlowPane.setMargin(locationPane,
-				new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
-
-		// Establece las medidas del contenedor y todo lo que haya dentro de éste
-		locationPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
-		locationPane.getStyleClass().add("pane");
-
-		locationImage.setFitHeight(IMAGE_FIT[0]);
-		locationImage.setFitWidth(IMAGE_FIT[1]);
-		locationImage.setLayoutX(IMAGE_LAYOUT[0]);
-		locationImage.setLayoutY(IMAGE_LAYOUT[1]);
-		locationImage.setPickOnBounds(true);
-		locationImage.setPreserveRatio(true);
-
-		if (l.getNombre().length() > MAX_LENGTH)
-			nameLabel.setText("Nombre: " + l.getNombre().substring(0, MAX_LENGTH) + "...");
-		else
-			nameLabel.setText("Nombre: " + l.getNombre());
-		nameLabel.setLayoutX(LABEL_XLAY);
-		nameLabel.setLayoutY(NLABEL_YLAY);
-		nameLabel.setFont(new Font(FONT_SIZE));
-
-		locationLabel.setLayoutX(LABEL_XLAY);
-		locationLabel.setLayoutY(NLABEL_YLAY + 10);
-
-		locationPane.getChildren().add(nameLabel);
-		locationPane.getChildren().add(locationImage);
+		//Añade el Pane al flowPane
 		locationFlowPane.getChildren().add(locationPane);
 
-		// Evento para que quede seleccionado proyecto y contenedor al hacer click sobre
-		// un contenedor de proyecto
+		//Define un evento para ejecutarse cuando se hace click
 		locationPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 
-				if (event.getClickCount() == 1) {
-					selectedLocation = l;
-					selectedLocationLabel.setText("Localizacion seleccionada: " + l.getNombre());
-					if (errorLabel.isVisible())
-						errorLabel.setVisible(false);
-				}
+				selectedLocation = l;
+				selectedLocationLabel.setText("Localizacion seleccionada: " + l.getNombre());
+				if (errorLabel.isVisible())	errorLabel.setVisible(false);
+
+				if (event.getButton() == MouseButton.SECONDARY) contextMenu.show(locationPane, event.getScreenX(), event.getScreenY());
 			}
 		});
 	}
@@ -304,30 +172,33 @@ public class LocationViewController implements Initializable {
 	private void addLocationsFromDB() {
 		locationFlowPane.getChildren().clear();
 		for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades()) {
-			convertLocationToPane(l);
+			try {
+				convertLocationToPane(l);
+			} catch (IOException e) {
+			}
 		}
 		addButtonPane();
 	}
-	
+
 	/**
 	 * Método que añade un Pane para añadir un objeto a la BD
 	 *  
 	 */
 	private void addButtonPane() {
-		
+
 		Pane addPane = new Pane();
 		ImageView addImage = new ImageView("resources/add_icon.png");
-		
+
 		addImage.setFitHeight(IMAGE_FIT[0]);
 		addImage.setFitWidth(IMAGE_FIT[1]);
 		addImage.setLayoutX(IMAGE_LAYOUT[0]);
 		addImage.setLayoutY(ADD_IMAGE_Y);
 		addImage.setPickOnBounds(true);
 		addImage.setPreserveRatio(false);
-		
+
 		addPane.getChildren().add(addImage);
 		locationFlowPane.getChildren().add(addPane);
-		
+
 		// Evento al hacer click al botón añadir
 		addPane.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
@@ -354,6 +225,122 @@ public class LocationViewController implements Initializable {
 				addLocationsFromDB();				
 			}
 		});
+	}
+
+	/**
+	 * Metodo que añade items al menu contextual que aparece al hacer click derecho
+	 */
+	private void createContextMenu() {
+
+		MenuItem viewItem = new MenuItem("Ver localizacion");
+		MenuItem updateItem = new MenuItem("Actualizar localizacion");
+		MenuItem deleteItem = new MenuItem("Borrar localizacion");
+
+		// Evento al hacer click para visualizar
+		viewItem.setOnAction(new EventHandler<ActionEvent>() {			
+			@Override
+			public void handle(ActionEvent event) {
+				if (selectedLocation == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+
+				Stage displayLocationDialog = new Stage();
+
+				displayLocationDialog.initModality(Modality.APPLICATION_MODAL);
+				displayLocationDialog.initStyle(StageStyle.UNDECORATED);
+				displayLocationDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DisplayLocationView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				DisplayLocationViewController displayController = fxmlLoader.getController();
+				displayController.setLocation(selectedLocation);
+
+				Scene dialogScene = new Scene(dialogRoot, 600, 415);
+				displayLocationDialog.setScene(dialogScene);
+				displayLocationDialog.showAndWait();
+				selectedLocation = null;
+				selectedLocationLabel.setText("Ninguna localidad seleccionada");		
+			}
+		});
+
+		// Evento al hacer click para actualizar
+		updateItem.setOnAction(new EventHandler<ActionEvent>() {			
+			@Override
+			public void handle(ActionEvent event) {
+				if (selectedLocation == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+
+				Stage updateLocationDialog = new Stage();
+
+				updateLocationDialog.initModality(Modality.APPLICATION_MODAL);
+				updateLocationDialog.initStyle(StageStyle.UNDECORATED);
+				updateLocationDialog.initOwner(Main.getStage());
+
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/UpdateLocationView.fxml"));
+				BorderPane dialogRoot = null;
+
+				try {
+					dialogRoot = fxmlLoader.load();
+				} catch (IOException e) {
+				}
+
+				UpdateLocationViewController updateController = fxmlLoader.getController();
+				updateController.setLocation(selectedLocation);
+
+				Scene dialogScene = new Scene(dialogRoot, 400, 350);
+				updateLocationDialog.setScene(dialogScene);
+				updateLocationDialog.showAndWait();
+				selectedLocation = null;
+				selectedLocationLabel.setText("Ninguna localidad seleccionada");
+				addLocationsFromDB();		
+			}
+		});
+
+		// Evento al hacer click para borrar
+		deleteItem.setOnAction(new EventHandler<ActionEvent>() {			
+			@Override
+			public void handle(ActionEvent event) {
+				if (selectedLocation == null) {
+					errorLabel.setVisible(true);
+					return;
+				}
+
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Eliminación de localidad");
+				alert.setHeaderText("Estás a punto de eliminar la localidad de todos los proyectos");
+				alert.setContentText("¿Estás seguro?");
+
+				Optional<ButtonType> resultado = alert.showAndWait();
+				if (resultado.get() == ButtonType.OK) {
+
+					try {
+						DAOManager.getLocalidadDAO().removeLocalidad(selectedLocation.getId());
+					} catch (Exception e) {
+						Alert errorAlert = new Alert(AlertType.ERROR);
+						errorAlert.setTitle("Eliminación de localidad");
+						errorAlert.setHeaderText("No ha sido posible eliminar la localidad");
+						errorAlert.setContentText("No ha sido posible eliminar la localidad, puede que este asignada a alguna escena");
+						errorAlert.showAndWait();
+					}
+
+
+					selectedLocation = null;
+					selectedLocationLabel.setText("Ninguna localidad seleccionada");
+					addLocationsFromDB();
+				}			
+			}
+		});
+
+		contextMenu.getItems().addAll(viewItem, updateItem, deleteItem);
 	}
 
 	/**

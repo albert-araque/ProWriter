@@ -18,7 +18,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -30,7 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -46,28 +44,18 @@ import view.Main;
 public class ProjectViewController implements Initializable {
 
 	private static final int MAX_LENGTH = 20;
-	private static final int[] PANE_SIZE = { 290, 340 };
 	private static final int[] IMAGE_FIT = { 200, 230 };
 	private static final int IMAGE_LAYOUT[] = { 45, 22 };
 	private static final int ADD_IMAGE_Y = 62;
-	private static final int FONT_SIZE = 14;
-	private static final int LABEL_XLAY = 32;
-	private static final int NLABEL_YLAY = 275;
-	private static final int BLABEL_YLAY = 300;
 	private static final int[] FLOWPANE_MARGIN = { 10, 8, 20, 8 };
 
 	@FXML public FlowPane projectFlowPane;
-	@FXML public Button updateProjectButton;
-	@FXML public Button deleteProjectButton;
-	@FXML public Button displayProjectButton;
 	@FXML public Label errorLabel;
 	@FXML public Label selectedProjectLabel;
-	@FXML public Label selectedPaneLabel;
 	@FXML public Pane bookButton;
 	@FXML public Pane characterButton;
 	@FXML public Pane locationButton;
 
-	private Pane projectPane;	
 	private Proyecto selectedProject;
 	private MainViewController mainViewController;
 	private ContextMenu contextMenu = new ContextMenu();
@@ -82,7 +70,6 @@ public class ProjectViewController implements Initializable {
 		projectFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
 
 		addProjectsFromDB();
-
 		createContextMenu();
 
 		bookButton.setOnMouseClicked(new EventHandler<Event>() {
@@ -146,76 +133,46 @@ public class ProjectViewController implements Initializable {
 	 * Método para mostrar el proyecto en el panel
 	 * 
 	 * @param p Proyecto de entrada
+	 *
 	 */
-	private void convertProjectToPane(Proyecto p) {
+	private void convertProjectToPane(Proyecto p) throws IOException {
 
-		if (p == null)
-			return;
+		if (p == null) return;
 
-		// Crea el contenedor (Pane) donde va la información
-		projectPane = new Pane();
-
-		// Si el proyecto tiene una imagen, la añade, si no, coge una por defecto
-		ImageView projectImage;
-		File imageFile = null;
-
-		try {
-			imageFile = new File(p.getImagen());
-		} catch (Exception e) {
-		}
-		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists())
-			projectImage = new ImageView("resources/proyecto.png");
-		else {
-			projectImage = new ImageView(new Image(imageFile.toURI().toString()));
-		}
-
-		Label bookCountLabel = new Label("Numero de libros: " + p.getLibros().size());
-		Label nameLabel = new Label();
-
-		// Establece el margen de cada contenedor
+		// Crea i carga el contendor (Pane) donde va la información
+		Pane projectPane = FXMLLoader.load(getClass().getResource("/view/StandardPane.fxml"));
 		FlowPane.setMargin(projectPane,	new Insets(FLOWPANE_MARGIN[0], FLOWPANE_MARGIN[1], FLOWPANE_MARGIN[2], FLOWPANE_MARGIN[3]));
+		
+		//Carga la imagen del Pane				
+		File imageFile = new File(p.getImagen());
+		if (p.getImagen() == null || p.getImagen().equals("") || !imageFile.exists())
+			((ImageView) projectPane.getChildren().get(0)).setImage(new Image("resources/proyecto.png"));
+		else {
+			((ImageView) projectPane.getChildren().get(0)).setImage(new Image(imageFile.toURI().toString()));
+		}
 
-		// Establece las medidas del contenedor y todo lo que haya dentro de éste
-		projectPane.setPrefSize(PANE_SIZE[0], PANE_SIZE[1]);
-		projectPane.getStyleClass().add("pane");
+		//Ponemos texto a las labels que queramos
+		if (p.getNombre().length() > MAX_LENGTH) {
+			((Label) projectPane.getChildren().get(1)).setText("Nombre: " + p.getNombre().substring(0, MAX_LENGTH) + "...");
+		} else {			
+			((Label) projectPane.getChildren().get(1)).setText("Nombre: " + p.getNombre());
+		}
+		((Label) projectPane.getChildren().get(2)).setText("Numero de libros: " + p.getLibros().size());
 
-		projectImage.setFitHeight(IMAGE_FIT[0]);
-		projectImage.setFitWidth(IMAGE_FIT[1]);
-		projectImage.setLayoutX(IMAGE_LAYOUT[0]);
-		projectImage.setLayoutY(IMAGE_LAYOUT[1]);
-
-		if (p.getNombre().length() > MAX_LENGTH)
-			nameLabel.setText("Nombre: " + p.getNombre().substring(0, MAX_LENGTH) + "...");
-		else
-			nameLabel.setText("Nombre: " + p.getNombre());
-		nameLabel.setLayoutX(LABEL_XLAY);
-		nameLabel.setLayoutY(NLABEL_YLAY);
-		nameLabel.setFont(new Font(FONT_SIZE));
-
-		bookCountLabel.setLayoutX(LABEL_XLAY);
-		bookCountLabel.setLayoutY(BLABEL_YLAY);
-		bookCountLabel.setFont(new Font(FONT_SIZE));
-
-		projectPane.getChildren().add(nameLabel);
-		projectPane.getChildren().add(bookCountLabel);
-		projectPane.getChildren().add(projectImage);
+		//Añade el Pane al flowPane
 		projectFlowPane.getChildren().add(projectPane);
-
-		// Evento para que quede seleccionado proyecto y contenedor al hacer click sobre
-		// un contenedor de proyecto
+		
+		//Define un evento para ejecutarse cuando se hace click
 		projectPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 
-				if (event.getButton() == MouseButton.SECONDARY) {
-					contextMenu.show(projectPane, event.getScreenX(), event.getScreenY());
-				}				
+				if (event.getButton() == MouseButton.SECONDARY) contextMenu.show(projectPane, event.getScreenX(), event.getScreenY());
 
 				if (event.getClickCount() == 1) {
 					selectedProject = p;
 					selectedProjectLabel.setText("Proyecto seleccionado: " + p.getNombre());
-					if (errorLabel.isVisible())
-						errorLabel.setVisible(false);
+					if (errorLabel.isVisible())	errorLabel.setVisible(false);
 				}
 
 				if (event.getClickCount() == 2) {
@@ -230,7 +187,6 @@ public class ProjectViewController implements Initializable {
 					InsideProjectViewController insideProjectViewController = fxmlLoader.getController();
 					insideProjectViewController.setProyecto(selectedProject);
 					insideProjectViewController.setController(mainViewController);
-
 					mainViewController.setView(borderPane);
 				}
 			}
@@ -248,9 +204,11 @@ public class ProjectViewController implements Initializable {
 				projectFlowPane.getChildren().removeAll(projectFlowPane.getChildren());
 
 				for (Proyecto p : DAOManager.getProyectoDAO().getProyectos()) {
-					convertProjectToPane(p);
+					try {
+						convertProjectToPane(p);
+					} catch (IOException e) {
+					}
 				}
-
 				addButtonPane();
 			}
 		});
@@ -302,11 +260,16 @@ public class ProjectViewController implements Initializable {
 		});
 	}
 
+	/**
+	 * Metodo que añade items al menu contextual que aparece al hacer click derecho
+	 */
 	private void createContextMenu() {
+		
 		MenuItem viewItem = new MenuItem("Ver proyecto");
 		MenuItem updateItem = new MenuItem("Actualizar proyecto");
 		MenuItem deleteItem = new MenuItem("Borrar proyecto");
 
+		// Evento al hacer click para visualizar
 		viewItem.setOnAction(new EventHandler<ActionEvent>() {			
 			@Override
 			public void handle(ActionEvent event) {
@@ -339,7 +302,7 @@ public class ProjectViewController implements Initializable {
 			}
 		});
 
-		// Evento al hacer click al botón actualizar
+		// Evento al hacer click para actualizar
 		updateItem.setOnAction(new EventHandler<ActionEvent>() {			
 			@Override
 			public void handle(ActionEvent event) {
@@ -374,7 +337,7 @@ public class ProjectViewController implements Initializable {
 			}
 		});
 
-		// evento al hacer click en el boton de borrar
+		// Evento al hacer click para borrar
 		deleteItem.setOnAction(new EventHandler<ActionEvent>() {			
 			@Override
 			public void handle(ActionEvent event) {

@@ -3,6 +3,8 @@ package view.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.hibernate.Hibernate;
+
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
