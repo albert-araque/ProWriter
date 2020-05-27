@@ -371,7 +371,8 @@ public class ProjectViewController implements Initializable {
 				}				
 			}
 		});
-
+		
+		contextMenu.setStyle("-fx-background-color: black");
 		contextMenu.getItems().addAll(viewItem, updateItem, deleteItem);
 	}
 

@@ -20,6 +20,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -53,6 +54,11 @@ public class LocationViewController implements Initializable {
 	@FXML public Label errorLabel;
 	@FXML public Label selectedLocationLabel;
 	@FXML public FlowPane locationFlowPane;
+	@FXML public ScrollPane scrollPane;
+	@FXML public ImageView projectIco;
+	@FXML public ImageView bookIco;
+	@FXML public ImageView characterIco;
+	@FXML public ImageView locationIco;
 
 	private MainViewController mainViewController;
 	private Localidad selectedLocation;
@@ -64,8 +70,13 @@ public class LocationViewController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		locationFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
-		locationFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
+		locationFlowPane.prefWidthProperty().bind(scrollPane.widthProperty());
+		locationFlowPane.prefHeightProperty().bind(scrollPane.heightProperty());
+		
+		projectIco.setImage(new Image("resources/proyecto.png"));
+		bookIco.setImage(new Image("resources/libro.png"));
+		characterIco.setImage(new Image("resources/character_icon.png"));
+		locationIco.setImage(new  Image("resources/localidad.png"));
 
 		addLocationsFromDB();
 		createContextMenu();
@@ -340,6 +351,7 @@ public class LocationViewController implements Initializable {
 			}
 		});
 
+		contextMenu.setStyle("-fx-background-color: black");
 		contextMenu.getItems().addAll(viewItem, updateItem, deleteItem);
 	}
 

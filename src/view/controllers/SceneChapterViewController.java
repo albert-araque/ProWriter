@@ -317,6 +317,7 @@ public class SceneChapterViewController implements Initializable {
 			}
 		});
 
+		contextMenu.setStyle("-fx-background-color: black");
 		contextMenu.getItems().addAll(viewItem, updateItem, deleteItem);
 	}	
 

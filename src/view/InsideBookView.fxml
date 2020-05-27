@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="800.0" prefWidth="1280.0"
-	style="-fx-background-color: white;"
+	styleClass="border-pane" stylesheets="@application.css"
 	xmlns="http://javafx.com/javafx/11.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="view.controllers.InsideBookViewController">
@@ -60,7 +60,7 @@
 	</top>
 	<center>
 		<GridPane
-			style="-fx-background-color: #f3f3f3; -fx-border-style: solid none solid none; -fx-border-color: grey;"
+			style="-fx-background-color: #3A506B; -fx-border-style: solid none solid none; -fx-border-color: grey;"
 			BorderPane.alignment="CENTER">
 			<columnConstraints>
 				<ColumnConstraints hgrow="SOMETIMES"

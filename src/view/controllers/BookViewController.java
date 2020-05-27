@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -55,6 +56,11 @@ public class BookViewController implements Initializable {
 	@FXML public Button displayBookButton;
 	@FXML public Label errorLabel;
 	@FXML public Label selectedBookLabel;
+	@FXML public ScrollPane scrollPane;
+	@FXML public ImageView projectIco;
+	@FXML public ImageView bookIco;
+	@FXML public ImageView characterIco;
+	@FXML public ImageView locationIco;
 
 	@FXML public Pane projectButton;
 	@FXML public Pane characterButton;
@@ -70,8 +76,13 @@ public class BookViewController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		bookFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
-		bookFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
+		bookFlowPane.prefWidthProperty().bind(scrollPane.widthProperty());
+		bookFlowPane.prefHeightProperty().bind(scrollPane.heightProperty());
+		
+		projectIco.setImage(new Image("resources/proyecto.png"));
+		bookIco.setImage(new Image("resources/libro.png"));
+		characterIco.setImage(new Image("resources/character_icon.png"));
+		locationIco.setImage(new  Image("resources/localidad.png"));
 
 		addBooksFromDB();
 		createContextMenu();
@@ -340,6 +351,7 @@ public class BookViewController implements Initializable {
 			}
 		});
 
+		contextMenu.setStyle("-fx-background-color: black");
 		contextMenu.getItems().addAll(viewItem, updateItem, deleteItem);
 	}
 

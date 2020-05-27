@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -58,6 +59,11 @@ public class CharacterViewController implements Initializable {
 	@FXML public Button displayCharacterButton;
 	@FXML public Label selectedCharacterLabel;
 	@FXML public FlowPane characterFlowPane;
+	@FXML public ScrollPane scrollPane;
+	@FXML public ImageView projectIco;
+	@FXML public ImageView bookIco;
+	@FXML public ImageView characterIco;
+	@FXML public ImageView locationIco;
 
 	private MainViewController mainViewController;
 	private Personaje selectedCharacter;
@@ -68,8 +74,13 @@ public class CharacterViewController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		characterFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
-		characterFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
+		characterFlowPane.prefWidthProperty().bind(scrollPane.widthProperty());
+		characterFlowPane.prefHeightProperty().bind(scrollPane.heightProperty());
+		
+		projectIco.setImage(new Image("resources/proyecto.png"));
+		bookIco.setImage(new Image("resources/libro.png"));
+		characterIco.setImage(new Image("resources/character_icon.png"));
+		locationIco.setImage(new  Image("resources/localidad.png"));
 
 		addCharactersFromDB();
 		createContextMenu();
@@ -342,6 +353,7 @@ public class CharacterViewController implements Initializable {
 			}
 		});
 
+		contextMenu.setStyle("-fx-background-color: black");
 		contextMenu.getItems().addAll(viewItem, updateItem, deleteItem);
 	}
 
