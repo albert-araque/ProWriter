@@ -33,8 +33,6 @@ public class AddLocationViewController implements Initializable {
 	private static double xOffset;
 	private static double yOffset;
 
-	private Localidad locationToReturn = null;
-
 	/**
 	 * Método para inicializar la clase
 	 */
@@ -92,7 +90,7 @@ public class AddLocationViewController implements Initializable {
 	 */
 	private void addLocationToDB(String name, String description) {
 
-		locationToReturn = new Localidad(name, description, null);
+		Localidad locationToReturn = new Localidad(name, description, null);
 		DAOManager.getLocalidadDAO().addLocalidad(locationToReturn);
 	}
 }

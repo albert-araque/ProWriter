@@ -50,8 +50,6 @@ public class AddBookViewController implements Initializable {
 	private static double xOffset;
 	private static double yOffset;
 
-	private Libro bookToReturn = null;
-
 	private Proyecto project;
 
 	/**
@@ -155,7 +153,7 @@ public class AddBookViewController implements Initializable {
 	private void addBookToDB(String name, String description, String genre, String imagePath, Set<Personaje> characters,
 			Set<Proyecto> projects) {
 
-		bookToReturn = new Libro(name, description, genre, imagePath, characters, projects);
+		Libro bookToReturn = new Libro(name, description, genre, imagePath, characters, projects);
 		if (project != null) project.getLibros().add(bookToReturn);
 		DAOManager.getLibroDAO().addLibro(bookToReturn);
 	}

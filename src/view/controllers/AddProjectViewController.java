@@ -47,8 +47,6 @@ public class AddProjectViewController implements Initializable {
 	private static double xOffset;
 	private static double yOffset;
 
-	private Proyecto projectToReturn = null;
-
 	/**
 	 * Método para inicializar la clase
 	 */
@@ -136,9 +134,6 @@ public class AddProjectViewController implements Initializable {
 	 * @param books       Libros que contiene el proyecto
 	 */
 	private void addProjectToDB(String name, String description, String imagePath, Set<Libro> books) {
-
-		projectToReturn = new Proyecto(name, description, imagePath, books);
-
-		DAOManager.getProyectoDAO().addProyecto(projectToReturn);
+		DAOManager.getProyectoDAO().addProyecto(new Proyecto(name, description, imagePath, books));
 	}
 }

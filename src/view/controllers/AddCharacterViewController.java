@@ -51,8 +51,7 @@ public class AddCharacterViewController implements Initializable {
 
 	private static double xOffset;
 	private static double yOffset;
-
-	private Personaje characterToReturn = null;
+	
 	private Libro book;
 
 	/**
@@ -160,7 +159,7 @@ public class AddCharacterViewController implements Initializable {
 	private void addCharacterToDB(String name, String firstSurname, String secondSurname, int age, String description,
 			String image, Set<Libro> books) {
 
-		characterToReturn = new Personaje(name, firstSurname, secondSurname, age, description, image, books);
+		Personaje characterToReturn = new Personaje(name, firstSurname, secondSurname, age, description, image, books);
 		if (book != null)
 			book.getPersonajes().add(characterToReturn);
 		DAOManager.getPersonajeDAO().addPersonaje(characterToReturn);

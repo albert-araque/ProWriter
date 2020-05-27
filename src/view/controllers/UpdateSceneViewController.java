@@ -48,7 +48,6 @@ public class UpdateSceneViewController implements Initializable {
 
 	private Capitulo chapter;
 	private Escena scene;
-	private ArrayList<String> arrayLocalidades;
 
 	/**
 	 * Método para inicializar la clase
@@ -63,7 +62,7 @@ public class UpdateSceneViewController implements Initializable {
 
 				descriptionText.setText(scene.getDescripcion());
 
-				arrayLocalidades = new ArrayList<>();
+				ArrayList<String> arrayLocalidades = new ArrayList<>();
 				for (Localidad l : DAOManager.getLocalidadDAO().getLocalidades()) {
 					arrayLocalidades.add(l.getNombre());
 				}
