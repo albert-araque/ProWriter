@@ -14,3 +14,15 @@
 .scroll-pane > .corner {
     -fx-background-color: transparent;
 }
+
+.border-pane {
+	-fx-background-color:  #1C2541;
+}
+
+.label {
+	-fx-text-fill: white;
+}
+
+.text {
+	-fx-fill: white;
+}

@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -55,6 +56,11 @@ public class ProjectViewController implements Initializable {
 	@FXML public Pane bookButton;
 	@FXML public Pane characterButton;
 	@FXML public Pane locationButton;
+	@FXML public ScrollPane scrollPane;
+	@FXML public ImageView projectIco;
+	@FXML public ImageView bookIco;
+	@FXML public ImageView characterIco;
+	@FXML public ImageView locationIco;
 
 	private Proyecto selectedProject;
 	private MainViewController mainViewController;
@@ -66,8 +72,13 @@ public class ProjectViewController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		projectFlowPane.prefWidthProperty().bind(Main.getStage().widthProperty());
-		projectFlowPane.prefHeightProperty().bind(Main.getStage().heightProperty());
+		projectFlowPane.prefWidthProperty().bind(scrollPane.widthProperty());
+		projectFlowPane.prefHeightProperty().bind(scrollPane.heightProperty());
+		
+		projectIco.setImage(new Image("resources/proyecto.png"));
+		bookIco.setImage(new Image("resources/libro.png"));
+		characterIco.setImage(new Image("resources/character_icon.png"));
+		locationIco.setImage(new  Image("resources/localidad.png"));
 
 		addProjectsFromDB();
 		createContextMenu();
