@@ -34,7 +34,7 @@
 					layoutX="25.0" layoutY="137.0" prefHeight="100.0" prefWidth="550.0" />
 				<Label layoutX="25.0" layoutY="245.0" prefHeight="25.0"
 					prefWidth="543.0"
-					text="En esta escena aparecen los siguientes personajes;">
+					text="En esta escena aparecen los siguientes personajes:">
 					<font>
 						<Font size="16.0" />
 					</font>
@@ -45,13 +45,13 @@
 					mnemonicParsing="false" prefHeight="40.0" prefWidth="77.0"
 					text="Cerrar" />
 				<Label fx:id="chapterLabel" layoutX="25.0" layoutY="53.0"
-					prefHeight="25.0" prefWidth="551.0" text="Capitulo: ">
+					prefHeight="25.0" prefWidth="551.0" text="Capítulo: ">
 					<font>
 						<Font size="16.0" />
 					</font>
 				</Label>
 				<Label fx:id="locationLabel" layoutX="25.0" layoutY="78.0"
-					prefHeight="25.0" prefWidth="552.0" text="Localidad:">
+					prefHeight="25.0" prefWidth="552.0" text="Localización:">
 					<font>
 						<Font size="16.0" />
 					</font>

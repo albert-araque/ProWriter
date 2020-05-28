@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import model.Escena;
 
+/**
+ * Interfaz de Escena
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public interface EscenaDAO {
 	
 	public Integer addEscena(Escena escena);

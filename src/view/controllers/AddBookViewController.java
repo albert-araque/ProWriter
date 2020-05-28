@@ -28,6 +28,12 @@ import model.Libro;
 import model.Personaje;
 import model.Proyecto;
 
+/**
+ * Controlador de la vista para añadir un libro
+ * 
+ * @author Albert Araque, Francisco Josï¿½ Ruiz
+ * @version 1.0
+ */
 public class AddBookViewController implements Initializable {
 
 	@FXML public TextField nameText;
@@ -44,36 +50,36 @@ public class AddBookViewController implements Initializable {
 	private static double xOffset;
 	private static double yOffset;
 
-	private Libro bookToReturn = null;
-	
 	private Proyecto project;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		//inicia un hilo para cargar los libros en el checklistview para añadirlos al proyecto
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
-			public void run() {						
-				characterList.getItems().addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
+			public void run() {
+				characterList.getItems()
+				.addAll(FXCollections.observableList(DAOManager.getPersonajeDAO().getPersonajes()));
 				projectList.getItems().addAll(FXCollections.observableList(DAOManager.getProyectoDAO().getProyectos()));
-				
-				
+
 				if (project != null) {
 					for (Proyecto p : projectList.getItems()) {
 						if (p.getId() == project.getId()) {
 							projectList.getCheckModel().check(p);
 						}
 					}
-				}				
+				}
 			}
 		});
 
-		//inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El libro debe tener un nombre"));
 
-		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -89,7 +95,7 @@ public class AddBookViewController implements Initializable {
 			}
 		});
 
-		//evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -97,42 +103,66 @@ public class AddBookViewController implements Initializable {
 			}
 		});
 
-		//evento de click para añadir el libro
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
-				if (validationSupport.isInvalid()) return;
+				if (validationSupport.isInvalid())
+					return;
 
-				addBookToDB(nameText.getText(), descriptionText.getText(), genreText.getText(), imagePath.getText(), 
-							new HashSet<Personaje>(characterList.getCheckModel().getCheckedItems()), 
-							new HashSet<Proyecto>(projectList.getCheckModel().getCheckedItems()));
+				addBookToDB(nameText.getText(), descriptionText.getText(), genreText.getText(), imagePath.getText(),
+						new HashSet<Personaje>(characterList.getCheckModel().getCheckedItems()),
+						new HashSet<Proyecto>(projectList.getCheckModel().getCheckedItems()));
 				borderPane.getScene().getWindow().hide();
 			}
 		});
 
-		//evento de click para mostrar el selector de archivo, con un filtro de extensiones de imagenes
+		// Evento para mostrar el selector de archivo, con un filtro de extensiones de
+		// imágenes
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-				fileChooser.setTitle("Selecciona una imagen para tu libro");
-				ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
-				fileChooser.getExtensionFilters().add(imageFilter);
-				imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
-			}
-		});		
+				chooseFileDialog();
+			}			
+		});
 	}
 
-	//metodo para añadir el proyecto a la base de datos
-	private void addBookToDB(String name, String description, String genre, String imagePath, Set<Personaje> characters, Set<Proyecto> projects) {
+	/**
+	 * Muestra un dialogo para elegir un archivo
+	 */
+	private void chooseFileDialog() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setTitle("Selecciona una imagen para tu libro");
+		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
+		fileChooser.getExtensionFilters().add(imageFilter);
+		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
+	}
 
-		bookToReturn = new Libro(name, description, genre, imagePath, characters, projects);
+	/**
+	 * Método para añadir el libro al proyecto, y guardarlo en la base de datos
+	 * 
+	 * @param name        Nombre del libro
+	 * @param description Descripción del libro
+	 * @param genre       Género literario del libro
+	 * @param imagePath   Imagen del libro
+	 * @param characters  Personajes del libro
+	 * @param projects    Proyectos en los que se encuentra el libro
+	 */
+	private void addBookToDB(String name, String description, String genre, String imagePath, Set<Personaje> characters,
+			Set<Proyecto> projects) {
+
+		Libro bookToReturn = new Libro(name, description, genre, imagePath, characters, projects);
 		if (project != null) project.getLibros().add(bookToReturn);
 		DAOManager.getLibroDAO().addLibro(bookToReturn);
 	}
-	
+
+	/**
+	 * Método para seleccionar el proyecto
+	 * 
+	 * @param p Proyecto de entrada
+	 */
 	public void setProject(Proyecto p) {
 		project = p;
 	}

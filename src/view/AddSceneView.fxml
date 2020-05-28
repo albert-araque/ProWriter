@@ -57,7 +57,7 @@
 				<CheckListView fx:id="characterList" layoutX="23.0"
 					layoutY="356.0" prefHeight="120.0" prefWidth="358.0" />
 				<Label layoutX="22.0" layoutY="253.0" prefHeight="25.0"
-					prefWidth="80.0" text="Localidad:">
+					prefWidth="100.0" text="Localización:">
 					<font>
 						<Font size="16.0" />
 					</font>

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import model.Proyecto;
-
+/**
+ * Operaciones CRUD de Proyecto
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public class ProyectoHibernate implements ProyectoDAO {
 
 	@Override

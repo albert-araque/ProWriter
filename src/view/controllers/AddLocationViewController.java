@@ -16,34 +16,35 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import model.Localidad;
 
+/**
+ * Controlador de la vista para añadir una localización
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class AddLocationViewController implements Initializable {
 
-	@FXML
-	public BorderPane borderPane;
-	@FXML
-	public Button addButton;
-	@FXML
-	public Button cancelButton;
-	@FXML
-	public TextField nameText;
-	@FXML
-	public TextArea descriptionText;
+	@FXML public BorderPane borderPane;
+	@FXML public Button addButton;
+	@FXML public Button cancelButton;
+	@FXML public TextField nameText;
+	@FXML public TextArea descriptionText;
 
 	private static double xOffset;
 	private static double yOffset;
 
-	private Localidad locationToReturn = null;
-
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		// inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
 		validationSupport.registerValidator(nameText,
 				Validator.createEmptyValidator("La localidad debe tener un nombre"));
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de
-		// titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -59,7 +60,7 @@ public class AddLocationViewController implements Initializable {
 			}
 		});
 
-		// evento de click para añadir la localidad
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -72,7 +73,7 @@ public class AddLocationViewController implements Initializable {
 			}
 		});
 
-		// evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -80,10 +81,16 @@ public class AddLocationViewController implements Initializable {
 			}
 		});
 	}
-	
+
+	/**
+	 * Método para añadir la localización a la base de datos
+	 * 
+	 * @param name        Nombre de la localización
+	 * @param description Descripción de la localización
+	 */
 	private void addLocationToDB(String name, String description) {
 
-		locationToReturn = new Localidad(name, description, null);
-		DAOManager.getLocalidadDAO().addLocalidad(locationToReturn);		
+		Localidad locationToReturn = new Localidad(name, description, null);
+		DAOManager.getLocalidadDAO().addLocalidad(locationToReturn);
 	}
 }

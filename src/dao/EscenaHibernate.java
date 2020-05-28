@@ -5,6 +5,12 @@ import java.util.Arrays;
 
 import model.Escena;
 
+/**
+ * Operaciones CRUD de Escena
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public class EscenaHibernate implements EscenaDAO {
 
 	@Override

@@ -3,7 +3,12 @@ package dao;
 import java.util.ArrayList;
 
 import model.Personaje;
-
+/**
+ * Interfaz de Personaje
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public interface PersonajeDAO {
 	
 	public Integer addPersonaje(Personaje personaje);

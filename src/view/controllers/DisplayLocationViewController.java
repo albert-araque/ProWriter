@@ -17,30 +17,39 @@ import javafx.scene.layout.BorderPane;
 import model.Escena;
 import model.Localidad;
 
+/**
+ * Controlador de la vista de una localización
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class DisplayLocationViewController implements Initializable {
-	
+
 	@FXML public BorderPane borderPane;
 	@FXML public Label nameLabel;
 	@FXML public TextArea descriptionText;
 	@FXML public ListView<Escena> sceneList;
 	@FXML public Button closeButton;
-	
+
 	private static double xOffset;
 	private static double yOffset;
-	
+
 	private Localidad location;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				setInformation();
 			}
 		});
 
-		// eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -59,18 +68,26 @@ public class DisplayLocationViewController implements Initializable {
 		closeButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				borderPane.getScene().getWindow().hide();				
+				borderPane.getScene().getWindow().hide();
 			}
 		});
 
 	}
-	
+
+	/**
+	 * Método para mostrar información sobre la localización
+	 */
 	private void setInformation() {
 		nameLabel.setText("Nombre: " + location.getNombre());
 		descriptionText.setText(location.getDescripcion());
 		sceneList.getItems().addAll(location.getEscenas());
 	}
-	
+
+	/**
+	 * Método para seleccionar la localización
+	 * 
+	 * @param l Localización de entrada
+	 */
 	public void setLocation(Localidad l) {
 		location = l;
 	}

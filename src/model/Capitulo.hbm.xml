@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 14-may-2020 19:33:07 by Hibernate Tools 5.4.14.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23-may-2020 19:25:06 by Hibernate Tools 5.4.14.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
-    <class catalog="prowriterdb" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Capitulo" optimistic-lock="version" polymorphism="implicit" select-before-update="false" table="capitulo">
+    <class catalog="prowriterdb" dynamic-insert="false" dynamic-update="false" mutable="true" name="model.Capitulo" optimistic-lock="version" polymorphism="implicit" schema="public" select-before-update="false" table="capitulo">
         <id name="id" type="java.lang.Integer">
-            <column name="ID"/>
+            <column name="id"/>
             <generator class="identity"/>
         </id>
         <many-to-one class="model.Libro" embed-xml="true" fetch="select" insert="true" name="libro" not-found="exception" optimistic-lock="true" unique="false" update="true">
-            <column name="IDLIBRO" not-null="true"/>
+            <column name="idlibro" not-null="true"/>
         </many-to-one>
         <property generated="never" lazy="false" name="nombre" optimistic-lock="true" type="string" unique="false">
-            <column length="20" name="NOMBRE"/>
+            <column length="20" name="nombre"/>
         </property>
         <property generated="never" lazy="false" name="numero" optimistic-lock="true" type="java.lang.Integer" unique="false">
-            <column name="NUMERO"/>
+            <column name="numero"/>
         </property>
         <property generated="never" lazy="false" name="descripcion" optimistic-lock="true" type="string" unique="false">
-            <column length="65535" name="DESCRIPCION"/>
+            <column name="descripcion"/>
         </property>
-        <set embed-xml="true" fetch="select" inverse="true" lazy="false" mutable="true" name="escenas" optimistic-lock="true" sort="unsorted" table="escena">
+        <set embed-xml="true" cascade="delete, save-update" fetch="select" inverse="true" lazy="false" mutable="true" name="escenas" optimistic-lock="true" sort="unsorted" table="escena">
             <key on-delete="noaction">
-                <column name="IDCAPITULO" not-null="true"/>
+                <column name="idcapitulo" not-null="true"/>
             </key>
             <one-to-many class="model.Escena" embed-xml="true" not-found="exception"/>
         </set>

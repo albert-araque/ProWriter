@@ -23,6 +23,12 @@ import javafx.scene.layout.BorderPane;
 import model.Capitulo;
 import model.Libro;
 
+/**
+ * Controlador de la vista para añadir un capítulo
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class AddChapterViewController implements Initializable {
 
 	@FXML public BorderPane borderPane;
@@ -30,33 +36,37 @@ public class AddChapterViewController implements Initializable {
 	@FXML public TextField chapterOrder;
 	@FXML public TextArea descriptionText;
 	@FXML public Button addButton;
-	@FXML public Button cancelButton;	
+	@FXML public Button cancelButton;
 
 	private static double xOffset;
 	private static double yOffset;
 
 	private Libro book;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		//inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El capítulo debe tener un nombre"));
-		validationSupport.registerValidator(chapterOrder, Validator.createEmptyValidator("El capítulo debe tener un orden"));
+		validationSupport.registerValidator(nameText,
+				Validator.createEmptyValidator("El capítulo debe tener un nombre"));
+		validationSupport.registerValidator(chapterOrder,
+				Validator.createEmptyValidator("El capítulo debe tener un orden"));
 
-		//impide la introduccion de caracteres no numericos
+		// Impide la introducción de carácteres no numéricos
 		chapterOrder.textProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, 
-					String newValue) {
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (!newValue.matches("\\d*")) {
 					chapterOrder.setText(newValue.replaceAll("[^\\d]", ""));
 				}
 			}
 		});
 
-		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -72,14 +82,14 @@ public class AddChapterViewController implements Initializable {
 			}
 		});
 
-		//evento de click para añadir el capítulo
+		// Evento para añadir el contenido
 		addButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 
 				if (validationSupport.isInvalid()) return;
-				
-				if (bookIdAndChapterNumberAreTheSame()) {
+
+				if (isChapterOrderRepeated()) {
 					alertRepeated();
 					return;
 				}
@@ -89,23 +99,34 @@ public class AddChapterViewController implements Initializable {
 			}
 		});
 
-		//evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 				borderPane.getScene().getWindow().hide();
 			}
 		});
-
-	}
+	}	
 	
-	private boolean bookIdAndChapterNumberAreTheSame() {
+	/**
+	 * Método que comprueba que no haya dos capítulos con el mismo número de ordenen el mismo libro
+	 *
+	 * @return Devuelve true si están repetidos, false si no están repetidos
+	 *  
+	 */
+	private boolean isChapterOrderRepeated() {
+		
 		for (Capitulo cap : DAOManager.getCapituloDAO().getCapitulos()) {
-			if (cap.getLibro().getId() == book.getId() && cap.getNumero() == Integer.valueOf(chapterOrder.getText())) return true;
+			if (cap.getLibro().getId() == book.getId() && cap.getNumero() == Integer.valueOf(chapterOrder.getText()))
+				return true;
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Método que avisa mediante un diálogo, que ya hay un capítulo con ese número
+	 * de orden en el libro
+	 */
 	private void alertRepeated() {
 		Alert alert = new Alert(AlertType.WARNING);
 		alert.setTitle("Orden de capítulo repetido");
@@ -114,6 +135,13 @@ public class AddChapterViewController implements Initializable {
 		alert.showAndWait();
 	}
 
+	/**
+	 * Método para añadir el capítulo al libro, y guardarlo en la base de datos
+	 * 
+	 * @param name        Nombre del capítulo
+	 * @param order       Orden del capítulo
+	 * @param description Descripción del capítulo
+	 */
 	private void addChapterToDB(String name, int order, String description) {
 
 		Capitulo chapterToReturn = new Capitulo(book, name, order, description);
@@ -121,6 +149,11 @@ public class AddChapterViewController implements Initializable {
 		book.getCapitulos().add(chapterToReturn);
 	}
 
+	/**
+	 * Método para seleccionar el libro
+	 * 
+	 * @param l Libro de entrada
+	 */
 	public void setBook(Libro l) {
 		book = l;
 	}

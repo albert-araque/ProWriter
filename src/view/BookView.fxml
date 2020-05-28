@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -14,13 +13,17 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
-	prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1"
+	prefWidth="1280.0" styleClass="border-pane"
+	stylesheets="@application.css" xmlns="http://javafx.com/javafx/11.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="view.controllers.BookViewController">
 	<center>
-		<ScrollPane BorderPane.alignment="CENTER">
+		<ScrollPane fx:id="scrollPane" hbarPolicy="NEVER"
+			style="-fx-background-color: #3A506B;" styleClass="scroll-bar"
+			stylesheets="@application.css" BorderPane.alignment="CENTER">
 			<content>
-				<FlowPane fx:id="bookFlowPane">
+				<FlowPane fx:id="bookFlowPane"
+					style="-fx-background-color: #3A506B;">
 				</FlowPane>
 			</content>
 		</ScrollPane>
@@ -52,33 +55,6 @@
 	</bottom>
 	<top>
 		<BorderPane prefHeight="50.0" prefWidth="1280.0">
-			<right>
-				<HBox alignment="CENTER" prefHeight="50.0" prefWidth="527.0"
-					BorderPane.alignment="CENTER">
-					<children>
-						<Button fx:id="displayBookButton" alignment="CENTER"
-							layoutX="27.0" layoutY="20.0" mnemonicParsing="false"
-							prefHeight="30.0" prefWidth="120.0" text="Ver libro">
-							<HBox.margin>
-								<Insets right="10.0" />
-							</HBox.margin>
-						</Button>
-						<Button fx:id="deleteBookButton" alignment="CENTER"
-							mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
-							text="Borrar libro" />
-						<Button fx:id="updateBookButton" alignment="CENTER"
-							mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0"
-							text="Actualizar libro">
-							<HBox.margin>
-								<Insets left="10.0" right="10.0" />
-							</HBox.margin>
-						</Button>
-						<Button fx:id="addBookButton" alignment="CENTER"
-							contentDisplay="CENTER" mnemonicParsing="false" prefHeight="30.0"
-							prefWidth="120.0" text="Añadir libro" />
-					</children>
-				</HBox>
-			</right>
 			<left>
 				<Label text="LIBROS" BorderPane.alignment="CENTER">
 					<BorderPane.margin>
@@ -92,18 +68,22 @@
 		</BorderPane>
 	</top>
 	<left>
-		<VBox prefHeight="712.0" prefWidth="159.0"
+		<VBox prefHeight="712.0" prefWidth="235.0"
 			BorderPane.alignment="CENTER">
 			<children>
 				<Pane fx:id="projectButton" prefHeight="60.0" prefWidth="100.0"
-					style="-fx-border-style: solid; -fx-border-color: dadada;">
+					style="-fx-border-style: solid none solid none; -fx-border-color: #0B132B; -fx-background-color: #2A9D8F;">
 					<children>
-						<Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE"
-							strokeWidth="0.0" text="PROYECTOS" textAlignment="CENTER">
+						<Text fill="WHITE" layoutX="14.0" layoutY="36.0"
+							strokeType="OUTSIDE" strokeWidth="0.0"
+							style="-fx-text-fill: white;" text="PROYECTOS"
+							textAlignment="CENTER">
 							<font>
 								<Font name="System Bold" size="15.0" />
 							</font>
 						</Text>
+						<ImageView fx:id="projectIco" fitHeight="55.0"
+							fitWidth="60.0" layoutX="165.0" layoutY="4.0" pickOnBounds="true" />
 					</children>
 					<VBox.margin>
 						<Insets />
@@ -111,14 +91,18 @@
 				</Pane>
 				<Pane fx:id="bookButton" layoutX="10.0" layoutY="10.0"
 					prefHeight="60.0" prefWidth="100.0"
-					style="-fx-border-style: solid; -fx-border-color: dadada;">
+					style="-fx-border-style: solid none solid none; -fx-border-color: #0B132B; -fx-background-color: #E9C46A;">
 					<children>
-						<Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE"
-							strokeWidth="0.0" text="LIBROS" textAlignment="CENTER">
+						<Text fill="WHITE" layoutX="14.0" layoutY="36.0"
+							strokeType="OUTSIDE" strokeWidth="0.0"
+							style="-fx-text-fill: white;" text="LIBROS"
+							textAlignment="CENTER">
 							<font>
 								<Font name="System Bold" size="15.0" />
 							</font>
 						</Text>
+						<ImageView fx:id="bookIco" fitHeight="55.0"
+							fitWidth="60.0" layoutX="164.0" layoutY="1.0" pickOnBounds="true" />
 					</children>
 					<VBox.margin>
 						<Insets />
@@ -126,14 +110,18 @@
 				</Pane>
 				<Pane fx:id="characterButton" layoutX="10.0" layoutY="70.0"
 					prefHeight="60.0" prefWidth="100.0"
-					style="-fx-border-style: solid; -fx-border-color: dadada;">
+					style="-fx-border-style: solid none solid none; -fx-border-color: #0B132B; -fx-background-color: #F4A261;">
 					<children>
-						<Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE"
-							strokeWidth="0.0" text="PERSONAJES" textAlignment="CENTER">
+						<Text fill="WHITE" layoutX="14.0" layoutY="36.0"
+							strokeType="OUTSIDE" strokeWidth="0.0"
+							style="-fx-text-fill: white;" text="PERSONAJES"
+							textAlignment="CENTER">
 							<font>
 								<Font name="System Bold" size="15.0" />
 							</font>
 						</Text>
+						<ImageView fx:id="characterIco" fitHeight="55.0"
+							fitWidth="60.0" layoutX="166.0" layoutY="3.0" pickOnBounds="true" />
 					</children>
 					<VBox.margin>
 						<Insets />
@@ -141,14 +129,18 @@
 				</Pane>
 				<Pane fx:id="locationButton" layoutX="10.0" layoutY="130.0"
 					prefHeight="60.0" prefWidth="100.0"
-					style="-fx-border-style: solid; -fx-border-color: dadada;">
+					style="-fx-border-style: solid none solid none; -fx-border-color: #0B132B; -fx-background-color: #E76F51;">
 					<children>
-						<Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE"
-							strokeWidth="0.0" text="LOCALIZACIONES" textAlignment="CENTER">
+						<Text fill="WHITE" layoutX="14.0" layoutY="36.0"
+							strokeType="OUTSIDE" strokeWidth="0.0"
+							style="-fx-text-fill: white;" text="LOCALIZACIONES"
+							textAlignment="CENTER">
 							<font>
 								<Font name="System Bold" size="15.0" />
 							</font>
 						</Text>
+						<ImageView fx:id="locationIco" fitHeight="55.0"
+							fitWidth="60.0" layoutX="164.0" layoutY="5.0" pickOnBounds="true" />
 					</children>
 					<VBox.margin>
 						<Insets />

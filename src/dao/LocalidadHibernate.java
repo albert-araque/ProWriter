@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import model.Localidad;
-
+/**
+ * Operaciones CRUD de Localidad
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public class LocalidadHibernate implements LocalidadDAO {
 
 	@Override

@@ -27,6 +27,12 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import model.Libro;
 import model.Proyecto;
 
+/**
+ * Controlador de la vista para modificar un proyecto
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ * @version 1.0
+ */
 public class UpdateProjectViewController implements Initializable {
 
 	@FXML public TextField nameText;
@@ -36,21 +42,23 @@ public class UpdateProjectViewController implements Initializable {
 	@FXML public Button updateButton;
 	@FXML public Button cancelButton;
 	@FXML public Button pathButton;
-	@FXML public BorderPane borderPane;	
+	@FXML public BorderPane borderPane;
 
 	private static double xOffset;
 	private static double yOffset;
-	
+
 	private Proyecto project;
 
+	/**
+	 * Método para inicializar la clase
+	 */
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {	
+	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		//carga la informacion del proyecto seleccionado en los diferentes campos
-		Platform.runLater(new Runnable() {			
+		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-			
+
 				bookList.getItems().addAll(FXCollections.observableList(DAOManager.getLibroDAO().getLibros()));
 
 				nameText.setText(project.getNombre());
@@ -58,14 +66,15 @@ public class UpdateProjectViewController implements Initializable {
 				imagePath.setText(project.getImagen());
 
 				checkExistingBooks();
-			}			
+			}
 		});
 
-		//inicializa la validacion para que el campo de nombre no se quede vacio
+		// Inicializa la validación para que el campo de nombre no quede vacío
 		ValidationSupport validationSupport = new ValidationSupport();
-		validationSupport.registerValidator(nameText, Validator.createEmptyValidator("El proyecto debe tener un nombre"));
+		validationSupport.registerValidator(nameText,
+				Validator.createEmptyValidator("El proyecto debe tener un nombre"));
 
-		//eventos de click para poder mover la ventana dado que no tiene barra de titulo
+		// Evento para poder mover la ventana, dado que no tiene barra de título
 		borderPane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -81,7 +90,7 @@ public class UpdateProjectViewController implements Initializable {
 			}
 		});
 
-		//evento de click para cerrar la ventana
+		// Evento para cerrar la ventana
 		cancelButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
@@ -89,47 +98,63 @@ public class UpdateProjectViewController implements Initializable {
 			}
 		});
 
-		//evento de click para actualizar el proyecto
+		// Evento para actualizar
 		updateButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				if (validationSupport.isInvalid()) return;
+				if (validationSupport.isInvalid())
+					return;
 
-				updateProject(nameText.getText(), descriptionText.getText(), imagePath.getText(), new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()));
+				updateProject(nameText.getText(), descriptionText.getText(), imagePath.getText(),
+						new HashSet<Libro>(bookList.getCheckModel().getCheckedItems()));
 				borderPane.getScene().getWindow().hide();
-			}			
+			}
 		});
 
-		//evento de click para mostrar el selector de archivo, con un filtro de extensiones de imagenes
+		// Evento para mostrar el selector de archivo, con un filtro de extensiones de
+		// imágenes
 		pathButton.setOnMouseClicked(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
 				chooseFileDialog();
 			}
-		});	
-	}	
+		});
+	}
 
+	/**
+	 * Método que permite seleccionar la imagen asociada
+	 */
 	private void chooseFileDialog() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 		fileChooser.setTitle("Selecciona una imagen para tu proyecto");
-		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png", "*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
+		ExtensionFilter imageFilter = new ExtensionFilter("Archivos de imagen (*.jpg, *.png, *.jpeg)", "*.jpg", "*.png",
+				"*.jpeg", "*.JPG", "*.PNG", "*.JPEG");
 		fileChooser.getExtensionFilters().add(imageFilter);
 		imagePath.setText(fileChooser.showOpenDialog(borderPane.getScene().getWindow()).getAbsolutePath());
 	}
 
-	//actualiza el proyecto en la base de datos
+	/**
+	 * Método para actualizar el proyecto en la base de datos
+	 * 
+	 * @param name        Nombre del proyecto
+	 * @param description Descripción del proyecto
+	 * @param imagePath   Imagen del proyecto
+	 * @param books       Libros del proyecto
+	 */
 	private void updateProject(String name, String description, String imagePath, Set<Libro> books) {
 
 		project.setNombre(name);
 		project.setDescripcion(description);
 		project.setImagen(imagePath);
 		project.setLibros(books);
-		
+
 		DAOManager.getProyectoDAO().updateProyecto(project);
 	}
 
-	//recorre la collection de libros totales en la base de datos, compara la id con los libros existentes en el proyecto, y los pone checked
+	/**
+	 * Método para tildar libros
+	 */
 	private void checkExistingBooks() {
 		for (Libro libro : bookList.getItems()) {
 			for (Libro existingBook : project.getLibros()) {
@@ -138,14 +163,23 @@ public class UpdateProjectViewController implements Initializable {
 				}
 			}
 		}
-	}	
+	}
 
+	/**
+	 * Método para seleccionar el proyecto
+	 * 
+	 * @param p Proyecto de entrada
+	 */
 	public void setProject(Proyecto p) {
 		project = p;
 	}
 
-	public Proyecto getProyecto() {
-		return project;
-	}
-
+//	/**
+//	 * Método para devolver el proyecto
+//	 * 
+//	 * @return Proyecto de salida
+//	 */
+//	public Proyecto getProject() {
+//		return project;
+//	}
 }

@@ -34,7 +34,7 @@
 					layoutX="25.0" layoutY="98.0" prefHeight="100.0" prefWidth="550.0" />
 				<Label layoutX="25.0" layoutY="209.0" prefHeight="25.0"
 					prefWidth="543.0"
-					text="Esta localidad aparece en las siguientes escenas:">
+					text="Esta localización aparece en las siguientes escenas:">
 					<font>
 						<Font size="16.0" />
 					</font>

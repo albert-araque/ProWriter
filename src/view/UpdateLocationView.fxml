@@ -18,8 +18,8 @@
 		<Pane prefHeight="350.0" prefWidth="400.0"
 			style="-fx-border-style: solid;" BorderPane.alignment="CENTER">
 			<children>
-				<Label layoutX="25.0" layoutY="26.0" text="Actualizar localizacion"
-					underline="true">
+				<Label layoutX="25.0" layoutY="26.0"
+					text="Actualizar localización" underline="true">
 					<font>
 						<Font name="System Bold" size="30.0" />
 					</font>

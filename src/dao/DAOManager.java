@@ -1,5 +1,12 @@
 package dao;
 
+
+/**
+ * Clase para instanciar las clases de las operaciones CRUD en las interfaces 
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public class DAOManager {
 
 	private static CapituloDAO capitulo;

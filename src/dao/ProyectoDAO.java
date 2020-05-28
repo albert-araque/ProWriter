@@ -3,7 +3,12 @@ package dao;
 import java.util.ArrayList;
 
 import model.Proyecto;
-
+/**
+ * Interfaz de Proyecto
+ * 
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public interface ProyectoDAO {
 	
 	public Integer addProyecto(Proyecto proyecto);

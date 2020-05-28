@@ -5,6 +5,11 @@ import java.util.Arrays;
 
 import model.Capitulo;
 
+/**
+ * Operaciones CRUD de Capítulo
+ * @author Albert Araque, Francisco José Ruiz
+ *
+ */
 public class CapituloHibernate implements CapituloDAO {
 
 	@Override
