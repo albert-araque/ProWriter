@@ -18,7 +18,7 @@
         <property generated="never" lazy="false" name="imagen" optimistic-lock="true" type="string" unique="false">
             <column name="imagen"/>
         </property>
-        <set embed-xml="true" fetch="select" inverse="true" lazy="false" mutable="true" name="capitulos" optimistic-lock="true" sort="unsorted" table="capitulo">
+        <set embed-xml="true" cascade="delete, save-update" fetch="select" inverse="true" lazy="false" mutable="true" name="capitulos" optimistic-lock="true" sort="unsorted" table="capitulo">
             <key on-delete="noaction">
                 <column name="idlibro" not-null="true"/>
             </key>
